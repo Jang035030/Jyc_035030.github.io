@@ -195,6 +195,7 @@ body {
   font-weight: bold;
 }
 .article-inner,
+.post-list .post-list-item,
 .archive-article-inner {
   background: #fff;
   -webkit-box-shadow: 1px 2px 3px #ddd;
@@ -299,6 +300,105 @@ body {
 .article-entry dt,
 .widget dt {
   font-weight: bold;
+}
+.article-inner {
+  padding-bottom: 30px;
+}
+.article-header {
+  padding-top: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 20px;
+}
+.article-title {
+  font-size: 2.2em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #2c3e50;
+}
+.article-entry {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #333;
+}
+.article-entry h1,
+.article-entry h2,
+.article-entry h3,
+.article-entry h4,
+.article-entry h5,
+.article-entry h6 {
+  font-weight: 600;
+  color: #2c3e50;
+}
+.article-entry h2 {
+  font-size: 1.6em;
+  margin-top: 1.8em;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #eee;
+}
+.article-entry h3 {
+  font-size: 1.3em;
+  margin-top: 1.5em;
+  padding-left: 10px;
+  border-left: 4px solid #258fb8;
+}
+.article-entry p {
+  margin: 1.2em 0;
+}
+.article-entry blockquote {
+  border-left: 4px solid #258fb8;
+  background: #f8f9fa;
+  padding: 15px 20px;
+  margin: 1.5em 0;
+  border-radius: 0 4px 4px 0;
+  font-style: normal;
+  text-align: left;
+}
+.article-entry blockquote p {
+  margin: 0.5em 0;
+}
+.article-entry blockquote:first-child {
+  margin-top: 0;
+}
+.article-entry pre {
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.article-entry code {
+  font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+.article-entry p code,
+.article-entry li code {
+  background: #f4f4f4;
+  padding: 2px 6px;
+  border-radius: 3px;
+  color: #c7254e;
+}
+.article-entry a {
+  -webkit-transition: color 0.2s;
+  -moz-transition: color 0.2s;
+  -ms-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.article-entry ul,
+.article-entry ol {
+  padding-left: 1.5em;
+}
+.article-entry ul li,
+.article-entry ol li {
+  margin: 0.4em 0;
+}
+.article-entry hr {
+  border: none;
+  height: 1px;
+  background: -webkit-linear-gradient(left, transparent, #ddd, transparent);
+  background: -moz-linear-gradient(left, transparent, #ddd, transparent);
+  background: -ms-linear-gradient(left, transparent, #ddd, transparent);
+  background: linear-gradient(to right, transparent, #ddd, transparent);
+  margin: 2.5em 0;
 }
 #header {
   height: 300px;
@@ -903,6 +1003,103 @@ a.article-title:hover {
   display: block;
   max-width: 100%;
   margin: 0 auto;
+}
+.post-list .post-list-item {
+  padding: 25px 30px;
+  margin-bottom: 25px;
+  position: relative;
+  -webkit-transition: box-shadow 0.3s, -webkit-transform 0.3s;
+  -moz-transition: box-shadow 0.3s, -moz-transform 0.3s;
+  -ms-transition: box-shadow 0.3s, -ms-transform 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+.post-list .post-list-item:hover {
+  -webkit-box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  -webkit-transform: translateY(-2px);
+  -moz-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
+  transform: translateY(-2px);
+}
+.post-list .post-list-meta {
+  font-size: 0.85em;
+  color: #999;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  gap: 12px;
+}
+.post-list .post-list-date {
+  font-family: "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+  letter-spacing: 0.5px;
+}
+.post-list .post-list-category a {
+  color: #999;
+  text-decoration: none;
+}
+.post-list .post-list-category a:hover {
+  color: #258fb8;
+}
+.post-list .post-list-title {
+  font-size: 1.6em;
+  font-weight: bold;
+  margin: 0 0 12px 0;
+  line-height: 1.1em;
+}
+.post-list .post-list-title a {
+  color: #555;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
+  -moz-transition: color 0.2s;
+  -ms-transition: color 0.2s;
+  transition: color 0.2s;
+}
+.post-list .post-list-title a:hover {
+  color: #258fb8;
+}
+.post-list .post-list-excerpt {
+  color: #777;
+  font-size: 0.95em;
+  line-height: 1.7;
+  margin-bottom: 15px;
+}
+.post-list .post-list-excerpt p {
+  margin: 0;
+}
+.post-list .post-list-more {
+  display: inline-block;
+  font-size: 0.85em;
+  color: #258fb8;
+  text-decoration: none;
+  padding: 4px 0;
+  border-bottom: 1px solid transparent;
+  -webkit-transition: border-color 0.2s;
+  -moz-transition: border-color 0.2s;
+  -ms-transition: border-color 0.2s;
+  transition: border-color 0.2s;
+  -webkit-align-self: flex-start;
+  align-self: flex-start;
+  -ms-flex-item-align: start;
+}
+.post-list .post-list-more:hover {
+  border-bottom-color: #258fb8;
+}
+@media screen and (max-width: 479px) {
+  .post-list .post-list-item {
+    padding: 20px;
+  }
+  .post-list .post-list-title {
+    font-size: 1.3em;
+  }
 }
 #comments {
   background: #fff;
