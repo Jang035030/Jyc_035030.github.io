@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第6章 黑客攻击/渗透测试基础 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第6章</div>
+        <h1 class="page-title">黑客攻击/渗透测试基础</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="chapter-title">第六章 黑客攻击/渗透测试基础 </h1>
+<h3 class="section-title">1. 网络拓扑</h3>
+<p class="content-p">网络安全学习的都是 黑客技术，主要攻击企业、系统（内网）等，很少攻击个人。</p>
+<p class="content-p">黑客攻击/渗透测试的基本流程：</p>
+<p class="content-p">——信息收集（打点，踩点）</p>
+<p class="content-p">——漏洞利用（目的是控制电脑）</p>
+<p class="content-p">——权限提升（提权，获取最高管理员权限）</p>
+<p class="content-p">——权限维持（后门技术，就是留个后门下次还来；不留后门的话，漏洞被修复了下次就不好进来了）</p>
+<p class="content-p">——内网渗透（先控制一台电脑，然后以该电脑为跳板，不断控制该企业/学校等的其他电脑或所有电脑&lt;比如：分数查询系统、分数修改系统、学校充值系统、员工信息存储系统等&gt;）</p>
+<p class="content-p">——横向移动（是内网渗透的技术）</p>
+<p class="content-p">——跨域攻击（比如说一家公式在多个城市都有子公司或其他的，你攻击了上海的 还需要跨域去攻击北京、广州等其他地方；域不是区域 而是网域的意思；仅限于这家公司）</p>
+<p class="content-p">——痕迹清理（）</p>
+<p class="content-p">渗透测试的话，可能还需要写渗透测试报告什么的</p>
+<h3 class="section-title">2. VMware虚拟机的安装与调试</h3>
+<p class="content-p">VMware Workstation（中文名"威睿工作站"）简称VM，是一款功能强大的桌面虚拟计算机软件，提供用户可在单一的桌面上同时运行不同的操作系统，和进行开发、测试、部署新的应用程序的最佳解决方案</p>
+<p class="content-p">VMware不需要装最新版本的，比最新版低一个版本就行，另外VMware更新的时候，是不会删除之前装过的虚拟机，可以放心大胆地更新。</p>
+<h3 class="section-title">3. 我安装的虚拟机</h3>
+<p class="content-p">Window 7 ：</p>
+<p class="content-p">Window 10 ：</p>
+<p class="content-p">Window 11 ：</p>
+<p class="content-p">Window 2003 ：</p>
+<p class="content-p">Kali ：</p>
+<p class="content-p">Ununtu ：</p>
+<p class="content-p">DC-2-3 ：</p>
+<h3 class="section-title">4. 虚拟机的网络配置</h3>
+<p class="content-p">桥接模式：直接连接到外部网络，和主机（实体电脑）用一个网络，就是直接连接宿舍网的意思。和主机平级关系，有独立的内网IP。</p>
+<p class="content-p">NAT模式：虚拟机在内网里，通过主机的路由器上网，虚拟机使用主机的IP地址，外界(其他电脑)无法主动连接虚拟机</p>
+<p class="content-p">          主机如果断网，虚拟机也无法上网</p>
+<p class="content-p">仅主机模式：虚拟机不能使用主机的路由器上网，只与主机通信，完全切断了与外界的联系；</p>
+<p class="content-p">最安全，但是完全不能上网，不能更新和下载东西</p>
+<p class="content-p">          虚拟机内部浏览器不能访问外网(网页)，但是可以访问主机上的服务器（像 后台管理系统等）</p>
+<h3 class="section-title">5. 做黑客攻击/渗透测试的时候，可以用虚拟机模拟企业环境（传一些压缩包下载东西，连接企业的IP）</h3>
+<h3 class="section-title">6. 内网渗透中的基本环境和账号</h3>
+<p class="content-p">&gt; 电脑的身份就是两种，第一种是本地工作组，第二种是域，我们默认的电脑都是本地工作组的形式，家庭版的”域”用不了。公司电脑的话，连接域，需要管理员权限和准确的域名，重启电脑生效。</p>
+<p class="content-p">一般来说，工作组可以随便填，域名不能随便填（上级规定好的）</p>
+<p class="content-p">工作组和域 可以说是两种环境。</p>
+<p class="content-p">&gt; 工作组的名字可以按要求设置（如IT），只要工作组的名字一致，那么你们就在同一个工作组中。工作组有一个弊端：自由进出、不利于集中管理（想来就来，想走就走，想去哪个组就去哪个组）</p>
+<p class="content-p">&gt; 为了解决工作的不方便性，提出了域这个概念</p>
+<p class="content-p">域（Domain)是一个有安全边界的计算机集合，可以简单地把域理解成升级版的工作组。与工作组相比，域的安全管理控制机制更加严格。用户要想访问域内的资源，必须以合法的身份登录域，而用户对域内的资源拥有什么样的权限，还取决于用户在域内的身份。</p>
+<p class="content-p">&gt; DC（域控制器，Doman Control）其实是一台电脑，可以把它理解为整个域网络的“中央总服务器”。</p>
+<p class="content-p">它的核心作用有 3 个：</p>
+<p class="content-p">· 身份验证（门卫）：当你输入账号密码登录电脑时，DC负责验证你的身份。验证通过，你才能进入系统。</p>
+<p class="content-p">· 权限管理（管家）：它决定了你能访问哪些共享文件夹、打印机或内部网站，权限全由DC统一调配。</p>
+<p class="content-p">· 统一管理（指挥官）：管理员可以在DC上统一给所有电脑安装软件、下发安全策略，无需一台台操作。</p>
+<p class="content-p">&gt; 备份DC：平时不用，DC宕机（就是出问题），备份DC才开始工作。</p>
+<p class="content-p">&gt; 通常情况下，电脑数量少（一般100台电脑以下）的时候，用工作组；</p>
+<p class="content-p">              电脑数量多的时候，就用域（比如腾讯、阿里巴巴、中国移动等）</p>
+<p class="content-p">进入公司做渗透/黑客攻击的时候，信息收集阶段，就要判断该公司是工作组还是域。</p>
+<p class="content-p"></p>
+<p class="content-p">&gt; 综合靶场的渗透，这两种环境一定要分辨清楚，这个非常重要</p>
+<h3 class="section-title">7. 本地账号和域账号定位以及登录问题</h3>
+<p class="content-p">既然存在工作组和域两种形式的环境，那么针对于电脑而言，就有两种形式的账号。</p>
+<p class="content-p">内网账号分类</p>
+<p class="content-p">&gt; 工作组账号(本地账号) 自己电脑的账号</p>
+<p class="content-p">&gt; 域环境账号(域账号) 公司统一分发的账号</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">账号存储位置（盗号的时候，需要知道账号的类型和存储位置）</p>
+<p class="content-p">&gt; 本地账号在本地的机器上（就是自己电脑）</p>
+<p class="content-p">&gt; 域账号在域控上（DC，Doman Control）</p>
+<p class="content-p">----</p>
+<p class="content-p">账号识别（如何判断是工作组账号，还是域账号）</p>
+<p class="content-p">&gt; 工作组账号（机器名、电脑名\账户名)</p>
+<p class="content-p">&gt; 域账号（域名\账户名)</p>
+<p class="content-p">我们win 11，账户名一般是Adminstrator</p>
+<p class="content-p">电脑中输入cmd打开终端，输入whoami，即可查看</p>
+<h3 class="section-title">8. 信息收集获取边界主机的基本信息</h3>
+<p class="content-p">&gt; 信息收集就是收集目标的相关信息，其中包含了</p>
+<p class="content-p">IP地址</p>
+<p class="content-p">子域名</p>
+<p class="content-p">目录结构</p>
+<p class="content-p">JS信息</p>
+<p class="content-p">APP和小程序</p>
+<p class="content-p">端口</p>
+<p class="content-p">旁站</p>
+<p class="content-p">C段</p>
+<p class="content-p">whois信息</p>
+<p class="content-p">公司结构</p>
+<p class="content-p">公司相关手机邮箱</p>
+<p class="content-p">其他。。。很多很多</p>
+<h3 class="section-title">9. 今天我们用两个东西端口收集和目录结构（这两个方法都是进行信息收集的方法）</h3>
+<p class="content-p">No.1--&gt; 端口扫描（只知道端口 比如192.168.1.13 可以使用端口扫描）</p>
+<p class="content-p">工具：</p>
+<p class="content-p">御剑高速TCP端口扫描工具 :</p>
+<p class="content-p">百度网盘：</p>
+<span class="tip-text">&lt;a href="https://pan.baidu.com/share/init?surl=Uh-FWsXOUlVUM3ZOpRWoYQ" target="_blank" class="content-link"&gt;</span>https://pan.baidu.com/share/init?surl=Uh-FWsXOUlVUM3ZOpRWoYQ<span class="tip-text">&lt;/a&gt;</span>
+<p class="content-p">提取码：czne 。里面的压缩文件夹，电脑自己解压不了，须用7-ZIP来解压。</p>
+<p class="content-p">Nmap :</p>
+<p class="content-p">&gt; 下载地址. 里面有很多个版本（我装的是windows版本）</p>
+<span class="tip-text">&lt;a href="https://nmap.org/download.html" target="_blank" class="content-link"&gt;</span>https://nmap.org/download.html<span class="tip-text">&lt;/a&gt;</span>
+<p class="content-p">&gt; 安装Nmap会自动安装Npcap，即 弹出来两个安装页面，Npcap 是一个网络驱动级别的软件（底层抓包驱动），它必须安装在系统盘（通常是 C:\Windows\System32\drivers 之类的系统目录里）才能被操作系统正确加载和运行。</p>
+<p class="content-p">&gt; Nmap是纯英文的，我已经给它汉化了</p>
+<p class="content-p">Fscan :</p>
+<p class="content-p">fscan 的官方 GitHub 仓库地址是：<span class="tip-text">&lt;a href="https://github.com/shadow1ng/fscan" target="_blank" class="content-link"&gt;</span>https://github.com/shadow1ng/fscan<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">Fscan不是一个软件，而是一个终端，具体使用方法在这</p>
+<p class="content-p">"D:\工具软件下载\Fscan\fscan介绍.txt"</p>
+<p class="content-p">----</p>
+<p class="content-p">常见的端口有哪些？</p>
+<p class="content-p">端口是IP地址后 用冒号隔开，相当于门牌号。比如 <span class="tip-text">&lt;a href="https://192.168.1.1:443" target="_blank" class="content-link"&gt;</span>https://192.168.1.1:443<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">-- HTTP(超文本传输协议) 80 、HTTPS(超文本传输安全协议) 443</p>
+<p class="content-p">http不安全，容易被黑客攻击；HTTP致命的是“明文传输”和“缺乏身份验证</p>
+<p class="content-p">现在浏览器基本上强制跳转到https</p>
+<p class="content-p">· 后台API：在服务器内部、内网或开发测试环境中，为了省去证书的加解密计算开销，仍然会大量使用HTTP通信。</p>
+<p class="content-p">· 老旧系统：部分政府、企业内部的OA或老旧设备，因维护成本高，仍是纯HTTP。</p>
+<p class="content-p">· 21 (FTP)：文件传输协议，用于上传/下载网站文件（纯明文，不安全，现在多用SFTP替代）。</p>
+<p class="content-p">· 990(FTPS)：需要21（控制）和990（数据）等多个端口</p>
+<p class="content-p">· 22(SFTP)：是SSH的一个子系统</p>
+<p class="content-p">· 22 (SSH)：远程连接Linux服务器</p>
+<p class="content-p">· 23 (Telnet)：老式远程登录（极不安全，明文传输，现在几乎被SSH淘汰）。</p>
+<p class="content-p">· 25 (SMTP)：发送邮件的端口（主要用于邮件服务器之间转发）。</p>
+<p class="content-p">· 53 (DNS)：域名解析服务，把网址转成IP地址（相当于互联网的“电话簿”）。</p>
+<p class="content-p">· 110 (POP3) / 143 (IMAP)：都是收邮件的端口。143（IMAP）能在多设备间同步邮件状态，</p>
+<p class="content-p">比110更现代好用。</p>
+<p class="content-p">· 3306 (MySQL)：数据库专用端口，如果你的程序连不上数据库，多半是这个端口被防火墙拦了。</p>
+<p class="content-p">· 3389 (RDP)：Windows远程桌面专用，想用电脑远程控制另一台Windows就用它。</p>
+<p class="content-p">--再补充两个：</p>
+<p class="content-p">6379 (Redis)：缓存数据库。现在基本上所有互联网公司后端都用它，面试时提到“缓存穿透/雪崩”必带这个端口。</p>
+<p class="content-p">27017 (MongoDB)：非关系型数据库。很多敏捷开发项目用它，如果你简历写了Node.js或Go，这个端口几乎是标配。</p>
+<p class="content-p"></p>
+<p class="content-p">&gt; 我们自己搭建网站（phpstudy或宝塔）的时候，通常使用 1024-65535 之间的端口。低于1024</p>
+<p class="content-p">的，要么被系统霸占，要么被防火墙直接拦截。同时要避开一些常见的3306、1433、1521、5432、</p>
+<p class="content-p">6379等</p>
+<p class="content-p">&gt; 我的建议是，个人搭建网站一生可能不超过1000个，直接在1024—2024里面选就行。由于默认为80端口，主机访问网站，可以用第一域名或第二域名，后面必须带上”:端口号”（比如：<span class="tip-text">&lt;a href="http://dvwa.com:1024或者http://192.168.1.13）。虚拟机或其他机器想要访问自己搭建的网站，只能用第二域名带上端口号" target="_blank" class="content-link"&gt;</span>http://dvwa.com:1024或者http://192.168.1.13）。虚拟机或其他机器想要访问自己搭建的网站，只能用第二域名带上端口号<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">&gt; 主机IP地址(192.168.1.13)会随着时间改变，并不是不变的，因此网站的第二域名，也必须按时更改，否则访问不到</p>
+<p class="content-p">No.2--&gt; 目录结构</p>
+<p class="content-p">网站的目录结构就是探测网站具体的目录结构，比如：<span class="tip-text">&lt;a href="http://www.xxx.com这个网站，那么存不存在如下的页面" target="_blank" class="content-link"&gt;</span>http://www.xxx.com这个网站，那么存不存在如下的页面<span class="tip-text">&lt;/a&gt;</span></p>
+<h3 class="section-title">1. <span class="tip-text">&lt;a href="http://www.xxx.com/login" target="_blank" class="content-link"&gt;</span>http://www.xxx.com/login<span class="tip-text">&lt;/a&gt;</span></h3>
+<h3 class="section-title">2. <span class="tip-text">&lt;a href="http://www.xxx.com/ws" target="_blank" class="content-link"&gt;</span>http://www.xxx.com/ws<span class="tip-text">&lt;/a&gt;</span></h3>
+<h3 class="section-title">3. <span class="tip-text">&lt;a href="http://www.xxx.com/admin" target="_blank" class="content-link"&gt;</span>http://www.xxx.com/admin<span class="tip-text">&lt;/a&gt;</span></h3>
+<h3 class="section-title">4. 。。。</h3>
+<p class="content-p">就是在网站后面加东西，探测网站具体的目录结构 也需要提前知道网站的IP地址或者网站名（比如 <span class="tip-text">&lt;a href="http://192.168.1.13也可以作为网站名、当然还有其他类型的网站名）" target="_blank" class="content-link"&gt;</span>http://192.168.1.13也可以作为网站名、当然还有其他类型的网站名）<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">====</p>
+<p class="content-p">使用工具：御剑1.5</p>
+<p class="content-p">地址（github博客）：<span class="tip-text">&lt;a href="https://gitcode.com/open-source-toolkit/782cb/blob/main/README.md" target="_blank" class="content-link"&gt;</span>https://gitcode.com/open-source-toolkit/782cb/blob/main/README.md<span class="tip-text">&lt;/a&gt;</span></p>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

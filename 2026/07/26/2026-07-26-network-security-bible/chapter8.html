@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第8章 内网机器和域环境 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第8章</div>
+        <h1 class="page-title">内网机器和域环境</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="chapter-title">第八章 内网机器和域环境 </h1>
+<h3 class="section-title">1. 内网机器IP配置和域环境调试</h3>
+<p class="content-p">&gt; 之前已经把渗透测试的信息收集、漏洞利用环节讲完了，然后接下来准备下一环节</p>
+<p class="content-p"></p>
+<p class="content-p">电脑可分为域环境 和 工作组，目前将域，配置环节就是为了让电脑能够连接到域控，</p>
+<p class="content-p">&gt; 如同所示，这是黑客入侵受害者（渗透测试）的模型</p>
+<p class="content-p"></p>
+<p class="content-p">WEB服务器”和“域控”架构，这里的 vm3 和 vm4 并非网卡型号，而是虚拟网络编辑器中的VMnet模式。</p>
+<p class="content-p">它们的全称及作用如下：</p>
+<p class="content-p">vm3（全称 VMnet3）：通常指仅主机模式（Host-Only）或自定义隔离网络。图中黑客（192.168.111.128）能访问WEB服务器，但无法直接触达内网，说明这张卡用于隔离外部直接访问，模拟对外提供服务的“边界区域”。</p>
+<p class="content-p">vm4（全称 VMnet4）：通常指自定义VMnet4。图中WEB服务器通过它连接域控（192.168.52.138），说明这张卡用于内网通信，模拟服务器对内连接域控和域内机器的“ trusting 通道”。</p>
+<p class="content-p">通俗理解：WEB服务器相当于“双网卡”机器，vm3 是面对黑客的“外网口”，vm4 是连接公司内网的“内网口”。正因如此，黑客才需先拿WEB服务器当“跳板”，再通过vm4攻击内网。</p>
+<p class="content-p">我们之前已经讲了VMnet3（web服务器配置）的配置，VM3的IP与黑客进行通信。</p>
+<p class="content-p">接下来将VMnet4的配置（域/工作组的配置）</p>
+<p class="content-p">具体就是配置Vmnet4的Ip,然后将 域控 也设置成VMnet4并配置一个IP,让这两个IP进行通信。</p>
+<p class="content-p">是在VMware中配置的。</p>
+<p class="content-p">（其实如果是主机+虚拟机之间的渗透测试的话，其实用NET模式就行，不用刻意创建VMnet3和VMnet4）</p>
+<h3 class="section-title">2. 内网信息收集定位域控主机</h3>
+<h3 class="section-title">3. 内网隧道代理进行端口转发</h3>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第4章 后台账号密码破解、高级搜索、BP抓包 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第4章</div>
+        <h1 class="page-title">后台账号密码破解、高级搜索、BP抓包</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="chapter-title">第四章 后台账号密码破解、高级搜索、BP抓包 </h1>
+<h3 class="section-title">1. 在互联网上有很多登录页面、有个人登录、后台登录、企业登录、登录方式也不同有账号密码登录、手机验证码登录、二维码登录等</h3>
+<p class="content-p">本次主要研究一下 后台登陆</p>
+<h3 class="section-title">2. 密码破解：通过自动化工具（如BP）穷举所有可能的字符组合（如数字、字母、符</h3>
+<p class="content-p">号），逐一尝试登录</p>
+<h3 class="section-title">3. 如何找到后台登录地址？ --------&gt;高级搜索</h3>
+<p class="content-p">在使用搜索引擎时候大多数搜索的都是文章、视频、图片等，如果想要搜索特定的网站，</p>
+<p class="content-p">就要使用到高级搜索的功能</p>
+<p class="content-p">（比如：百度 等都有高级搜索功能，百度高级搜索入口：右上角设置）</p>
+<p class="content-p">高级搜索没有广告</p>
+<h3 class="section-title">4. Burp Suite </h3>
+<p class="content-p">Burp Suite是Web应用安全测试工具，可拦截／修改HTTP(S）请求，搭配多模块完成</p>
+<p class="content-p">漏洞挖掘、渗透测试与安全评估，是渗透测试与漏洞赏金的核心工具.---</p>
+<p class="content-p">使用方法：（仅仅是针对没有验证码的登陆页面，有验证码就不能用这种方法）</p>
+<p class="content-p">第一步</p>
+<p class="content-p">打开BP——进入——代理——拦截开启——打开内嵌浏览器——输入目标网址——抓包自动开启，可以看到数据包</p>
+<p class="content-p">第二步</p>
+<p class="content-p">如果有登录页面，输入用户名（已知）和密码（随便输入），点击登录，会出现登录数据包（一定有账号/用户名和密码，和第一步的数据包不一样）</p>
+<p class="content-p">第三步</p>
+<p class="content-p">将数据包发送 intruder模块，开始准备进行密码破解（暴力破解）</p>
+<p class="content-p">鼠标右键该数据包的任意位置，右键”发送到intruder”。（intruder就是爆破模块）</p>
+<p class="content-p">第四步</p>
+<p class="content-p">点击BP软件上面的intruder（代理右边），下面的数据包中，鼠标选中需要破解的内容---</p>
+<p class="content-p">---点击添加到payload位置（此时标记完成，你不删除它就不会自己消失）</p>
+<p class="content-p">第五步</p>
+<p class="content-p">添加字典到BP中（字典就是常用密码的地方，这个字典需要自己去网盘或其他地方下载，里面可能有50个 100000个等，通常为.txt格式，也可以是.lst .dic 甚至是无后缀的文件等，但是不能是word/pdf）-----弱密码/常用密码即可导入到BP中</p>
+<p class="content-p"></p>
+<p class="content-p">第六步</p>
+<p class="content-p">点击intruder页面内的“开始攻击”，很快所有的密码都会被试完毕，并出现返回结果表</p>
+<p class="content-p">（可以通过结果里面的长度来判断 || 是否出现正确密码，正确密码的长度跟其他的不一样 || 这个长度是返回结果的长度，如果密码错误，那么返回结果都是错误 长度就是一样的）</p>
+<p class="content-p">----</p>
+<p class="content-p">这个暴力破解，属于Fuzz技术的一种。</p>
+<p class="content-p">如果我们自己找到一些漏洞，可以交给 教育漏洞报告平台 <span class="tip-text">&lt;a href="https://src.sjtu.edu.cn/" target="_blank" class="content-link"&gt;</span>https://src.sjtu.edu.cn/<span class="tip-text">&lt;/a&gt;</span> ,可以获取积分，兑换一些礼品。</p>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第5章 验证码登录 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第5章</div>
+        <h1 class="page-title">验证码登录</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="chapter-title">第五章 验证码登录 </h1>
+<h3 class="section-title">1. 上一章讲 无验证码的登录框，如何暴力破解密码，现在讲有验证码的登录框，如何破解密码。用到的工具还是BP（burp suite）</h3>
+<p class="content-p">&gt;其实95%的漏洞都要用到BP，BP是找漏洞、挖漏洞、做渗透测试等必不可少的工具。</p>
+<p class="content-p">&gt; BP的端口默认8080，使用BP前要保证8080端口未被其他程序占用。</p>
+<p class="content-p">&gt; BP默认没有识别验证码的功能，BP有一个扩展功能，我在github博客上下载了OCR验证码识别插件.jar ，并导入到BP里面，现在就可以实现破解有验证码的登录框了。</p>
+<p class="content-p">（"D:\工具软件下载\Burp Suite 汉化版\captcha-killer-modified-0.24.7-jdk14.jar"）</p>
+<h3 class="section-title">2. BP实现验证码绕过的操作步骤</h3>
+<p class="content-p">第一步</p>
+<p class="content-p">找到登录框的网站——打开BP——代理——打开内置浏览器——复制网址在内置浏览器中访问（会出现一个登录框，带验证码）——开启拦截——在验证码处鼠标右键，打开图像地址（有的地方不能右键，按F12开发者工具也能找到验证码图片的地址）——浏览器会新增一个针对验证码的网页</p>
+<p class="content-p"></p>
+<p class="content-p">第二步</p>
+<p class="content-p">刷新验证码地址——出现一个数据包（获取验证码图片的数据包，有的页面可能会拦截，你抓不到这个验证码的数据包，而是会出现登录页面的数据包）</p>
+<p class="content-p">第三步</p>
+<p class="content-p">在该数据包空白处右键——扩展——发送到captcha-killer（刚刚添加的OCR模块，send to captcha panel）</p>
+<p class="content-p">第四步</p>
+<p class="content-p">点击上方的captcha-killer-modified，进入ORC模块——点击 ”获取”——有图片就是成功，没图片就是失败——如果成功了，那么每点击一次获取，右上方的验证码图片就会变一次</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">到目前为止，我们获取到的还是这张图片，接下来要做的就是识别这张验证码图片，获取对应的验证码（文本、数字+字母）</p>
+<p class="content-p">第五步</p>
+<p class="content-p">需要购买一个验证码识别接口——将接口的网址写到”接口URL”里面，同样将第二步抓到的验证码的数据包复制到下面位置(Request template)——点击获取——点击识别（即可识别出来，在最右边有识别结果）——点击”是否使用该插件”</p>
+<p class="content-p">第六步</p>
+<p class="content-p">以上步骤已经解决了验证码问题，接下来就是进行密码破解（依然是暴力破解的方法）</p>
+<p class="content-p">----</p>
+<p class="content-p">关闭BP的代理拦截——回到BP内置浏览器 登录页面，输入账号、密码、验证码（账号必须是正确的，可以通过百度-高级搜索功能等途径 获取）——开启拦截，点击登录——鼠标右键 将该数据包发送给intruder——点击上方的intruder模块，攻击类型选择”交叉”(pitchfork)——分别选择数据包中 你刚刚输入的密码和验证码（必须先标记密码，再标记验证码），点击添加payload位置</p>
+<p class="content-p">第七步</p>
+<p class="content-p">点击右边的payload功能——先给密码（刚刚的标记1）选择字典（load 字典就是下载到电脑里面的 .txt）——再设置验证码（刚刚的标记2）</p>
+<p class="content-p"></p>
+<p class="content-p">第八步</p>
+<p class="content-p">速度设置为1，点击右边的资源池——新建资源池——最大并发请求数设置为1（原来默认是10 选择完后不用保存，它会自动保持）</p>
+<p class="content-p">第九步</p>
+<p class="content-p">点击开始攻击（intruder模块页面）——出现一个结果表</p>
+<p class="content-p">（密码错误时 长度是一样的 比如都是5005；验证码错误时，长度也是一样的 比如都是5008，原因是因为验证码插件的问题 那个插件识别不准确；剩下的长度不为5005或5008的，可能就是正确的密码/登录成功）</p>
+<h3 class="section-title">3. 验证码识别接口（如何去识别获取到的图片？）</h3>
+<p class="content-p">需要一个工具：自动识别图片的内容（或者 自动识别验证码）</p>
+<p class="content-p">这样的工具一般是需要付费的（商用的）</p>
+<p class="content-p">云码 <span class="tip-text">&lt;a href="https://www.jfbym.com/price.html" target="_blank" class="content-link"&gt;</span>https://www.jfbym.com/price.html<span class="tip-text">&lt;/a&gt;</span> （5位以内：破解1000次，2块钱）</p>
+<p class="content-p">（plus版：1000次12块）等等还有其他的</p>
+<p class="content-p">冰拓 <span class="tip-text">&lt;a href="https://www.bingtop.com/type/#type_coordinate" target="_blank" class="content-link"&gt;</span>https://www.bingtop.com/type/#type_coordinate<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">蚁景API：<span class="tip-text">&lt;a href="http://1b8cdb391967.target.yijinglab.com" target="_blank" class="content-link"&gt;</span>http://1b8cdb391967.target.yijinglab.com<span class="tip-text">&lt;/a&gt;</span> 这个用不了了</p>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

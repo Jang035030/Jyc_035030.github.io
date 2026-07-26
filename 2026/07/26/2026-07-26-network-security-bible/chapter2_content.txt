@@ -1,0 +1,68 @@
+第二章 Kali和虚拟机 
+1 .Kali  官网地址：https://www.kali.org 
+Kali Linux（简称 Kali）是一款基于Debian的开源 Linux 发行版，专为网络安全、渗透测试、数字取证、等提供的操作系统，其中内置上百种常用网络安全工具，方式学习和使用。
+Kali可以安装在虚拟机、U盘、手机、实体机、Windows内置 等等中。通常是’虚拟机’里面。
+
+2 .VMware Workstation虚拟机容器
+VMware要更新的时候，直接覆盖就行，以前装过的虚拟机不用卸载。
+
+3 .解决kali问题
+>无鼠标  升级此虚拟机，提高兼容性
+>网络问题  NAT模式，能直接上网
+（NAT模式、桥接模式、仅主机模式、VirtualBox还有一个’内部网络模式’）
+>Kali换源  Kali浏览器（firefox，就是火狐浏览器）里面，能访问 http.kali.org 就不用换，不能访问就得换
+          如下图所示，就是能访问，所以不用换源
+
+{ 什么是源？软件的集合地址（其实就是一个网址），比如说kali需要更新，就去找源。
+Kali默认源：就是Kali自己，地址就是http.kali.org
+}
+>Kali更新 
+（右键Open Termial Here，在终端里面输入sudo apt update，然后输入Kali（密码，不可见），即可更新）
+
+4 .Kali汉化
+>右键Open Termial Here，在终端里面输入sudo dpkg-reconfigure locales，开始设置中文，
+重启生效。
+>设置中文输入法，输入sudo apt-get install fcitx fcitx-pinyin，重启生效
+     每次启动虚拟机，都需要终端输入fcitx-autostart才能切换拼音输入法，比较麻烦
+
+5 .如何使用 kali ？
+Kali中包含了大量工具（左上角应用程序可查看），主要在终端中运行，直接输入工具名。
+（firefox、burpsuite、nmap、sqlmap、wireshark等等）
+
+6 .Kali改密码、切换权限
+> 终端输入 passwd kali ，即可改密码。
+不过没必要，暂时不需要改密码。
+> 切换权限（默认是kali权限）
+  sudo su root 切换root权限（最高管理员权限）
+  切换权限之后，再使用工具
+
+7 .Kali操作系统和Linux操作系统的区别
+> Kali操作系统（全称 Kali Linux）是一个专门为网络安全渗透测试设计的操作系统。
+> Kali操作系统是Linux操作系统的一个子集（Linux包含Kali）
+> 常见的Linux操作系统有：kali、Ubuntu、RHEL、CentOS
+----
+·  Kali：安全测试专用，工作中只有特定的安全岗位才会用到。作为实习新人，偶尔用它来测试自己服务的端口是否开放即可，不作为主力系统。
+·  Ubuntu（Server版）：互联网创业公司和云服务器的首选（腾讯云、阿里云大量使用）。命令是 apt，比RHEL系更简洁。你必须熟练，因为实习中大概率会碰到云主机，基本都是Ubuntu。
+·  Red Hat Enterprise Linux (RHEL)：企业级市场的绝对霸主。银行、政府、大公司后台绝大多数跑这个。实习必考，你要重点练它的 yum/dnf 包管理和防火墙 firewalld。个人版要付费，你可以用免费的 Rocky Linux 或 AlmaLinux 来代替它练习（命令100%兼容）。
+·  CentOS（已停更）：以前是RHEL的免费克隆版，虽然2024年已彻底停止维护，但因为存量服务器巨大，很多公司老系统还在用。实习面试常被问到，你只需要知道它和RHEL命令一样，且明白它“已死”这个现状就行。
+
+8 .Windows操作系统和Linux操作系统的区别
+1.>开源 vs 闭源（本质）
+· Linux：完全免费开源，全世界一起维护，有上百种版本（Ubuntu、Kali 等）。
+· Windows：微软商业闭源，需要花钱买授权，只能微软自己改。
+---
+2.>命令行完全不同（实习最头疼）
+· Linux：命令是 ls、cd、grep、chmod，严格区分大小写，一切皆文件，配置全靠改文本。
+· Windows：命令是 dir、copy，不区分大小写，有 C 盘 D 盘，配置靠注册表和鼠标点。
+---
+3.>使用场景天差地别
+· Linux：用于 服务器、开发、黑客工具，公司后台 90% 跑的是它（纯黑框，没桌面）。
+· Windows：用于 办公、游戏、设计等，上班时员工工位的电脑大概率是它。
+---
+实习的 3 条保命建议：
+· 别在 Windows 黑框敲 ls，也别在 Linux 终端敲 ipconfig（要用 ip a）。
+· 远程连服务器时，面对的全是 Linux 命令行，现在抓紧练 vim 和 grep。
+· 文件路径写法不同：Windows 用反斜杠 \（C:\Users），Linux 用正斜杠 /（/home/laoli）。
+
+
+
