@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第二章 Kali和虚拟机 | 网络安全宝典</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: #f5f7fa;
+      min-height: 100vh;
+      line-height: 1.8;
+      color: #333;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      min-height: 100vh;
+    }
+    .header {
+      background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+      color: white;
+      padding: 50px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 300px;
+      height: 300px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+    }
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.2);
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      backdrop-filter: blur(10px);
+    }
+    .chapter-title {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      position: relative;
+    }
+    .content { padding: 45px 40px 60px; }
+    .section {
+      margin-bottom: 35px;
+      padding: 25px;
+      background: #fafbfc;
+      border-radius: 12px;
+      border-left: 4px solid #11998e;
+    }
+    .section h3 {
+      color: #1a1a2e;
+      font-size: 20px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .section h3 i { color: #11998e; }
+    .section p { color: #555; margin-bottom: 12px; text-align: justify; }
+    .section ul { list-style: none; padding-left: 0; }
+    .section ul li {
+      padding: 8px 0 8px 28px;
+      position: relative;
+      color: #555;
+    }
+    .section ul li::before {
+      content: '▸';
+      position: absolute;
+      left: 8px;
+      color: #38ef7d;
+      font-weight: bold;
+    }
+    .highlight-box {
+      background: linear-gradient(135deg, #f5f9f8 0%, #e8f5ee 100%);
+      border: 1px solid #b8e6d3;
+      border-radius: 10px;
+      padding: 20px 25px;
+      margin: 20px 0;
+    }
+    .highlight-box strong { color: #11998e; }
+    a { color: #11998e; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code {
+      background: #f1f3f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+      color: #e64980;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 2px solid #eee;
+    }
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: white;
+      border: 2px solid #11998e;
+      color: #11998e;
+      border-radius: 25px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .nav-btn:hover {
+      background: linear-gradient(135deg, #11998e, #38ef7d);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(17,153,142,0.3);
+    }
+    @media (max-width: 768px) {
+      .content { padding: 30px 20px; }
+      .chapter-title { font-size: 28px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <span class="chapter-badge">Chapter 02</span>
+      <h1 class="chapter-title">Kali和虚拟机</h1>
+    </div>
+
+    <div class="content">
+
+      <div class="section">
+        <h3><i class="fa fa-linux"></i> 1. Kali Linux介绍</h3>
+        <p><strong>官网地址：</strong><code>https://www.kali.org</code></p>
+        <p><strong>Kali Linux</strong>（简称 Kali）是一款基于Debian的开源 Linux 发行版，专为<strong>网络安全、渗透测试、数字取证</strong>等提供的操作系统，其中内置上百种常用网络安全工具，方便学习和使用。</p>
+        <p>Kali可以安装在<strong>虚拟机、U盘、手机、实体机、Windows内置</strong>等等中。通常是'虚拟机'里面。</p>
+      </div>
+
+      <div class="section">
+        <h3><i class="fa fa-server"></i> 2. VMware Workstation虚拟机容器</h3>
+        <p>VMware要更新的时候，直接覆盖就行，以前装过的虚拟机不用卸载。</p>
+      </div>
+
+      <div class="section">
+        <h3><i class="fa fa-wrench"></i> 3. 解决Kali常见问题</h3>
+
+        <h4 style="margin: 18px 0 12px; color: #333;"><i class="fa fa-mouse-pointer"></i> 无鼠标问题</h4>
+        <p>升级此虚拟机，提高兼容性</p>
+
+        <h4 style="margin: 18px 0 12px; color: #333;"><i class="fa fa-wifi"></i> 网络问题</h4>
+        <p><strong>NAT模式</strong>，能直接上网</p>
+        <ul>
+          <li>NAT模式</li>
+          <li>桥接模式</li>
+          <li>仅主机模式</li>
+          <li>VirtualBox还有一个'内部网络模式'</li>
+        </ul>
+
+        <h4 style="margin: 18px 0 12px; color: #333;"><i class="fa fa-download"></i> Kali换源</h4>
+        <p>Kali浏览器（firefox，就是火狐浏览器）里面，能访问 <code>http.kali.org</code> 就不用换，不能访问就得换</p>
+        <div class="highlight-box">
+          <p><strong>{ 什么是源？</strong></p>
+          <p>软件的集合地址（其实就是一个网址），比如说kali需要更新，它就会去这个网址下载软件包。如果这个网址访问不了或者很慢，就需要换成国内的源（镜像站）。</p>
+        </div>
+      </div>
+
+      <div class="nav-buttons">
+        <a href="chapter1.html" class="nav-btn"><i class="fa fa-arrow-left"></i> 上一章</a>
+        <a href="main.html" class="nav-btn"><i class="fa fa-list"></i> 返回目录</a>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

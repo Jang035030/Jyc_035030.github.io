@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网络安全宝典 - 目录 | 我的博客</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .header-content { position: relative; z-index: 1; }
+    .shield-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      display: block;
+      text-shadow: 0 4px 20px rgba(102,126,234,0.5);
+    }
+    .main-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    .content {
+      padding: 50px 40px;
+    }
+    .intro {
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 50px;
+      padding: 25px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      border-left: 4px solid #667eea;
+    }
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 25px;
+    }
+    .chapter-card {
+      background: white;
+      border: 2px solid #e9ecef;
+      border-radius: 16px;
+      padding: 30px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, #667eea, #764ba2);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .chapter-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(102,126,234,0.2);
+      border-color: transparent;
+    }
+    .chapter-card:hover::before { transform: scaleX(1); }
+    .chapter-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .chapter-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 10px;
+    }
+    .chapter-desc {
+      color: #666;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .arrow {
+      position: absolute;
+      right: 25px;
+      bottom: 25px;
+      color: #667eea;
+      font-size: 24px;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    .chapter-card:hover .arrow { opacity: 1; right: 20px; }
+    .back-link {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      text-decoration: none;
+      border-radius: 25px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .back-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+    }
+    @media (max-width: 768px) {
+      .chapter-grid { grid-template-columns: 1fr; }
+      .main-title { font-size: 32px; }
+      .header { padding: 40px 25px; }
+      .content { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <span class="shield-icon"><i class="fa fa-shield"></i></span>
+        <h1 class="main-title">网络安全宝典</h1>
+        <p class="subtitle">Network Security Bible · 八大核心知识体系</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="intro">
+        <p><strong>我发现石油了！</strong>主要讲述了：VPN、渗透测试、漏洞挖掘等核心内容。</p>
+        <p>本笔记整理了网络安全的八大核心模块，从基础工具到高级实战，助你系统掌握网络安全知识。</p>
+      </div>
+
+      <div class="chapter-grid">
+        <a href="chapter1.html" class="chapter-card">
+          <span class="chapter-number">01</span>
+          <h2 class="chapter-title">VPN、代理、翻墙</h2>
+          <p class="chapter-desc">VPN原理、浏览器代理配置、全局代理工具、NPS内网穿透、多级代理与洋葱路由</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter2.html" class="chapter-card">
+          <span class="chapter-number">02</span>
+          <h2 class="chapter-title">Kali和虚拟机</h2>
+          <p class="chapter-desc">Kali Linux介绍、VMware虚拟机配置、网络模式选择、Kali换源与常见问题解决</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter3.html" class="chapter-card">
+          <span class="chapter-number">03</span>
+          <h2 class="chapter-title">第三章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter4.html" class="chapter-card">
+          <span class="chapter-number">04</span>
+          <h2 class="chapter-title">第四章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter5.html" class="chapter-card">
+          <span class="chapter-number">05</span>
+          <h2 class="chapter-title">第五章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter6.html" class="chapter-card">
+          <span class="chapter-number">06</span>
+          <h2 class="chapter-title">第六章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter7.html" class="chapter-card">
+          <span class="chapter-number">07</span>
+          <h2 class="chapter-title">第七章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+
+        <a href="chapter8.html" class="chapter-card">
+          <span class="chapter-number">08</span>
+          <h2 class="chapter-title">第八章内容</h2>
+          <p class="chapter-desc">（请查看详细内容）</p>
+          <span class="arrow"><i class="fa fa-arrow-right"></i></span>
+        </a>
+      </div>
+
+      <div style="text-align: center;">
+        <a href="/Jyc_035030.github.io/" class="back-link"><i class="fa fa-home"></i> 返回博客首页</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
