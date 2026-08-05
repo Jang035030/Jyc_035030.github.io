@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第十四章 漏洞挖掘实战 | 网络安全宝典（续）</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
+    }
+    .header-content { position: relative; z-index: 1; }
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(240,147,251,0.85);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .page-subtitle {
+      opacity: 0.85;
+      font-size: 16px;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .nav-link {
+      color: #f5576c;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #f093fb; }
+    .content {
+      padding: 40px 35px;
+    }
+    .chapter-title {
+      font-size: 28px;
+      color: #2d1b4e;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #f5576c;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: 20px;
+      color: #4a1942;
+      margin: 25px 0 15px 0;
+      padding-left: 15px;
+      border-left: 4px solid #f5576c;
+      font-weight: 600;
+    }
+    .content-p {
+      margin: 12px 0;
+      color: #333;
+      font-size: 15px;
+      text-align: justify;
+    }
+    .content-link {
+      color: #f5576c;
+      word-break: break-all;
+      text-decoration: none;
+      border-bottom: 1px dashed #f5576c;
+      transition: all 0.3s;
+    }
+    .content-link:hover {
+      color: #f093fb;
+      border-bottom-style: solid;
+    }
+    .content-hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+      margin: 20px 0;
+    }
+    .content-quote {
+      background: #fff5f7;
+      border-left: 4px solid #f5576c;
+      padding: 12px 18px;
+      margin: 15px 0;
+      color: #555;
+      font-style: italic;
+      border-radius: 0 8px 8px 0;
+    }
+    .tip-text {
+      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: block;
+      margin: 15px 0;
+      color: #a02040;
+      font-weight: 500;
+    }
+    .note-text {
+      color: #6c757d;
+      font-size: 14px;
+      background: #f1f3f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .arrow-text {
+      color: #f5576c;
+      font-weight: 500;
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+    .image-placeholder {
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      border: 2px dashed #f48fb1;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+      color: #a02040;
+    }
+    .image-placeholder i {
+      font-size: 48px;
+      color: #f48fb1;
+      margin-bottom: 10px;
+    }
+    .image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 13px;
+      border-top: 1px solid #e9ecef;
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 30px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 25px 20px; }
+      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典（续） · 第十四章</div>
+        <h1 class="page-title">漏洞挖掘实战</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+
+    <div class="content">
+      <h1 class="chapter-title">第十四章 漏洞挖掘实战 </h1>
+<h3 class="section-title">1. Docker ？</h3>
+<p class="content-p">&gt; Docker 是一个开源的容器化平台，它能把应用和它依赖的环境（代码、运行环境、配置）打包成一个标准化的单元——容器</p>
+<p class="content-p">&gt; 可以把它理解成轻量级的虚拟机，但它共享宿主机的内核，所以启动速度是秒级的，资源开销比传统虚拟机小很多</p>
+<p class="content-p">&gt; 我在做安全靶场搭建时经常用 Docker</p>
+<p class="content-p">&gt; docker的常见命令</p>
+<p class="content-p"></p>
+<h3 class="section-title">2. 如何判断一个网站是否存在SQL注入漏洞？</h3>
+<p class="content-p">1&gt;触发点（哪里可能存在注入）</p>
+<p class="content-p">URL参数：?id=1、?cat=2、?page=3 等</p>
+<p class="content-p">表单输入框：登录、搜索、留言板、注册等任何能输入的地方</p>
+<p class="content-p">HTTP头：Cookie、User-Agent、Referer 等（较少见）</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">2&gt;特征（三种现象）</p>
+<p class="content-p">① 报错特征（最直接）</p>
+<p class="content-p">输入单引号 ' 或 and 1=1 后，页面返回数据库错误信息，包含以下关键字：</p>
+<p class="content-p">SQL syntax</p>
+<p class="content-p">mysql_fetch_array</p>
+<p class="content-p">Unclosed quotation mark</p>
+<p class="content-p">Microsoft OLE DB Provider</p>
+<p class="content-p">② 布尔特征（无报错时）</p>
+<p class="content-p">输入 and 1=1 页面正常，输入 and 1=2 页面空白或显示不同内容，说明你的条件影响了SQL查询结果。</p>
+<p class="content-p">③ 时间特征（无报错无回显时）</p>
+<p class="content-p">输入 sleep(5) 或 and sleep(5)，页面响应延迟了5秒，说明代码被执行。</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">3&gt;一句话总结</p>
+<p class="content-p">有参数 + 输入特殊字符后页面异常（报错/逻辑变化/变慢）→ 可能存在SQL注入。</p>
+<p class="content-p">按严重程度：报错 &gt; 布尔 &gt; 时间（报错注入最严重）。报错型最好利用，时间型最难但最通用（不管有没有报错都能测）</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">工具扫描</p>
+<p class="content-p">Sqlmap、burp suite工具即可扫描</p>
+<h3 class="section-title">3. 能用来暴力破解的工具</h3>
+<p class="content-p">美杜莎 Medusa，kali里面自带的暴力破解工具，能在windows、Linux系统、macOC上运行。协议数量比Hydra要少一些，优点是非常稳定。</p>
+<p class="content-p">九头蛇 Hydra，kali里面自带的暴力破解工具，能在windows、Linux系统、macOC上运行。支持协议广泛（SSH、FTP、HTTP、MySql、RDP等），但是在高并发或网络不稳定时，可能会不稳定甚至崩溃</p>
+<p class="content-p">Burp Suite</p>
+<p class="content-p">Yakit</p>
+<p class="content-p">Yakit 可以在很多日常渗透测试场景中替代Burp Suite</p>
+<h3 class="section-title">4. 给你一个登录框，你该怎么去测试？</h3>
+<p class="content-p">（这个是挖掘漏洞的时候，最常见的问题，面试也会考）</p>
+<p class="content-p">弱口令（弱密码，像admin password 123456等）</p>
+<p class="content-p">找一下有没有注册账号功能，看一下js接口（）</p>
+<p class="content-p">找漏洞（万能密码，暴力破解，SQl注入）</p>
+<p class="content-p">接着找 有没有上传文件入口（传一个.php木马进去，获取该木马存放的位置，然后用中国蚁剑来控制受害者网站和服务器）</p>
+<p class="content-p">//就是想办法登录进去</p>
+<p class="content-p">&gt; SRC是国内漏洞响应平台，我们挖漏洞的时候，进去网站之后（黑进去），千万不要改密码。（挖漏洞的目的肯定是为了挣钱嘛，帮公司挖漏洞 公司给钱）</p>
+<p class="content-p">&gt; phpMyAdmin 是一个用 PHP 编写的、基于 Web 的 MySQL 数据库管理工具。</p>
+<p class="content-p">简单来说，它让你不用敲 SQL 命令，直接在浏览器里用鼠标点一点，就能管理 MySQL 数据库     挖漏洞/黑网站的时候，重点关注这个。</p>
+<h3 class="section-title">5. 什么是js接口？</h3>
+<p class="content-p">JS接口就是前端JavaScript代码向后端请求数据时，暴露出来的URL地址（API端点）。</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">举个例子：你打开一个登录页面，输入账号密码，点击登录。浏览器并不会直接把你的账号密码"扔"给后端，而是通过一段JavaScript代码，向后端的一个特定地址（比如 /api/login）发送请求。这个 /api/login 就是一个JS接口。</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">🔍 为什么测试登录框要看JS接口？</p>
+<p class="content-p">因为JS接口会泄露很多后端信息，这些信息可以帮你找到潜在的漏洞</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">🛠️ 怎么找JS接口？</p>
+<p class="content-p">在浏览器里按 F12 打开开发者工具：</p>
+<p class="content-p">然后</p>
+<p class="content-p">&gt; 查看源代码：按 Ctrl+U（查看网页源代码），搜索 .js 文件，点进去看。</p>
+<p class="content-p">&gt; Network（网络）面板：刷新页面，查看所有加载的JS文件，逐一翻阅。</p>
+<p class="content-p">&gt; Sources（来源）面板：直接浏览所有前端资源文件，查看JS代码。</p>
+<p class="content-p">&gt; 使用工具：可以用Burp Suite或Yakit的爬虫功能，自动提取所有JS接口。</p>
+<p class="content-p">//这些方法是并列关系，掌握其中任意一种，都有希望 直接找到JS接口</p>
+<h3 class="section-title">6. 接口 ？</h3>
+<p class="content-p">&gt; 什么是接口？</p>
+<p class="content-p">接口（API，Application Programming Interface） 简单说，就是不同软件/系统之间沟通的“桥梁”或“约定”。</p>
+<p class="content-p">它定义了一个系统如何向外部提供服务或数据</p>
+<p class="content-p">&gt; 接口有哪些类型？</p>
+<p class="content-p">主要关注前两类：</p>
+<h3 class="section-title">--Web接口 (HTTP/HTTPS API)</h3>
+<p class="content-p">这是最主流的形式，前端和服务器之间、不同系统之间都通过它通信</p>
+<h3 class="section-title">--库/框架接口 (API)</h3>
+<p class="content-p">这是给你写代码时用的，比如编程语言或框架提供的内置函数。</p>
+<h3 class="section-title">--操作系统接口 (系统调用)</h3>
+<p class="content-p">这是软件和操作系统内核打交道的“底层通道”，普通开发者一般接触不到。</p>
+<h3 class="section-title">--硬件接口</h3>
+<p class="content-p">这是硬件和硬件/软件之间的连接标准和协议。</p>
+<p class="content-p">&gt; 接口的组成：</p>
+<p class="content-p"></p>
+<h3 class="section-title">7. Http状态码</h3>
+<p class="content-p">HTTP状态码是服务器告诉客户端“请求结果”的三位数字</p>
+<p class="content-p"></p>
+<p class="content-p"></p>
+<p class="content-p"></p>
+<p class="content-p">📍 渗透测试中特别关注的几个</p>
+<p class="content-p">状态码</p>
+<p class="content-p">关注原因</p>
+<p class="content-p"></p>
+<p class="content-p">401</p>
+<p class="content-p">说明存在认证机制，可以尝试绕过或爆破</p>
+<p class="content-p"></p>
+<p class="content-p">403</p>
+<p class="content-p">说明资源存在但无权访问，可能存在越权漏洞</p>
+<p class="content-p"></p>
+<p class="content-p">404</p>
+<p class="content-p">可以用来目录扫描（看哪些路径存在）</p>
+<p class="content-p"></p>
+<p class="content-p">405</p>
+<p class="content-p">尝试换方法（比如GET改POST）可能绕过限制</p>
+<p class="content-p"></p>
+<p class="content-p">500</p>
+<p class="content-p">说明服务器执行了你的请求但出错了，可能存在SQL注入</p>
+<p class="content-p"></p>
+<p class="content-p">302</p>
+<p class="content-p">登录接口返回302通常表示登录成功，是判断爆破是否成功的标志</p>
+<p class="content-p"></p>
+<p class="content-p">429</p>
+<p class="content-p">说明有限流防护，暴力破解需要加延迟</p>
+<p class="content-p"></p>
+<p class="content-p"></p>
+<h3 class="section-title">8. 什么是 爬虫？</h3>
+<p class="content-p">&gt; 爬虫，相当于网络渗透测试中，获取网站信息的步骤</p>
+<p class="content-p">&gt; 爬虫是一种“技术”或“程序”，burp suite和Yakit都有爬虫功能</p>
+<p class="content-p">&gt; 爬虫本身只针对网站（Web应用），所以爬虫也叫网络爬虫</p>
+    </div>
+
+    <div class="footer">
+      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

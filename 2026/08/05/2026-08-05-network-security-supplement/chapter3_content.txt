@@ -1,0 +1,126 @@
+第九章 网络钓鱼 
+1 .什么是网络钓鱼？
+网络钓鱼属于社会工程学攻击的一种。网络钓鱼是通过大量发送声称来自于银行或其他知名机构的欺骗性垃圾邮件，
+意图引诱收信人给出敏感信息 如用户名、口令、帐号ID、AT MP IN码或信用卡详细信息）的一种攻击方式。
+网络钓鱼攻击的类型有很多，
+包括：传统的电子邮件攻击、社交媒体攻击，以及一些名称很奇怪的攻击。
+---典型的就是把受害者引诱到一个钓鱼网站上，来获取受害者在该网站上 输入的敏感信息
+（比如 姓名 身份证号 各种密码等）
+
+2 .网络钓鱼攻击的基本流程
+跟现实生活中钓鱼是类似的，大致分为三个步骤；
+寻找目标（这个目标是指 某个区域的用户，不一定非要指哪个用户）
+制作鱼饵（这个是最重要的步骤，垃圾网站/诈骗信息做的不好，就不容易钓到鱼）
+抛竿，等待鱼儿上钩
+
+3 . Cobalt Strike工具（简称CS）     Strike是撞击、打击的意思
+还有一个工具叫 Metasploit Framework（MSF）
+这两个都属于 后渗透的工具
+
+MSF既可以在windows系统上部署，也可以在linux系统上部署（kali中就自带MSF工具）
+CS 的服务端（Team Server）必须运行在 Linux 上，但它的操作客户端（GUI）主要运行在 Windows 上。（CS，kail中没有）
+MSF更像是单兵作战工具，CS是团队作战工具/多人
+-----
+Cobalt Strike（简称CS）是一款团队作战渗透测试神器，分为客户端及服务端，一个服务端可以对应多个客户端，一个客户端可以连接多个服务端。
+CS主要是用来后期持久渗透、横向移动、流量隐藏、数据窃取的工具。主要用于模拟高级持续性威胁（APT）攻击和红队演练。护网行动 红队通常用CS，但也有代替工具。
+当已经在目标机器上执行了CS的payload，它会创建一个Beacon（远控木马功能）回连到C2服务器。
+C2:  Command&Control Server的简称，也就是命令与控制服务器
+------
+Coblat brike主要有以下架构（安装包里面的主要程序）
+-agscript：拓展应用的脚本
+-c2lint：用于检查profile的错误异常
+-teamserver：服务端程序
+-cobalt strike，cobalt strike.jar：客户端程序(java跨平台)
+-logs：目录记录与目标主机的相关信息
+-update，update.jar用于更新cS
+-third-party：第三方工具
+-----
+CS的安装与配置
+CS是商业化的，就是需要付费，我用的是免费版本的（dao版、学习版）
+CS 的服务端（Team Server）必须运行在 Linux （这里用kali虚拟机）上，但它的操作客户端（GUI）主要运行在 Windows 上。（CS，kail中没有）
+已经配置好了
+kali虚拟机用 桥接模式
+----
+4 .启动服务端(kali虚拟机里面)
+kali里面具体使用命令如下：
+sudo find / -name "teamserver" 2>/dev/null
+ls -l /opt/cobaltstrike/
+cd /opt/cobaltstrike/ （cd 就是更改工作目录）
+ls
+chmod +x teamserver （这里 X表示”给执行权限”，r可读 4，w可写 2，x可执行 1 ）
+                   （7 读+写+执行，6 读+写，5 读+执行，3 写+执行）
+>（介绍这个命令chmod 755 teamserver，一共有3位）
+./teamserver 192.168.1.163 cs123456 （IP地址是kali的，后门是要设置的密码）
+(这一步执行完，服务端就已经启动了，接下来启动客户端)
+
+
+
+
+5 .这里介绍一下chmod命令的知识点
+chmod +x teamserver （这里 X表示”给执行权限”，r可读 4，w可写 2，x可执行 1 ）
+                   （7 读+写+执行，6 读+写，5 读+执行，3 写+执行）
+>（介绍这个命令chmod 755 teamserver，一共有3位）
+
+> 上面是3位，可以有1位的情况。chmod 7 teamserver 是完全合法的命令，Linux 系统能识别并执行它。语法正确但是不建议这样做，这样可能会导致权限失控。
+chmod u=7 teamserver，这样是可以的，仅所有者 有读+写+执行 的权限
+
+
+> chmod x teamserver 是错误语法，Linux系统终端会报错，
+> chmod x teamserver不等于chmod 1 teamserver（后者语法正确，可能会导致权限失控）
+> chmod +rxw teamserver和chmod 777 teamserver效果是一样的
+> 比如说，我要给所有者(读+写+执行)，组(写+执行)，其他不更改。该执行什么命令？
+chmod u=rwx,g=wx teamserver
+温馨提示 chmod u=7,g=3 teamserver 这样不行，语法错误，数字的话只能全套。
+> chmod语法.一共两种方法，一种字母，一种数字
+字母代表赋予，既可以指定名称（如：u=rwx,g=wx），也可以不指定（如：=r，-rw，+rwx）
+数字代表修改，必须全套出现（如：755）
+
+> chmod 英文翻译成中文 就是 更改文件权限
+> Linux操作系统常见命令，我用PHPstudy搭建了网站Linux-command.com:1031
+
+
+6 .如何使用CS客户端
+服务端配置好后，就可以在客户端使用了
+有的版本不一样，客户端的页面也不一样
+双击快捷方式启动，IP填写kali的Ip（服务端IP），端口50050
+用户名随便填，密码 cs123456，点击connect
+---
+接下来讲，如何使用CS客户端
+<如何使用，这里需要大量的练习，具体步骤没必要记录>
+需要注意的是，重启电脑后，需要先打开kali虚拟机，然后运行
+sudu su root
+cd /opt/cobaltstrike/
+./teamserver 192.168.1.163 cs123456
+然后win11主机上的CS才能连接
+
+接下来，讲一下这里的常见命令
+help 输入help，查看所有命令
+sleep 0 快速交互
+sleep 10 改成10秒
+----
+shell whoami                  # 查看当前用户名
+shell ipconfig                  # 查看网络配置
+shell systeminfo                # 查看系统详细信息
+shell tasklist                   # 查看进程列表
+shell net user                  # 查看系统用户 
+----
+socks 1080：在目标内网开启一个SOCKS4/5代理，端口为1080
+clear：清除Beacon控制台的历史记录。
+jobs：查看当前Beacon正在后台执行的任务（如hashdump等）
+等等等等，命令不再细说
+
+7 .如何把木马文件伪装成”用户可能会点击的文件”
+
+> 如图所示，.exe是木马程序，用户点击后，CS 客户端成功捕获到了来自 DESKTOP-1SD...（你的 Windows 计算机名）的 Beacon 会话。
+但是用户不一定会点击，这个时候需要把.exe，包装一下
+> 用到winrar压缩软件
+> 这个是把图片做成软件图标的网站，https://www.ico51.cn/
+> RLO 的全称是 Right-to-Left Override (从右到左覆盖)，它是一个特殊的 Unicode 控制字符（编码为 U+202E），核心作用是强制改变文本的显示顺序。
+在网络安全领域，RLO 常被用作一种文件名称伪装攻击技术
+我们可以使用RLO来修改木马程序的文件名，把.exe提前，再用长文件名，来隐藏木马
+-----
+把木马隐藏好后，就可以把这个”伪装后的木马” 发给受害者（win11主机和kali作为CS的客户端和服务端，那么就可以把windows7虚拟机模拟成受害者。把木马发给win7，然后在win7里面点击，这样CS客户端就可以捕捉到win7的相关信息）。
+----
+最后要提醒的就是，用CS生成的木马，一定会被杀毒软件杀掉（比如 火绒安全软件等），用之前一定要提前关闭
+----
+还有就是，用的时候一定要学“免杀”，否则CS生成的这些东西一定会被受害者电脑杀掉

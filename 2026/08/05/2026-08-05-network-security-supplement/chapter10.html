@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第十五章 漏洞扫描 | 网络安全宝典（续）</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
+    }
+    .header-content { position: relative; z-index: 1; }
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(240,147,251,0.85);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .page-subtitle {
+      opacity: 0.85;
+      font-size: 16px;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .nav-link {
+      color: #f5576c;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #f093fb; }
+    .content {
+      padding: 40px 35px;
+    }
+    .chapter-title {
+      font-size: 28px;
+      color: #2d1b4e;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #f5576c;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: 20px;
+      color: #4a1942;
+      margin: 25px 0 15px 0;
+      padding-left: 15px;
+      border-left: 4px solid #f5576c;
+      font-weight: 600;
+    }
+    .content-p {
+      margin: 12px 0;
+      color: #333;
+      font-size: 15px;
+      text-align: justify;
+    }
+    .content-link {
+      color: #f5576c;
+      word-break: break-all;
+      text-decoration: none;
+      border-bottom: 1px dashed #f5576c;
+      transition: all 0.3s;
+    }
+    .content-link:hover {
+      color: #f093fb;
+      border-bottom-style: solid;
+    }
+    .content-hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+      margin: 20px 0;
+    }
+    .content-quote {
+      background: #fff5f7;
+      border-left: 4px solid #f5576c;
+      padding: 12px 18px;
+      margin: 15px 0;
+      color: #555;
+      font-style: italic;
+      border-radius: 0 8px 8px 0;
+    }
+    .tip-text {
+      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: block;
+      margin: 15px 0;
+      color: #a02040;
+      font-weight: 500;
+    }
+    .note-text {
+      color: #6c757d;
+      font-size: 14px;
+      background: #f1f3f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .arrow-text {
+      color: #f5576c;
+      font-weight: 500;
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+    .image-placeholder {
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      border: 2px dashed #f48fb1;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+      color: #a02040;
+    }
+    .image-placeholder i {
+      font-size: 48px;
+      color: #f48fb1;
+      margin-bottom: 10px;
+    }
+    .image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 13px;
+      border-top: 1px solid #e9ecef;
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 30px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 25px 20px; }
+      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典（续） · 第十五章</div>
+        <h1 class="page-title">漏洞扫描</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+
+    <div class="content">
+      <h1 class="chapter-title">第十五章 漏洞扫描 </h1>
+<h3 class="section-title">1. 什么是漏洞扫描工具（漏洞扫描器）？</h3>
+<p class="content-p">漏洞扫描器 = 能在一个目标上自动检测数百种漏洞的工具，同时也支持批量扫描多个目标</p>
+<h3 class="section-title">2. 为什么要用到漏洞扫描工具？</h3>
+<p class="content-p">高效率扫描网站的漏洞，扫描一个网站的大量漏洞，也可以同时扫描多个网站</p>
+<h3 class="section-title">3. 漏洞扫描工具能扫什么？</h3>
+<p class="content-p">网站/Web应用、服务器/主机、网络设备、数据库</p>
+<p class="content-p">但是一般不能扫描 .exe文件</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">AWVS、Xray 属于 Web应用扫描器，是漏洞扫描工具的一个子类，专攻网站。</p>
+<p class="content-p">但广义上，Nessus（扫主机）、OpenVAS（开源主机扫描器）也算漏洞扫描工具.</p>
+<h3 class="section-title">4. web应用扫描工具有哪些？</h3>
+<p class="content-p">Xray 和 AWVS 都是专门扫描网站（Web应用）漏洞的工具</p>
+<p class="content-p">同时 Burp Suite 和 Yakit 也都具备漏洞扫描能力</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">Xray：有免费的社区版</p>
+<p class="content-p">AWVS需要收费，也有破解版</p>
+<p class="content-p">BP需要破解版</p>
+<p class="content-p">Yakit是国产，个人用户永久免费的</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">御剑端口扫描工具的主要功能是进行端口扫描和信息收集，它不能直接进行漏洞扫描</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">Fscan是内网扫描工具，功能更加强大。</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">这两个也和扫描相关：</p>
+<p class="content-p">Nmap	网络探测/端口扫描工具</p>
+<p class="content-p">sqlmap	SQL注入检测与利用工具</p>
+<p class="content-p"></p>
+<h3 class="section-title">5. Xray扫描方式 </h3>
+<p class="content-p">X-ray 直译过来就是 X 射线（或 X光）</p>
+<p class="content-p">X-ray是”长亭”推出来的， 现在叫xpoe，不是 xray，这个是 Xray 新版本的命名方式，本质上还是同一个工具。</p>
+<p class="content-p">主动扫描、被动扫描、联动扫描</p>
+<p class="content-p">&gt; 主动扫描</p>
+<h3 class="section-title">--推荐一个网站(公网 可直接访问)   <span class="tip-text">&lt;a href="http://testphp.vulnweb.com/" target="_blank" class="content-link"&gt;</span>http://testphp.vulnweb.com/<span class="tip-text">&lt;/a&gt;</span> </h3>
+<p class="content-p">这个网站的作用</p>
+<p class="content-p">方面</p>
+<p class="content-p">说明</p>
+<p class="content-p"></p>
+<p class="content-p">性质</p>
+<p class="content-p">公网公开的漏洞靶场</p>
+<p class="content-p"></p>
+<p class="content-p">目的</p>
+<p class="content-p">专门给安全人员练习漏洞扫描和渗透测试</p>
+<p class="content-p"></p>
+<p class="content-p">谁搭建的</p>
+<p class="content-p">Acunetix（知名漏洞扫描器厂商）</p>
+<p class="content-p"></p>
+<p class="content-p">法律风险</p>
+<p class="content-p">✅完全合法，官方授权测试</p>
+<p class="content-p"></p>
+<p class="content-p"></p>
+<p class="content-p">让你测试AWVS、Xray、OpenVAS等扫描工具是否正常工作，安全初学者可以手工练习SQL注入、XSS等。主要是练习漏洞扫描的。</p>
+<h3 class="section-title">--但是这个网站好像打不开，拓机。我用192.168.228.128-&gt;pikachu.com:1025</h3>
+<h3 class="section-title">--因为xray必须要求在.exe文件位置上面输入cmd打开终端，不太方便，因此我用super_xray.exe作为xray的载体。这样就类似于打开一个软件了。</h3>
+<p class="content-p">SuperXray 的核心作用就是把“敲命令”变成“点鼠标”，让你不用再手动输入那些复杂的命令行参数。</p>
+<p class="content-p">具体操作：</p>
+<p class="content-p">点击进入super_xray.exe——高级配置（勾选需要的东西）确认配置——指定URL（或指定URL列表文件 这个就是要扫描的网站，比如 192.168.228.128-&gt;pikachu.com:1025）———</p>
+<p class="content-p">—设置POC并发、每秒最大请求、目标主机最大连接——点击 开启主动扫描——点击打开扫描结果，当然不一定会有（这个结果“.txt文件”D盘根目录里面也能看）</p>
+<p class="content-p">当然了，也可以设置联动和被动扫描等。</p>
+<p class="content-p">SuperXray 本质上就是为 Xray 这一款工具定制的图形界面，两者是深度绑定的。只能作为xray的载体，不能作为其他无图形化工具的载体（像冰蝎、哥斯拉，这些都不行）。</p>
+<p class="content-p">&gt; 被动扫描</p>
+<p class="content-p">不会自动的帮我们探测，需要探测哪里，手动浏览点击页面即可</p>
+<p class="content-p">即使用了super xray，使用被动扫描时，浏览器依然需要设置 代理地址和端口（SwitchyOmega插件）</p>
+<p class="content-p">同时还需要安装证书。双击 ca.crt 文件，安装证书，浏览器才能正确访问。</p>
+<p class="content-p">具体操作：</p>
+<p class="content-p">需要先填写被动扫描端口（最常用的就是7777）——Edge浏览器打开super_xray扫描代理（不想扫描了就关闭浏览器代理，当然 这和翻墙不一样，这时候被动扫描就会自动停止）——点击打开扫描结果（浏览器里面就会出现，pikachu靶场里面的漏洞还是挺多的）</p>
+<h3 class="section-title">--被动扫描就是说：pikachu靶场，你点击哪里，他就测哪里，不点击就不测。</h3>
+<h3 class="section-title">--被动扫描，只会对需要测试的页面进行点击测试即可，不会产生大量的流量，从而引起别人的注意，但是缺点就是我们手动点击很有可能遗漏一些不容易被察觉的页面</h3>
+<p class="content-p">&gt; 联动扫描</p>
+<h3 class="section-title">--联动扫描就是 Xray和一些其他的网络安全工具联合扫描</h3>
+<h3 class="section-title">--介绍一个工具，rad，全名Radium（翻译过来就是 镭），一款专为安全扫描而生的浏览器爬虫（也是工具），可以通过JS源码爬取到整个网站的页面。</h3>
+<p class="content-p">rad 是一个为效率而生的命令行爬虫，不是图形化的“软件”，习惯用命令行启动，可以创建桌面快捷方式（一般不创建），目前无法像xray一样找载体。</p>
+<p class="content-p">Rad最常用的目的 就是配合xray一起使用，也可以单独使用（一般不这样）。</p>
+<h3 class="section-title">--常见的 能够和superxray进行联动扫描的工具有哪些？</h3>
+<p class="content-p">rad（浏览器爬虫工具，superxray里面只有和rad的联动）</p>
+<p class="content-p">burp suite（打开BP里面设置才能和xray联动；Yakit也可以，没必要，需要一些其他的操作）</p>
+<p class="content-p">基本上就这两个</p>
+<h3 class="section-title">--联动扫描和主动扫描相比：</h3>
+<p class="content-p">就是扫的更加彻底一些，被遗漏的地方更少一些。</p>
+<p class="content-p">具体操作：</p>
+<p class="content-p">联动rad扫描不需要浏览器开super_xray扫描代理，第一次我扫描的时候被”火绒安全软件”给杀了，所以就添加了信任区。</p>
+<h3 class="section-title">--操作很简单，只需要填写一下”指定url”、目标url、选择rad文件即可，然后点击启动rad。</h3>
+<p class="content-p">&gt; 像这样漏洞扫描的过程就叫：渗透测试</p>
+<h3 class="section-title">6. Fcan工具</h3>
+<p class="content-p"> Fscan 是一款功能很强大的内网综合扫描工具，主要用于自动化漏洞扫描和渗透测试。</p>
+<p class="content-p">它的定位和 Xray 这类专注于 Web 漏洞扫描的工具不太一样，更倾向于内网安全测试</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">也是没有可视化页面，需要cmd打开终端运行，当然也可以配置载体 fscan-web（尚未配置）</p>
+<p class="content-p">天狐渗透测试工具箱里面也有fscan工具。</p>
+    </div>
+
+    <div class="footer">
+      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

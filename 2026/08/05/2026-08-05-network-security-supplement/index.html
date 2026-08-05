@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网络安全宝典（续） | 我的博客</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+      overflow: hidden;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .container:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 35px 100px rgba(0,0,0,0.35);
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 50px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(240,147,251,0.12) 0%, transparent 70%);
+      animation: rotate 25s linear infinite;
+    }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .header-content { position: relative; z-index: 1; }
+    .date-badge {
+      display: inline-block;
+      background: rgba(240,147,251,0.9);
+      padding: 8px 22px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 18px;
+      letter-spacing: 1px;
+    }
+    .title {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .desc {
+      opacity: 0.9;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .content {
+      padding: 35px 40px;
+      text-align: center;
+    }
+    .enter-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(245,87,108,0.4);
+    }
+    .enter-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 35px rgba(245,87,108,0.5);
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      color: #adb5bd;
+      font-size: 13px;
+      background: #f8f9fa;
+    }
+    @media (max-width: 768px) {
+      body { padding: 15px; }
+      .header { padding: 35px 25px; }
+      .title { font-size: 24px; }
+      .content { padding: 25px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="date-badge"><i class="fa fa-calendar"></i> 2026-08-05</div>
+        <h1 class="title">网络安全宝典（续）</h1>
+        <p class="desc">Kali实战、网络钓鱼、XSS漏洞等11大核心模块进阶笔记</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <a href="main.html" class="enter-btn">
+        <span>开始阅读</span>
+        <i class="fa fa-arrow-right"></i>
+      </a>
+    </div>
+
+    <div class="footer">
+      <i class="fa fa-pen"></i> 原创学习笔记 | 我的博客
+    </div>
+  </div>
+</body>
+</html>

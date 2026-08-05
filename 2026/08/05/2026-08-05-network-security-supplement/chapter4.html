@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第十章 POC | 网络安全宝典（续）</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
+    }
+    .header-content { position: relative; z-index: 1; }
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(240,147,251,0.85);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .page-subtitle {
+      opacity: 0.85;
+      font-size: 16px;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .nav-link {
+      color: #f5576c;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #f093fb; }
+    .content {
+      padding: 40px 35px;
+    }
+    .chapter-title {
+      font-size: 28px;
+      color: #2d1b4e;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #f5576c;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: 20px;
+      color: #4a1942;
+      margin: 25px 0 15px 0;
+      padding-left: 15px;
+      border-left: 4px solid #f5576c;
+      font-weight: 600;
+    }
+    .content-p {
+      margin: 12px 0;
+      color: #333;
+      font-size: 15px;
+      text-align: justify;
+    }
+    .content-link {
+      color: #f5576c;
+      word-break: break-all;
+      text-decoration: none;
+      border-bottom: 1px dashed #f5576c;
+      transition: all 0.3s;
+    }
+    .content-link:hover {
+      color: #f093fb;
+      border-bottom-style: solid;
+    }
+    .content-hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+      margin: 20px 0;
+    }
+    .content-quote {
+      background: #fff5f7;
+      border-left: 4px solid #f5576c;
+      padding: 12px 18px;
+      margin: 15px 0;
+      color: #555;
+      font-style: italic;
+      border-radius: 0 8px 8px 0;
+    }
+    .tip-text {
+      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: block;
+      margin: 15px 0;
+      color: #a02040;
+      font-weight: 500;
+    }
+    .note-text {
+      color: #6c757d;
+      font-size: 14px;
+      background: #f1f3f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .arrow-text {
+      color: #f5576c;
+      font-weight: 500;
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+    .image-placeholder {
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      border: 2px dashed #f48fb1;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+      color: #a02040;
+    }
+    .image-placeholder i {
+      font-size: 48px;
+      color: #f48fb1;
+      margin-bottom: 10px;
+    }
+    .image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 13px;
+      border-top: 1px solid #e9ecef;
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 30px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 25px 20px; }
+      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典（续） · 第十章</div>
+        <h1 class="page-title">POC</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+
+    <div class="content">
+      <h1 class="chapter-title">第十章 POC </h1>
+<h3 class="section-title">1. POC是什么？</h3>
+<p class="content-p">POC是"Proof of Concept"的缩写，中文意思是"概念验证。</p>
+<h3 class="section-title">--在网络安全领域，这个词非常常见。一个POC通常是一段用来验证漏洞是否真实存在的代码或程序。</h3>
+<h3 class="section-title">--举个例子：就像一位新药研发者为了证明自己的理论，制作了一小份药剂样品来验证药效。这个"样品"就是POC，它不是一个可以量产销售的药品，而是用来证明"这个思路可行"的证据</h3>
+<h3 class="section-title">--POC不是一个可以下载的软件，但可以下载到大量用于执行POC验证的工具和脚本集合。 这些工具都是为安全研究人员、渗透测试人员等专业人士准备的。</h3>
+<p class="content-p">如果你对网络安全没有深入了解，请不要随意下载运行，以免触犯法律或对自身系统造成危害。</p>
+<h3 class="section-title">----</h3>
+<h3 class="section-title">2. 目前的话，我可以下载的关于POC的东西如下(POC要下载的东西只有这三类)：</h3>
+<p class="content-p">&gt; 📦 POC脚本/代码集合</p>
+<p class="content-p">下载 1个 就够了</p>
+<p class="content-p">推荐：Awesome-POC</p>
+<p class="content-p">理由：它像一个“漏洞字典”，收录了1000+漏洞，按CMS、OA、框架分类，非常适合实习期查阅和学习。有一个这样的集合，基本够日常翻查用了。</p>
+<p class="content-p">不需要多下：这类项目内容高度重叠，下多了只是占用硬盘空间，而且更新维护也跟不上。</p>
+<p class="content-p">&gt; 🛠️ POC管理/扫描工具</p>
+<p class="content-p">下载 1个 就够了</p>
+<p class="content-p">推荐：Nuclei（命令行工具，开源免费，社区最活跃）</p>
+<p class="content-p">理由：这是安服工程师的“标配”。它本身不包含POC，但可以加载第一类里的YAML模板，实现批量扫描。学会Nuclei，实习期基本够用。</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">备选：如果你实在不喜欢命令行，可以试试 Goby（有图形界面），但它更偏向资产测绘+漏洞扫描，概念上稍有不同。</p>
+<p class="content-p">不要多下：不同工具的核心功能相似，学精一个比装一堆更实用。</p>
+<p class="content-p">&gt; 🎯 单一漏洞POC</p>
+<p class="content-p">不需要提前下载，按需下载</p>
+<p class="content-p">理由：这类POC是针对某个特定CVE漏洞的，你不可能提前知道明天会遇到哪个漏洞。</p>
+<p class="content-p">正确做法是：遇到具体漏洞时，再去GitHub搜索 CVE编号 + POC，临时下载那个单一脚本。</p>
+<p class="content-p">比如，你的扫描器报了一个 CVE-2023-28432，你就去搜这个编号的POC，下载回来验证。用完就删或归档，不用长期囤积。</p>
+    </div>
+
+    <div class="footer">
+      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

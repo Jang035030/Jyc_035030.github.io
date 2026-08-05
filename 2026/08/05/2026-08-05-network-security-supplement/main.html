@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网络安全宝典（续） - 目录 | 我的博客</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+    }
+    @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .header-content { position: relative; z-index: 1; }
+    .shield-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      display: block;
+      text-shadow: 0 4px 20px rgba(240,147,251,0.5);
+    }
+    .main-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      font-size: 18px;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+    .content {
+      padding: 50px 40px;
+    }
+    .intro {
+      text-align: center;
+      color: #666;
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 50px;
+      padding: 25px;
+      background: #fff5f7;
+      border-radius: 12px;
+      border-left: 4px solid #f5576c;
+    }
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 25px;
+    }
+    .chapter-card {
+      background: white;
+      border: 2px solid #fce4ec;
+      border-radius: 16px;
+      padding: 28px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .chapter-card:nth-child(1)::before { background: linear-gradient(90deg, #f093fb, #f5576c); }
+    .chapter-card:nth-child(2)::before { background: linear-gradient(90deg, #667eea, #764ba2); }
+    .chapter-card:nth-child(3)::before { background: linear-gradient(90deg, #11998e, #38ef7d); }
+    .chapter-card:nth-child(4)::before { background: linear-gradient(90deg, #fa709a, #fee140); }
+    .chapter-card:nth-child(5)::before { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+    .chapter-card:nth-child(6)::before { background: linear-gradient(90deg, #ff9a9e, #fecfef); }
+    .chapter-card:nth-child(7)::before { background: linear-gradient(90deg, #a18cd1, #fbc2eb); }
+    .chapter-card:nth-child(8)::before { background: linear-gradient(90deg, #f093fb, #f5576c); }
+    .chapter-card:nth-child(9)::before { background: linear-gradient(90deg, #11998e, #38ef7d); }
+    .chapter-card:nth-child(10)::before { background: linear-gradient(90deg, #fa709a, #fee140); }
+    .chapter-card:nth-child(11)::before { background: linear-gradient(90deg, #4facfe, #00f2fe); }
+
+    .chapter-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(245,87,108,0.2);
+      border-color: transparent;
+    }
+    .chapter-card:hover::before { transform: scaleX(1); }
+    .chapter-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: white;
+    }
+    .chapter-card:nth-child(1) .chapter-number { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .chapter-card:nth-child(2) .chapter-number { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .chapter-card:nth-child(3) .chapter-number { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .chapter-card:nth-child(4) .chapter-number { background: linear-gradient(135deg, #fa709a, #fee140); color: #333; }
+    .chapter-card:nth-child(5) .chapter-number { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+    .chapter-card:nth-child(6) .chapter-number { background: linear-gradient(135deg, #ff9a9e, #fecfef); color: #333; }
+    .chapter-card:nth-child(7) .chapter-number { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+    .chapter-card:nth-child(8) .chapter-number { background: linear-gradient(135deg, #f093fb, #f5576c); }
+    .chapter-card:nth-child(9) .chapter-number { background: linear-gradient(135deg, #11998e, #38ef7d); }
+    .chapter-card:nth-child(10) .chapter-number { background: linear-gradient(135deg, #fa709a, #fee140); color: #333; }
+    .chapter-card:nth-child(11) .chapter-number { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+
+    .chapter-title-text {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2d1b4e;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .chapter-desc {
+      font-size: 14px;
+      color: #6c757d;
+      line-height: 1.6;
+    }
+    .arrow-icon {
+      position: absolute;
+      right: 22px;
+      bottom: 22px;
+      font-size: 18px;
+      color: #adb5bd;
+      transition: all 0.3s;
+    }
+    .chapter-card:hover .arrow-icon {
+      color: #f5576c;
+      transform: translateX(5px);
+    }
+    .footer {
+      text-align: center;
+      padding: 25px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 14px;
+      border-top: 1px solid #e9ecef;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 15px;
+      color: #f5576c;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .back-link:hover { color: #f093fb; }
+    @media (max-width: 768px) {
+      body { padding: 15px; }
+      .header { padding: 40px 25px; }
+      .main-title { font-size: 28px; }
+      .content { padding: 30px 20px; }
+      .chapter-grid { grid-template-columns: 1fr; gap: 15px; }
+      .chapter-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <i class="fa fa-shield-alt shield-icon"></i>
+        <h1 class="main-title">网络安全宝典（续）</h1>
+        <p class="subtitle">进阶学习笔记 · 十一大核心模块</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="intro">
+        <i class="fa fa-book-open"></i> 本系列为网络安全宝典的进阶补充笔记，涵盖Kali实战、渗透测试、漏洞挖掘等高级内容，内容均来自作者手写整理，一字不差呈现。
+      </div>
+
+      <div class="chapter-grid">
+        <!-- 补充章节一 -->
+        <a href="chapter1.html" class="chapter-card">
+          <span class="chapter-number">01</span>
+          <h3 class="chapter-title-text">Kali实战</h3>
+          <p class="chapter-desc">实际应用场景、netdiscover探测、NMAP扫描、Medusa爆破、SSH远程登录</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 补充章节二 -->
+        <a href="chapter2.html" class="chapter-card">
+          <span class="chapter-number">02</span>
+          <h3 class="chapter-title-text">Kali系统里面进行渗透测试（Linux系统）</h3>
+          <p class="chapter-desc">Sqlmap注入工具、数据库信息获取、Linux系统渗透实战</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第九章 -->
+        <a href="chapter3.html" class="chapter-card">
+          <span class="chapter-number">03</span>
+          <h3 class="chapter-title-text">网络钓鱼</h3>
+          <p class="chapter-desc">社会工程学攻击、钓鱼邮件原理与防范</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十章 -->
+        <a href="chapter4.html" class="chapter-card">
+          <span class="chapter-number">04</span>
+          <h3 class="chapter-title-text">POC</h3>
+          <p class="chapter-desc">概念验证、POC编写与利用方法</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十一章 -->
+        <a href="chapter5.html" class="chapter-card">
+          <span class="chapter-number">05</span>
+          <h3 class="chapter-title-text">模拟红队进行漏洞挖掘</h3>
+          <p class="chapter-desc">红蓝对抗、OA系统漏洞挖掘实战</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十二章 -->
+        <a href="chapter6.html" class="chapter-card">
+          <span class="chapter-number">06</span>
+          <h3 class="chapter-title-text">XSS漏洞</h3>
+          <p class="chapter-desc">跨站脚本攻击原理、远程触发弹窗、XSS利用技巧</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十三章 -->
+        <a href="chapter7.html" class="chapter-card">
+          <span class="chapter-number">07</span>
+          <h3 class="chapter-title-text">文件上传漏洞</h3>
+          <p class="chapter-desc">文件上传漏洞案例、upload-labs靶场练习</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十三章续 -->
+        <a href="chapter8.html" class="chapter-card">
+          <span class="chapter-number">08</span>
+          <h3 class="chapter-title-text">webshell网页木马</h3>
+          <p class="chapter-desc">Webshell原理、木马隐藏与检测、大马小马一句话木马</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十四章 -->
+        <a href="chapter9.html" class="chapter-card">
+          <span class="chapter-number">09</span>
+          <h3 class="chapter-title-text">漏洞挖掘实战</h3>
+          <p class="chapter-desc">Docker容器化环境搭建、真实场景漏洞挖掘</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十五章 -->
+        <a href="chapter10.html" class="chapter-card">
+          <span class="chapter-number">10</span>
+          <h3 class="chapter-title-text">漏洞扫描</h3>
+          <p class="chapter-desc">漏洞扫描器使用、批量检测、自动化扫描技术</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+
+        <!-- 第十六章 -->
+        <a href="chapter11.html" class="chapter-card">
+          <span class="chapter-number">11</span>
+          <h3 class="chapter-title-text">Burpsuite挖漏洞</h3>
+          <p class="chapter-desc">Burp Suite高级用法、远程控制漏洞、破解漏洞挖掘</p>
+          <i class="fa fa-arrow-right arrow-icon"></i>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+      <a href="index.html" class="back-link"><i class="fa fa-home"></i> 返回文章首页</a>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第十三章 文件上传漏洞 | 网络安全宝典（续）</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.8;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
+      color: white;
+      padding: 40px 30px;
+      text-align: center;
+      position: relative;
+    }
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
+    }
+    .header-content { position: relative; z-index: 1; }
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(240,147,251,0.85);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
+    }
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .page-subtitle {
+      opacity: 0.85;
+      font-size: 16px;
+    }
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #f8f9fa;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .nav-link {
+      color: #f5576c;
+      text-decoration: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: color 0.3s;
+    }
+    .nav-link:hover { color: #f093fb; }
+    .content {
+      padding: 40px 35px;
+    }
+    .chapter-title {
+      font-size: 28px;
+      color: #2d1b4e;
+      margin-bottom: 30px;
+      padding-bottom: 15px;
+      border-bottom: 3px solid #f5576c;
+      display: inline-block;
+    }
+    .section-title {
+      font-size: 20px;
+      color: #4a1942;
+      margin: 25px 0 15px 0;
+      padding-left: 15px;
+      border-left: 4px solid #f5576c;
+      font-weight: 600;
+    }
+    .content-p {
+      margin: 12px 0;
+      color: #333;
+      font-size: 15px;
+      text-align: justify;
+    }
+    .content-link {
+      color: #f5576c;
+      word-break: break-all;
+      text-decoration: none;
+      border-bottom: 1px dashed #f5576c;
+      transition: all 0.3s;
+    }
+    .content-link:hover {
+      color: #f093fb;
+      border-bottom-style: solid;
+    }
+    .content-hr {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
+      margin: 20px 0;
+    }
+    .content-quote {
+      background: #fff5f7;
+      border-left: 4px solid #f5576c;
+      padding: 12px 18px;
+      margin: 15px 0;
+      color: #555;
+      font-style: italic;
+      border-radius: 0 8px 8px 0;
+    }
+    .tip-text {
+      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
+      padding: 10px 15px;
+      border-radius: 8px;
+      display: block;
+      margin: 15px 0;
+      color: #a02040;
+      font-weight: 500;
+    }
+    .note-text {
+      color: #6c757d;
+      font-size: 14px;
+      background: #f1f3f5;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .arrow-text {
+      color: #f5576c;
+      font-weight: 500;
+      margin: 10px 0;
+      padding-left: 10px;
+    }
+    .image-placeholder {
+      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+      border: 2px dashed #f48fb1;
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+      margin: 20px 0;
+      color: #a02040;
+    }
+    .image-placeholder i {
+      font-size: 48px;
+      color: #f48fb1;
+      margin-bottom: 10px;
+    }
+    .image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+    }
+    .footer {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      color: #6c757d;
+      font-size: 13px;
+      border-top: 1px solid #e9ecef;
+    }
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 30px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 25px 20px; }
+      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">网络安全宝典（续） · 第十三章</div>
+        <h1 class="page-title">文件上传漏洞</h1>
+        <p class="page-subtitle">原创笔记 · 一字不差</p>
+      </div>
+    </div>
+
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+
+    <div class="content">
+      <h1 class="chapter-title">第十三章 文件上传漏洞 </h1>
+<h3 class="section-title">1. 文件上传漏洞案例</h3>
+<p class="content-p">看电影《孤注一掷》</p>
+<p class="content-p">文件上传漏洞练习靶场：upload-labs.com（虚拟机里面）</p>
+<p class="content-p">DVWA靶场：dvwa.com:1024</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">冰蝎、哥斯拉、菜刀这些基本上不用了，最常用的还是中国蚁剑。通过上传木马来远程控制受害者电脑（可以搞崩掉服务器、关机等各种操作）</p>
+<h3 class="section-title">2. 什么是文件上传漏洞？</h3>
+<p class="content-p">攻击者上传恶意文件到受害者电脑上，恶意文件被保存，攻击者可以连接恶意文件，执行恶意操作。</p>
+<h3 class="section-title">----</h3>
+<p class="content-p">使用文件上传漏洞攻击</p>
+<p class="content-p">使用中国蚁剑</p>
+<p class="content-p">使用beef +msf</p>
+<p class="content-p">这三个是过程十分类似</p>
+<h3 class="section-title">3. 文件上传校验方式</h3>
+<p class="content-p">&gt; 文件上传校验是一种保护方式，文件上传校验是受害者（接受方）需要做的，不是攻击方需要做。攻击方只会想尽办法让校验失效，让恶意文件成功传到对方电脑中。</p>
+<p class="content-p">&gt; 为什么要进行文件上传校验？</p>
+<h3 class="section-title">-确保上传的文件符合业务要求，防止攻击者上传恶意文件，从而避免服务器被攻击。</h3>
+<h3 class="section-title">-如果不进行校验，攻击者可能上传 WebShell、木马或恶意脚本，一旦服务器执行这些文件，就可能导致远程代码执行（RCE）、服务器被控制、数据泄露等安全问题。因此，需要对文件的类型、大小、内容等进行校验，只允许合法文件上传</h3>
+<h3 class="section-title">-保证服务器“只把用户上传的东西当作数据（data）来存，而绝不把它当作代码（code）来执行。</h3>
+<p class="content-p">&gt; 文件上传校验的途径：</p>
+<p class="content-p">· 前端   前端检验</p>
+<p class="content-p">· 服务端（后端）</p>
+<p class="content-p">检查后缀：白名单和黑名单</p>
+<p class="content-p">检查内容：文件头、大小等</p>
+<p class="content-p">其他</p>
+<p class="content-p">· WAF校验</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<h3 class="section-title">-如何判断是前端校验还是后端校验？</h3>
+<p class="content-p">前端校验发生在攻击者的电脑（攻击者/攻击者的浏览器）上，而后端校验发生在目标网站（受害者）的服务器上。前端校验是 攻击者对攻击者自己的检查吗，后端校验是 受害者对受害者自己的检查。</p>
+<p class="content-p">前端校验几乎没有用，后端校验才是真正的安全屏障。</p>
+<p class="content-p">只有服务器端做的检查（比如检查文件头、MIME类型、限制执行权限等）才是可靠的，因为攻击者无法直接篡改服务器上的代码逻辑</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">文件上传校验方法有很多，而且不一定都是并列关系，这里只讲两种</p>
+<p class="content-p">（第一种 、前端校验）</p>
+<p class="content-p">如果点击upload-labs.com的上传按钮，页面刷新就是后端校验，没有刷新就是前端校验</p>
+<p class="content-p">攻击者绕过前端校验的方法很简单（停用JavaScript 或者 火狐浏览器里面删除校验函数）</p>
+<p class="content-p">（第二种、MIME类型检测）</p>
+<p class="content-p">后端校验可分为 后端黑名单校验、后端白名单校验(可以同时存在，但是通常情况下只使用一种 一般来说使用白名单)</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">MIME( 多用途互联网邮件扩展 )是描述消息内容类型的因特网标准。</p>
+<p class="content-p">用来表示文档、文件或字节流的性质和格式。</p>
+<p class="content-p">在HTTP数据包中在Content-Type字段显示。</p>
+<p class="content-p"></p>
+<p class="content-p">在文件上传漏洞里，MIME 类型检测是一种后端校验方式。服务器会检查 HTTP 请求头里的 Content-Type 字段，判断上传的文件是不是图片等安全格式。</p>
+<p class="content-p">但攻击者可以伪造这个字段（比如把 application/octet-stream 改成 image/jpeg），所以仅靠 MIME 检测是不够的。</p>
+<p class="content-p">绕过MIME需要用到Burp Suite，Yakit可以代替BP。</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">具体操作：</p>
+<p class="content-p">BP浏览器访问upload-labs.com，上传文件后，获取数据包，找到Content-Type字段，修改信息 改成image/png。修改之后，就实现了MIME绕过。（第二关就是MIME绕过）</p>
+<p class="content-p"></p>
+<h3 class="section-title">4. 文件上传漏洞的防御方法</h3>
+<p class="content-p">现在简单的文件上传漏洞确实不多了，但更隐蔽的逻辑绕过和第三方组件漏洞依然非常普遍</p>
+<h3 class="section-title">---</h3>
+<p class="content-p">防御方法：（防御文件上传漏洞应采用多层防御，而不是只依赖单一措施）</p>
+<p class="content-p">采用白名单</p>
+<p class="content-p">校验文件内容</p>
+<p class="content-p">上传后重命名文件</p>
+<p class="content-p">上传目录禁止执行脚本</p>
+<p class="content-p">文件存储在web根目录外</p>
+<p class="content-p">限制文件大小</p>
+<p class="content-p">进行权限控制(最小权原则)</p>
+<h3 class="section-title">5. 文件上传漏洞闯关</h3>
+<p class="content-p">upload-labs.com（一共有21关）</p>
+<p class="content-p">这个靶场是充当受害者，最好是部署到虚拟机win10里面去，主机win11作为攻击方</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">如果用BP/Yaikt抓包的话，也可以部署到主机上面，当然在虚拟机里面也能用BP抓包（NET或桥接模式，用主机浏览器访问win10虚拟机的网站）</p>
+<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">闯关方法，和需要上传的文件(文件应该要自己创建，网上好像有现成的)，可以去网上找。</p>
+    </div>
+
+    <div class="footer">
+      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>
