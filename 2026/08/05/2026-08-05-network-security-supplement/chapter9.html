@@ -97,18 +97,33 @@ body {
   margin-top: 0;
 }
 
-/* ---------- 小节标题 ---------- */
+/* ---------- 小节标题 (支持各种序号格式) ---------- */
 .note-section-title {
-  font-size: 17px;
+  font-size: 16.5px;
   font-weight: 600;
   color: #2d3748;
-  margin: 25px 0 15px 0;
+  margin: 22px 0 14px 0;
   padding-left: 12px;
   border-left: 4px solid #667eea;
   background: linear-gradient(90deg, #f8f9ff, transparent);
   padding-top: 6px;
   padding-bottom: 6px;
   border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 步骤编号 ---------- */
+.note-step-num {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 10px 0;
 }
 
 /* ---------- 普通段落 ---------- */
@@ -164,17 +179,37 @@ body {
   font-weight: 500;
 }
 
-/* ---------- 图片占位符 ---------- */
+/* ---------- 图片容器 ---------- */
+.note-image-container {
+  margin: 25px 0;
+  text-align: center;
+}
+
 .note-image-placeholder {
   background: linear-gradient(135deg, #fef5e7, #fdebd0);
-  border: 1px dashed #f39c12;
-  border-radius: 8px;
-  padding: 18px 20px;
-  margin: 18px 0;
-  text-align: center;
-  font-size: 14.5px;
+  border: 2px dashed #f39c12;
+  border-radius: 12px;
+  padding: 35px 25px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.image-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.image-text {
+  font-size: 15px;
   color: #d68910;
-  font-weight: 500;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.image-hint {
+  font-size: 12px;
+  color: #b9770e;
+  opacity: 0.8;
 }
 
 /* ---------- 特殊标记 ---------- */
@@ -270,12 +305,12 @@ a:hover {
       <h1 class="page-title">第十四章 漏洞挖掘实战</h1>
       <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
-    
+
     <div class="nav-bar">
       <a href="main.html" class="nav-link">📋 目录</a>
       <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
-    
+
     <div class="content">
       <div class="note-chapter-title">第十四章 漏洞挖掘实战</div>
 <div class="note-section-title">1. Docker ？</div>
@@ -393,7 +428,7 @@ a:hover {
 <div class="note-paragraph">&gt; 爬虫本身只针对网站（Web应用），所以爬虫也叫网络爬虫</div>
       <div class="chapter-nav"><a href="chapter8.html">← 上一章</a><a href="chapter10.html">下一章 →</a></div>
     </div>
-    
+
     <div class="footer">
       📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>

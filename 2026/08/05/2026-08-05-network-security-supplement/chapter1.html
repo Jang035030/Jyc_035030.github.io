@@ -97,18 +97,33 @@ body {
   margin-top: 0;
 }
 
-/* ---------- 小节标题 ---------- */
+/* ---------- 小节标题 (支持各种序号格式) ---------- */
 .note-section-title {
-  font-size: 17px;
+  font-size: 16.5px;
   font-weight: 600;
   color: #2d3748;
-  margin: 25px 0 15px 0;
+  margin: 22px 0 14px 0;
   padding-left: 12px;
   border-left: 4px solid #667eea;
   background: linear-gradient(90deg, #f8f9ff, transparent);
   padding-top: 6px;
   padding-bottom: 6px;
   border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 步骤编号 ---------- */
+.note-step-num {
+  display: inline-block;
+  background: #667eea;
+  color: white;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 10px 0;
 }
 
 /* ---------- 普通段落 ---------- */
@@ -164,17 +179,37 @@ body {
   font-weight: 500;
 }
 
-/* ---------- 图片占位符 ---------- */
+/* ---------- 图片容器 ---------- */
+.note-image-container {
+  margin: 25px 0;
+  text-align: center;
+}
+
 .note-image-placeholder {
   background: linear-gradient(135deg, #fef5e7, #fdebd0);
-  border: 1px dashed #f39c12;
-  border-radius: 8px;
-  padding: 18px 20px;
-  margin: 18px 0;
-  text-align: center;
-  font-size: 14.5px;
+  border: 2px dashed #f39c12;
+  border-radius: 12px;
+  padding: 35px 25px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.image-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.image-text {
+  font-size: 15px;
   color: #d68910;
-  font-weight: 500;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.image-hint {
+  font-size: 12px;
+  color: #b9770e;
+  opacity: 0.8;
 }
 
 /* ---------- 特殊标记 ---------- */
@@ -270,12 +305,12 @@ a:hover {
       <h1 class="page-title">补充章节一 Kali实战</h1>
       <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
-    
+
     <div class="nav-bar">
       <a href="main.html" class="nav-link">📋 目录</a>
       <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
-    
+
     <div class="content">
       <div class="note-chapter-title">补充章节一 Kali实战</div>
 <div class="note-section-title">1. 实际应用场景题目</div>
@@ -287,11 +322,11 @@ a:hover {
 <div class="note-paragraph">所有在线的主机都会自动回应（这是网络协议的规定，不需要密码）</div>
 <div class="note-paragraph">Kali 收集这些回应的 MAC 地址和 IP 地址，列成一张表显示给你</div>
 <div class="note-paragraph">这个模拟实验的本质 = 用 Kali 虚拟机（模拟攻击者/工具机）去访问/探测 真实物理机/主机（模拟受害者服务器）</div>
-<div class="note-paragraph">3）真实情况下，是不能用这种方法来获取受害者电脑的Ip地址的</div>
-<div class="note-paragraph">4）kali虚拟机要想扫到主机的IP地址，必须用桥接模式(不能用net模式和仅主机模式)，这样能够保证kali的IP地址和主机的IP地址处于同一个网段</div>
-<div class="note-paragraph">5）建议kali虚拟机设置双网卡模式</div>
+<div class="note-section-title">3）真实情况下，是不能用这种方法来获取受害者电脑的Ip地址的</div>
+<div class="note-section-title">4）kali虚拟机要想扫到主机的IP地址，必须用桥接模式(不能用net模式和仅主机模式)，这样能够保证kali的IP地址和主机的IP地址处于同一个网段</div>
+<div class="note-section-title">5）建议kali虚拟机设置双网卡模式</div>
 <div class="note-paragraph">双网卡会增加难度，需要什么模式可以随时更换，</div>
-<div class="note-paragraph">6）/24 叫做 CIDR 前缀长度（Classless Inter-Domain Routing），它告诉计算机：这个网段有多大。（规定了扫描范围，把搜索圈定在了 192.168.1.0 ~ 192.168.1.255 这个区间里）</div>
+<div class="note-section-title">6）/24 叫做 CIDR 前缀长度（Classless Inter-Domain Routing），它告诉计算机：这个网段有多大。（规定了扫描范围，把搜索圈定在了 192.168.1.0 ~ 192.168.1.255 这个区间里）</div>
 <div class="note-paragraph">简单来说，/24 就是子网掩码 255.255.255.0 的简写。</div>
 <div class="note-paragraph">解决方法</div>
 <div class="note-paragraph">第一步</div>
@@ -304,9 +339,9 @@ a:hover {
 <div class="note-paragraph">终端输入命令: sudo netdiscover -r 192.168.1.0/24 （注意只有3个空格，sudo就是以最高权限去运行）</div>
 <div class="note-paragraph">扫描出来同一网段的东西（比如 192.168.1.13，那么被入侵的那台电脑（主机）的IP就是其中之一，至于怎么判断，......）</div>
 <div class="note-paragraph">第三步</div>
-<div class="note-paragraph">1）获取完主机的IP地址后，接下来就是对靶机的IP地址进行扫描，在Kai中可以使用NMAP工具进行扫描</div>
+<div class="note-section-title">1）获取完主机的IP地址后，接下来就是对靶机的IP地址进行扫描，在Kai中可以使用NMAP工具进行扫描</div>
 <div class="note-paragraph">Nmap是不少黑客及脚本小子爱用的工具，可以检测目标主机是否在线、端口开放情况、侦测运行的服务类型及版本信息、侦测操作系统与设备类型等信息。</div>
-<div class="note-paragraph">2）一台电脑有65535个端口，</div>
+<div class="note-section-title">2）一台电脑有65535个端口，</div>
 <div class="note-paragraph">知名端口（0 — 1023）：“固定的政府/机构大楼”</div>
 <div class="note-paragraph">特点：全世界统一规定，固定分配给特定的顶级服务。普通程序不能用，只有管理员（root）权限才能启动。</div>
 <div class="note-paragraph">作用：让客户端不用问就知道去哪里找服务。</div>
@@ -318,14 +353,14 @@ a:hover {
 <div class="note-paragraph">动态/私有端口（49152 — 65535）：“临时访客/随机门牌号”</div>
 <div class="note-paragraph">特点：随机分配，不需要申请。不固定绑定任何服务。</div>
 <div class="note-paragraph">作用：当你的电脑访问百度（目标 80 端口）时，系统会随手抓一个这里面的空闲数字（比如 52341）作为临时门牌号，用来接收百度返回的数据。用完就释放，下次访问换个号码</div>
-<div class="note-paragraph">3）kali中nmap扫描</div>
+<div class="note-section-title">3）kali中nmap扫描</div>
 <div class="note-paragraph">sudo nmap -O 192.168.1.13（主机防火墙会拦截）</div>
-<div class="note-paragraph">4）获取对方电脑的账号密码，账号Lama，密码用暴力破解</div>
+<div class="note-section-title">4）获取对方电脑的账号密码，账号Lama，密码用暴力破解</div>
 <div class="note-paragraph">&gt; Kali中，可以使用medusa工具，Medusa(美土莎)是一个速度快，支持大规模并行，模块化，爆破登录。可以同时对多个主机，用户或密码执行强力测试。根本原理是暴力破解，需要有密码字典（密码字典可以从外面传，也可以在kali浏览器里面下载，最后放到桌面上）。</div>
 <div class="note-paragraph">&gt; “美杜莎”（Medusa）是Kali Linux自带的一款命令行密码爆破工具，它的设计目标就是运行在Linux和macOS这类操作系统上，Windows系统无法直接安装和使用它。</div>
 <div class="note-paragraph">&gt; 至于美杜莎在Kali中的命令，可以去问AI</div>
 <div class="note-paragraph">出现 [SUCCESS]，说明破解成功了</div>
-<div class="note-paragraph">5）远程登录对方电脑</div>
+<div class="note-section-title">5）远程登录对方电脑</div>
 <div class="note-paragraph">获取完，账号、密码、IP地址后，在kali里面输入 ssh 用户名@192.168.1.13</div>
 <div class="note-paragraph">然后输入密码（刚刚暴力破解得到的）</div>
 <div class="note-paragraph">这样就登录了对方电脑（终端）</div>
@@ -406,7 +441,7 @@ a:hover {
 <div class="note-paragraph">总之挣钱的方法有很多，有能力可以搞一搞副业</div>
       <div class="chapter-nav"><span></span><a href="chapter2.html">下一章 →</a></div>
     </div>
-    
+
     <div class="footer">
       📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>
