@@ -182,3 +182,27 @@ MSf敲命令，浪费时间还吃技术
 --ubuntu虚拟机，（websec），装图形化页面
 sudo apt update
 sudo apt install ubuntu-desktop -y
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

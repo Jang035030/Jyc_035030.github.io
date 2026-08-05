@@ -3,248 +3,291 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第九章 网络钓鱼 | 网络安全宝典（续）</title>
+  <title>第3章 第九章 网络钓鱼 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      min-height: 100vh;
-      padding: 20px;
-      line-height: 1.8;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
-    }
-    .header-content { position: relative; z-index: 1; }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(240,147,251,0.85);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-    .page-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      opacity: 0.85;
-      font-size: 16px;
-    }
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .nav-link {
-      color: #f5576c;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
-    .nav-link:hover { color: #f093fb; }
-    .content {
-      padding: 40px 35px;
-    }
-    .chapter-title {
-      font-size: 28px;
-      color: #2d1b4e;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #f5576c;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: 20px;
-      color: #4a1942;
-      margin: 25px 0 15px 0;
-      padding-left: 15px;
-      border-left: 4px solid #f5576c;
-      font-weight: 600;
-    }
-    .content-p {
-      margin: 12px 0;
-      color: #333;
-      font-size: 15px;
-      text-align: justify;
-    }
-    .content-link {
-      color: #f5576c;
-      word-break: break-all;
-      text-decoration: none;
-      border-bottom: 1px dashed #f5576c;
-      transition: all 0.3s;
-    }
-    .content-link:hover {
-      color: #f093fb;
-      border-bottom-style: solid;
-    }
-    .content-hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
-      margin: 20px 0;
-    }
-    .content-quote {
-      background: #fff5f7;
-      border-left: 4px solid #f5576c;
-      padding: 12px 18px;
-      margin: 15px 0;
-      color: #555;
-      font-style: italic;
-      border-radius: 0 8px 8px 0;
-    }
-    .tip-text {
-      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      margin: 15px 0;
-      color: #a02040;
-      font-weight: 500;
-    }
-    .note-text {
-      color: #6c757d;
-      font-size: 14px;
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .arrow-text {
-      color: #f5576c;
-      font-weight: 500;
-      margin: 10px 0;
-      padding-left: 10px;
-    }
-    .image-placeholder {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      border: 2px dashed #f48fb1;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      margin: 20px 0;
-      color: #a02040;
-    }
-    .image-placeholder i {
-      font-size: 48px;
-      color: #f48fb1;
-      margin-bottom: 10px;
-    }
-    .image-placeholder p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 13px;
-      border-top: 1px solid #e9ecef;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 30px 20px; }
-      .page-title { font-size: 24px; }
-      .content { padding: 25px 20px; }
-      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    }
-  </style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 15px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #f5576c;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #f093fb; }
+.content {
+  padding: 40px 35px;
+}
+/* 章节标题 */
+.chapter-main-title {
+  font-size: 26px;
+  color: #2d1b4e;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f093fb;
+  display: inline-block;
+}
+.section-title {
+  font-size: 19px;
+  color: #4a1942;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #f5576c;
+  font-weight: 600;
+}
+/* 内容段落 */
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+  text-indent: 0;
+}
+/* 链接 */
+.content-link {
+  color: #f5576c;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #f5576c;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #f093fb;
+  border-bottom-style: solid;
+}
+/* 分隔线 */
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
+  margin: 25px 0;
+}
+/* 引用块 */
+.content-quote {
+  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
+  border-left: 4px solid #f5576c;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.content-quote::before {
+  content: '"';
+  position: absolute;
+  left: 8px;
+  top: -5px;
+  font-size: 40px;
+  color: rgba(245,87,108,0.2);
+  font-family: Georgia, serif;
+}
+/* 命令代码 */
+.cmd-code {
+  display: block;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px 18px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+/* 列表 */
+.content-list {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+.content-list-item {
+  margin: 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* 提示文本 */
+.tip-inline {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #f5576c;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+/* 图片占位符 */
+.image-placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px dashed #f5576c;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  color: #c2185b;
+}
+.image-placeholder i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+.image-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 22px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续） · 第九章</div>
-        <h1 class="page-title">网络钓鱼</h1>
+        <div class="chapter-badge">网络安全宝典（续）· 第3部分</div>
+        <h1 class="page-title">第九章 网络钓鱼</h1>
         <p class="page-subtitle">原创笔记 · 一字不差</p>
       </div>
     </div>
-
+    
     <div class="nav-bar">
       <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
       <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
     </div>
-
+    
     <div class="content">
-      <h1 class="chapter-title">第九章 网络钓鱼 </h1>
-<h3 class="section-title">1. 什么是网络钓鱼？</h3>
+      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第九章 网络钓鱼 <span class="tip-inline">&lt;/h1&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. 什么是网络钓鱼？<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">网络钓鱼属于社会工程学攻击的一种。网络钓鱼是通过大量发送声称来自于银行或其他知名机构的欺骗性垃圾邮件，</p>
 <p class="content-p">意图引诱收信人给出敏感信息 如用户名、口令、帐号ID、AT MP IN码或信用卡详细信息）的一种攻击方式。</p>
 <p class="content-p">网络钓鱼攻击的类型有很多，</p>
 <p class="content-p">包括：传统的电子邮件攻击、社交媒体攻击，以及一些名称很奇怪的攻击。</p>
-<h3 class="section-title">--典型的就是把受害者引诱到一个钓鱼网站上，来获取受害者在该网站上 输入的敏感信息</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--典型的就是把受害者引诱到一个钓鱼网站上，来获取受害者在该网站上 输入的敏感信息<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">（比如 姓名 身份证号 各种密码等）</p>
-<h3 class="section-title">2. 网络钓鱼攻击的基本流程</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. 网络钓鱼攻击的基本流程<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">跟现实生活中钓鱼是类似的，大致分为三个步骤；</p>
 <p class="content-p">寻找目标（这个目标是指 某个区域的用户，不一定非要指哪个用户）</p>
 <p class="content-p">制作鱼饵（这个是最重要的步骤，垃圾网站/诈骗信息做的不好，就不容易钓到鱼）</p>
 <p class="content-p">抛竿，等待鱼儿上钩</p>
-<h3 class="section-title">3. Cobalt Strike工具（简称CS）     Strike是撞击、打击的意思</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. Cobalt Strike工具（简称CS）     Strike是撞击、打击的意思<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">还有一个工具叫 Metasploit Framework（MSF）</p>
 <p class="content-p">这两个都属于 后渗透的工具</p>
 <p class="content-p"></p>
 <p class="content-p">MSF既可以在windows系统上部署，也可以在linux系统上部署（kali中就自带MSF工具）</p>
 <p class="content-p">CS 的服务端（Team Server）必须运行在 Linux 上，但它的操作客户端（GUI）主要运行在 Windows 上。（CS，kail中没有）</p>
 <p class="content-p">MSF更像是单兵作战工具，CS是团队作战工具/多人</p>
-<h3 class="section-title">----</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>----<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">Cobalt Strike（简称CS）是一款团队作战渗透测试神器，分为客户端及服务端，一个服务端可以对应多个客户端，一个客户端可以连接多个服务端。</p>
 <p class="content-p">CS主要是用来后期持久渗透、横向移动、流量隐藏、数据窃取的工具。主要用于模拟高级持续性威胁（APT）攻击和红队演练。护网行动 红队通常用CS，但也有代替工具。</p>
 <p class="content-p">当已经在目标机器上执行了CS的payload，它会创建一个Beacon（远控木马功能）回连到C2服务器。</p>
 <p class="content-p">C2:  Command&amp;Control Server的简称，也就是命令与控制服务器</p>
-<h3 class="section-title">-----</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-----<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">Coblat brike主要有以下架构（安装包里面的主要程序）</p>
-<h3 class="section-title">agscript：拓展应用的脚本</h3>
-<h3 class="section-title">c2lint：用于检查profile的错误异常</h3>
-<h3 class="section-title">teamserver：服务端程序</h3>
-<h3 class="section-title">cobalt strike，cobalt strike.jar：客户端程序(java跨平台)</h3>
-<h3 class="section-title">logs：目录记录与目标主机的相关信息</h3>
-<h3 class="section-title">update，update.jar用于更新cS</h3>
-<h3 class="section-title">third-party：第三方工具</h3>
-<h3 class="section-title">----</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>agscript：拓展应用的脚本<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>c2lint：用于检查profile的错误异常<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>teamserver：服务端程序<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>cobalt strike，cobalt strike.jar：客户端程序(java跨平台)<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>logs：目录记录与目标主机的相关信息<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>update，update.jar用于更新cS<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>third-party：第三方工具<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>----<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">CS的安装与配置</p>
 <p class="content-p">CS是商业化的，就是需要付费，我用的是免费版本的（dao版、学习版）</p>
 <p class="content-p">CS 的服务端（Team Server）必须运行在 Linux （这里用kali虚拟机）上，但它的操作客户端（GUI）主要运行在 Windows 上。（CS，kail中没有）</p>
 <p class="content-p">已经配置好了</p>
 <p class="content-p">kali虚拟机用 桥接模式</p>
-<h3 class="section-title">---</h3>
-<h3 class="section-title">4. 启动服务端(kali虚拟机里面)</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. 启动服务端(kali虚拟机里面)<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">kali里面具体使用命令如下：</p>
-<p class="content-p">sudo find / -name "teamserver" 2&gt;/dev/null</p>
+<p class="content-p">sudo find / -name &quot;teamserver&quot; 2&gt;/dev/null</p>
 <p class="content-p">ls -l /opt/cobaltstrike/</p>
 <p class="content-p">cd /opt/cobaltstrike/ （cd 就是更改工作目录）</p>
 <p class="content-p">ls</p>
@@ -253,7 +296,7 @@
 <p class="content-p">&gt;（介绍这个命令chmod 755 teamserver，一共有3位）</p>
 <p class="content-p">./teamserver 192.168.1.163 cs123456 （IP地址是kali的，后门是要设置的密码）</p>
 <p class="content-p">(这一步执行完，服务端就已经启动了，接下来启动客户端)</p>
-<h3 class="section-title">5. 这里介绍一下chmod命令的知识点</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. 这里介绍一下chmod命令的知识点<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">chmod +x teamserver （这里 X表示”给执行权限”，r可读 4，w可写 2，x可执行 1 ）</p>
 <p class="content-p">                   （7 读+写+执行，6 读+写，5 读+执行，3 写+执行）</p>
 <p class="content-p">&gt;（介绍这个命令chmod 755 teamserver，一共有3位）</p>
@@ -274,12 +317,12 @@
 <p class="content-p"></p>
 <p class="content-p">&gt; chmod 英文翻译成中文 就是 更改文件权限</p>
 <p class="content-p">&gt; Linux操作系统常见命令，我用PHPstudy搭建了网站Linux-command.com:1031</p>
-<h3 class="section-title">6. 如何使用CS客户端</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>6. 如何使用CS客户端<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">服务端配置好后，就可以在客户端使用了</p>
 <p class="content-p">有的版本不一样，客户端的页面也不一样</p>
 <p class="content-p">双击快捷方式启动，IP填写kali的Ip（服务端IP），端口50050</p>
 <p class="content-p">用户名随便填，密码 cs123456，点击connect</p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">接下来讲，如何使用CS客户端</p>
 <p class="content-p">&lt;如何使用，这里需要大量的练习，具体步骤没必要记录&gt;</p>
 <p class="content-p">需要注意的是，重启电脑后，需要先打开kali虚拟机，然后运行</p>
@@ -292,34 +335,36 @@
 <p class="content-p">help 输入help，查看所有命令</p>
 <p class="content-p">sleep 0 快速交互</p>
 <p class="content-p">sleep 10 改成10秒</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">shell whoami                  # 查看当前用户名</p>
 <p class="content-p">shell ipconfig                  # 查看网络配置</p>
 <p class="content-p">shell systeminfo                # 查看系统详细信息</p>
 <p class="content-p">shell tasklist                   # 查看进程列表</p>
-<p class="content-p">shell net user                  # 查看系统用户</p>
-<h3 class="section-title">---</h3>
+<p class="content-p">shell net user                  # 查看系统用户 </p>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">socks 1080：在目标内网开启一个SOCKS4/5代理，端口为1080</p>
 <p class="content-p">clear：清除Beacon控制台的历史记录。</p>
 <p class="content-p">jobs：查看当前Beacon正在后台执行的任务（如hashdump等）</p>
 <p class="content-p">等等等等，命令不再细说</p>
-<h3 class="section-title">7. 如何把木马文件伪装成”用户可能会点击的文件”</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>7. 如何把木马文件伪装成”用户可能会点击的文件”<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p"></p>
-<p class="content-p">&gt; <div class="image-placeholder"><i class="fa fa-image"></i><p>如图所示</p></div>，.exe是木马程序，用户点击后，CS 客户端成功捕获到了来自 DESKTOP-1SD...（你的 Windows 计算机名）的 Beacon 会话。</p>
+<p class="content-p">&gt; <span class="tip-inline">&lt;div class="image-placeholder"&gt;</span><span class="tip-inline">&lt;i class="fa fa-image"&gt;</span><span class="tip-inline">&lt;/i&gt;</span><span class="tip-inline">&lt;div class="image-text"&gt;</span>如图所示<span class="tip-inline">&lt;/div&gt;</span><span class="tip-inline">&lt;/div&gt;</span>，.exe是木马程序，用户点击后，CS 客户端成功捕获到了来自 DESKTOP-1SD...（你的 Windows 计算机名）的 Beacon 会话。</p>
 <p class="content-p">但是用户不一定会点击，这个时候需要把.exe，包装一下</p>
 <p class="content-p">&gt; 用到winrar压缩软件</p>
-<p class="content-p">&gt; 这个是把图片做成软件图标的网站，<span class="tip-text">&lt;a href="https://www.ico51.cn/" target="_blank" class="content-link"&gt;</span>https://www.ico51.cn/<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">&gt; 这个是把图片做成软件图标的网站，<span class="tip-inline">&lt;a href="https://www.ico51.cn/" target="_blank" class="content-link"&gt;</span>https://www.ico51.cn/<span class="tip-inline">&lt;/a&gt;</span></p>
 <p class="content-p">&gt; RLO 的全称是 Right-to-Left Override (从右到左覆盖)，它是一个特殊的 Unicode 控制字符（编码为 U+202E），核心作用是强制改变文本的显示顺序。</p>
 <p class="content-p">在网络安全领域，RLO 常被用作一种文件名称伪装攻击技术</p>
 <p class="content-p">我们可以使用RLO来修改木马程序的文件名，把.exe提前，再用长文件名，来隐藏木马</p>
-<h3 class="section-title">----</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>----<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">把木马隐藏好后，就可以把这个”伪装后的木马” 发给受害者（win11主机和kali作为CS的客户端和服务端，那么就可以把windows7虚拟机模拟成受害者。把木马发给win7，然后在win7里面点击，这样CS客户端就可以捕捉到win7的相关信息）。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">最后要提醒的就是，用CS生成的木马，一定会被杀毒软件杀掉（比如 火绒安全软件等），用之前一定要提前关闭</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">还有就是，用的时候一定要学“免杀”，否则CS生成的这些东西一定会被受害者电脑杀掉</p>
+      
+      <div class="chapter-nav"><a href="chapter2.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter4.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
     </div>
-
+    
     <div class="footer">
       <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
     </div>

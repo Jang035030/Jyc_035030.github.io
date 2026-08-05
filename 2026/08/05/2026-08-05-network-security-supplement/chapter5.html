@@ -3,209 +3,252 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第十一章 模拟红队进行漏洞挖掘 | 网络安全宝典（续）</title>
+  <title>第5章 第十一章 模拟红队进行漏洞挖掘 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      min-height: 100vh;
-      padding: 20px;
-      line-height: 1.8;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
-    }
-    .header-content { position: relative; z-index: 1; }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(240,147,251,0.85);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-    .page-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      opacity: 0.85;
-      font-size: 16px;
-    }
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .nav-link {
-      color: #f5576c;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
-    .nav-link:hover { color: #f093fb; }
-    .content {
-      padding: 40px 35px;
-    }
-    .chapter-title {
-      font-size: 28px;
-      color: #2d1b4e;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #f5576c;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: 20px;
-      color: #4a1942;
-      margin: 25px 0 15px 0;
-      padding-left: 15px;
-      border-left: 4px solid #f5576c;
-      font-weight: 600;
-    }
-    .content-p {
-      margin: 12px 0;
-      color: #333;
-      font-size: 15px;
-      text-align: justify;
-    }
-    .content-link {
-      color: #f5576c;
-      word-break: break-all;
-      text-decoration: none;
-      border-bottom: 1px dashed #f5576c;
-      transition: all 0.3s;
-    }
-    .content-link:hover {
-      color: #f093fb;
-      border-bottom-style: solid;
-    }
-    .content-hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
-      margin: 20px 0;
-    }
-    .content-quote {
-      background: #fff5f7;
-      border-left: 4px solid #f5576c;
-      padding: 12px 18px;
-      margin: 15px 0;
-      color: #555;
-      font-style: italic;
-      border-radius: 0 8px 8px 0;
-    }
-    .tip-text {
-      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      margin: 15px 0;
-      color: #a02040;
-      font-weight: 500;
-    }
-    .note-text {
-      color: #6c757d;
-      font-size: 14px;
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .arrow-text {
-      color: #f5576c;
-      font-weight: 500;
-      margin: 10px 0;
-      padding-left: 10px;
-    }
-    .image-placeholder {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      border: 2px dashed #f48fb1;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      margin: 20px 0;
-      color: #a02040;
-    }
-    .image-placeholder i {
-      font-size: 48px;
-      color: #f48fb1;
-      margin-bottom: 10px;
-    }
-    .image-placeholder p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 13px;
-      border-top: 1px solid #e9ecef;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 30px 20px; }
-      .page-title { font-size: 24px; }
-      .content { padding: 25px 20px; }
-      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    }
-  </style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 15px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #f5576c;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #f093fb; }
+.content {
+  padding: 40px 35px;
+}
+/* 章节标题 */
+.chapter-main-title {
+  font-size: 26px;
+  color: #2d1b4e;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f093fb;
+  display: inline-block;
+}
+.section-title {
+  font-size: 19px;
+  color: #4a1942;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #f5576c;
+  font-weight: 600;
+}
+/* 内容段落 */
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+  text-indent: 0;
+}
+/* 链接 */
+.content-link {
+  color: #f5576c;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #f5576c;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #f093fb;
+  border-bottom-style: solid;
+}
+/* 分隔线 */
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
+  margin: 25px 0;
+}
+/* 引用块 */
+.content-quote {
+  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
+  border-left: 4px solid #f5576c;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.content-quote::before {
+  content: '"';
+  position: absolute;
+  left: 8px;
+  top: -5px;
+  font-size: 40px;
+  color: rgba(245,87,108,0.2);
+  font-family: Georgia, serif;
+}
+/* 命令代码 */
+.cmd-code {
+  display: block;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px 18px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+/* 列表 */
+.content-list {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+.content-list-item {
+  margin: 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* 提示文本 */
+.tip-inline {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #f5576c;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+/* 图片占位符 */
+.image-placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px dashed #f5576c;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  color: #c2185b;
+}
+.image-placeholder i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+.image-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 22px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续） · 第十一章</div>
-        <h1 class="page-title">模拟红队进行漏洞挖掘</h1>
+        <div class="chapter-badge">网络安全宝典（续）· 第5部分</div>
+        <h1 class="page-title">第十一章 模拟红队进行漏洞挖掘</h1>
         <p class="page-subtitle">原创笔记 · 一字不差</p>
       </div>
     </div>
-
+    
     <div class="nav-bar">
       <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
       <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
     </div>
-
+    
     <div class="content">
-      <h1 class="chapter-title">第十一章 模拟红队进行漏洞挖掘 </h1>
-<h3 class="section-title">1. 红蓝对抗</h3>
+      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第十一章 模拟红队进行漏洞挖掘 <span class="tip-inline">&lt;/h1&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. 红蓝对抗<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">红队：攻击方</p>
 <p class="content-p">蓝队：防守方</p>
-<h3 class="section-title">2. OA系统</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. OA系统<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; OA系统，全称办公自动化系统（Office Automation System），可以理解为企业的“数字化管理中枢”。它将传统线下办公的流程、沟通、文档管理等工作“搬”到线上，核心目的就是让日常办公更高效、规范，并支持管理决策</p>
 <p class="content-p">&gt; 每个企业都有自己的OA系统</p>
 <p class="content-p">&gt; 通达OA是一款国产办公自动化软件，开发商是北京通达信科科技有限公司，它隶属于中国兵器工业集团。说白了就是牛逼。</p>
@@ -214,28 +257,28 @@
 <p class="content-p">&gt;浏览器里输入你们单位OA系统的网页地址（比如 oa.你的公司名.com）登录即可，可以完美避开这个下载拦截问题。</p>
 <p class="content-p">oa.你的公司名.com</p>
 <p class="content-p">比如：oa.gxust.edu.cn 广西科技大学的OA登录</p>
-<h3 class="section-title">3. 只要入侵了一个公司的OA系统，那么就可以获取该公司的相关信息</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. 只要入侵了一个公司的OA系统，那么就可以获取该公司的相关信息<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 入侵OA系统！模拟红队进行漏洞挖掘</p>
 <p class="content-p">目标：找到OA系统的漏洞并且成功的登录到后台系统中，获取公司CEO的名字、手机号、个人信息。</p>
 <p class="content-p">&gt; 因为很多公司OA系统防护比较严格，所以基本上打不进去。</p>
 <p class="content-p">那么我自己搭建 通达OA测试网站。</p>
-<p class="content-p">第一种，用官网搭建，目录"D:\MYOA"，双击桌面上的程序tdoacom.exe，然后全部启动。</p>
+<p class="content-p">第一种，用官网搭建，目录&quot;D:\MYOA&quot;，双击桌面上的程序tdoacom.exe，然后全部启动。</p>
 <p class="content-p">        浏览器访问tdom.com，即可（相当于软件式的网站）&lt;admin , admin123&gt;</p>
 <p class="content-p">        不依赖phpstudy环境，自己就能启动运行。</p>
 <p class="content-p">这个第一种，本地搭建的这个通达OA系统，搭建它的目的，就是一个绝佳的、合法的红队攻击练习靶场（模拟红队攻击的）。</p>
-<p class="content-p">第二种，用phpstudy搭建。因为找不到根目录文件的下载地址，所以用第一种。</p>
+<p class="content-p">第二种，用phpstudy搭建。因为找不到根目录文件的下载地址，所以用第一种。 </p>
 <p class="content-p">&gt; 当然也可以不用自己搭建，网络上有许多公开的OA测试网站（包括网址、账号、密码）</p>
 <p class="content-p">可以去搜索，然后练习。</p>
-<h3 class="section-title">4. 为什么非要使用OA系统/通达OA呢，使用其他网站测试不行吗?</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. 为什么非要使用OA系统/通达OA呢，使用其他网站测试不行吗?<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 之所以OA系统（特别是通达OA）在红队训练中被频繁提及，并非因为它“唯一”，而是因为它极具代表性。</p>
 <p class="content-p">这更像是在一个实战演习中，选择了一个“典型目标”，而不是说只有这一个目标可以打。</p>
 <p class="content-p">&gt; 红队训练的核心是掌握攻击的 思路和方法</p>
 <p class="content-p">&gt; 还可以使用一下这些途径进行练习：</p>
-<h3 class="section-title">--漏洞专项靶场（如DVWA、Pikachu、WebGoat）：这些是专门为教学设计的漏洞环境，每个漏洞都单独拎出来，讲解透彻，非常适合打基础。</h3>
-<h3 class="section-title">--综合性渗透测试靶场（如Vulnhub、HackTheBox、TryHackMe）：这些平台提供完整的虚拟机或在线环境，让你模拟从外网扫描、提权到内网漫游的完整攻击链，场景非常    丰富。</h3>
-<h3 class="section-title">--各类CMS系统（如WordPress、Discuz!）：这些开源系统同样有大量历史漏洞，你可以本地搭建环境，练习特定CMS的漏洞利用。</h3>
-<h3 class="section-title">--其他通用企业应用（如ERP、CRM、邮件系统）：这些系统同样包含大量敏感数据，也是红队攻击的重点目标，其漏洞利用思路与OA系统有共通之处。</h3>
-<h3 class="section-title">5. 漏洞挖掘的工具</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--漏洞专项靶场（如DVWA、Pikachu、WebGoat）：这些是专门为教学设计的漏洞环境，每个漏洞都单独拎出来，讲解透彻，非常适合打基础。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--综合性渗透测试靶场（如Vulnhub、HackTheBox、TryHackMe）：这些平台提供完整的虚拟机或在线环境，让你模拟从外网扫描、提权到内网漫游的完整攻击链，场景非常    丰富。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--各类CMS系统（如WordPress、Discuz!）：这些开源系统同样有大量历史漏洞，你可以本地搭建环境，练习特定CMS的漏洞利用。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--其他通用企业应用（如ERP、CRM、邮件系统）：这些系统同样包含大量敏感数据，也是红队攻击的重点目标，其漏洞利用思路与OA系统有共通之处。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. 漏洞挖掘的工具<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 有了环境，接下来就是工具</p>
 <p class="content-p">&gt; 发现网站漏洞的方法：</p>
 <p class="content-p">工具扫描</p>
@@ -251,19 +294,19 @@
 <p class="content-p">) OA增强版（琴音安全）</p>
 <p class="content-p">&gt; 它是一个高度自动化的“漏洞利用检查器”，专门用来检测目标网站是否存在已知的通达OA系统漏洞（或其他系统漏洞，里面有很多种；也不是所有漏洞都能发现，只能检测出漏洞库里面的）</p>
 <p class="content-p">里面没有的就不行，还是有局限性的。</p>
-<p class="content-p">&gt; 已安装，使用方法很简单</p>
+<p class="content-p">&gt; 已安装，使用方法很简单 </p>
 <p class="content-p">打开exe文件——通达OA——把要检测网站的地址填写到上面的地址栏中——点击”一键检测”——复制相关链接，到浏览器网站下的地址栏——会出现各种漏洞显示(XSS等)</p>
 <p class="content-p">（这个OA工具只是一个扫描，真发现了漏洞，也不会自动传木马）</p>
-<h3 class="section-title">6. 任意用户登录</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>6. 任意用户登录<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 用通达OA扫描一个网站，各种漏洞，其中就包含”任意用户登录”</p>
 <p class="content-p">【任意用户登录】就是不需要用户名和密码就可以登录到系统中</p>
 <p class="content-p">Cookie（英文为 曲奇饼干）</p>
 <p class="content-p">是某些网站为了辨别用户身份，由用户客户端计算机暂时或永久保存的信息，有了正确的</p>
 <p class="content-p">cookie就可以合理的访问网站系统（可以理解为Cookie就是一段字符串/信息）。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">有些网站的登录页面，只有输入了正确的账号 密码，才会获得正确的Cookie值</p>
 <p class="content-p">                    输入了错误的账号 密码，会获得错误的Cookie值</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">任意用户登录.漏洞的本质：不需要正确的账号和密码，可以获取正确的cookie值，直接绕过了登录这一步</p>
 <p class="content-p">该漏洞出现的原因是：程序员写代码时的bug。</p>
 <p class="content-p">&gt; 如何查看Cookie值？</p>
@@ -273,20 +316,22 @@
 <p class="content-p">如果一个OA网站存在”任意用户登录漏洞”，那么.OA漏洞扫描工具.可以获取其正确的Cookie值</p>
 <p class="content-p"></p>
 <p class="content-p">拿到正确的Cookie值后，可以复制粘贴，替换掉开发者模式里面那个错的，回车保存。</p>
-<p class="content-p">然后，访问<span class="tip-text">&lt;a href="http://tdoa.com/general/index.php" target="_blank" class="content-link"&gt;</span>http://tdoa.com/general/index.php<span class="tip-text">&lt;/a&gt;</span> ，就可以直接登录进去了。</p>
+<p class="content-p">然后，访问<span class="tip-inline">&lt;a href="http://tdoa.com/general/index.php" target="_blank" class="content-link"&gt;</span>http://tdoa.com/general/index.php<span class="tip-inline">&lt;/a&gt;</span> ，就可以直接登录进去了。</p>
 <p class="content-p">登录进去后，就是最高管理员权限，可以查看、修改用户的信息</p>
-<p class="content-p">&gt; 如果找到了学校的OA漏洞（当然其他漏洞也行），就提交到这个平台 <span class="tip-text">&lt;a href="https://src.sjtu.edu.cn" target="_blank" class="content-link"&gt;</span>https://src.sjtu.edu.cn<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">&gt; 如果找到了学校的OA漏洞（当然其他漏洞也行），就提交到这个平台 <span class="tip-inline">&lt;a href="https://src.sjtu.edu.cn" target="_blank" class="content-link"&gt;</span>https://src.sjtu.edu.cn<span class="tip-inline">&lt;/a&gt;</span></p>
 <p class="content-p">真发现漏洞，会获得学校颁发的证书（简历上，各种面试，都用得上）</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">政府相关的网站不要进行测试（除非是项目有授权）</p>
 <p class="content-p">国企央企相关的单位漏洞（交给CNVD平台）</p>
 <p class="content-p">学校相关的网络系统（交给EDUSRC平台）</p>
 <p class="content-p">私企相关的网站系统（交给SRC平台）</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">SRC是“安全应急响应中心”（Security Response Center）的缩写。可以理解成一个由企业官方设立的“漏洞赏金平台”。找到漏洞 提交后，会获得现金、积分兑换礼品等各种奖励。</p>
 <p class="content-p">（京东是直接给钱，而且打京东 找漏洞是不违法的）</p>
+      
+      <div class="chapter-nav"><a href="chapter4.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter6.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
     </div>
-
+    
     <div class="footer">
       <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
     </div>

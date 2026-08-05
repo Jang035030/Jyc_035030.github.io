@@ -3,247 +3,292 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第十三章(续) webshell网页木马 | 网络安全宝典（续）</title>
+  <title>第8章 第十三章续 webshell网页木马 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      min-height: 100vh;
-      padding: 20px;
-      line-height: 1.8;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
-    }
-    .header-content { position: relative; z-index: 1; }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(240,147,251,0.85);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-    .page-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      opacity: 0.85;
-      font-size: 16px;
-    }
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .nav-link {
-      color: #f5576c;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
-    .nav-link:hover { color: #f093fb; }
-    .content {
-      padding: 40px 35px;
-    }
-    .chapter-title {
-      font-size: 28px;
-      color: #2d1b4e;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #f5576c;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: 20px;
-      color: #4a1942;
-      margin: 25px 0 15px 0;
-      padding-left: 15px;
-      border-left: 4px solid #f5576c;
-      font-weight: 600;
-    }
-    .content-p {
-      margin: 12px 0;
-      color: #333;
-      font-size: 15px;
-      text-align: justify;
-    }
-    .content-link {
-      color: #f5576c;
-      word-break: break-all;
-      text-decoration: none;
-      border-bottom: 1px dashed #f5576c;
-      transition: all 0.3s;
-    }
-    .content-link:hover {
-      color: #f093fb;
-      border-bottom-style: solid;
-    }
-    .content-hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
-      margin: 20px 0;
-    }
-    .content-quote {
-      background: #fff5f7;
-      border-left: 4px solid #f5576c;
-      padding: 12px 18px;
-      margin: 15px 0;
-      color: #555;
-      font-style: italic;
-      border-radius: 0 8px 8px 0;
-    }
-    .tip-text {
-      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      margin: 15px 0;
-      color: #a02040;
-      font-weight: 500;
-    }
-    .note-text {
-      color: #6c757d;
-      font-size: 14px;
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .arrow-text {
-      color: #f5576c;
-      font-weight: 500;
-      margin: 10px 0;
-      padding-left: 10px;
-    }
-    .image-placeholder {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      border: 2px dashed #f48fb1;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      margin: 20px 0;
-      color: #a02040;
-    }
-    .image-placeholder i {
-      font-size: 48px;
-      color: #f48fb1;
-      margin-bottom: 10px;
-    }
-    .image-placeholder p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 13px;
-      border-top: 1px solid #e9ecef;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 30px 20px; }
-      .page-title { font-size: 24px; }
-      .content { padding: 25px 20px; }
-      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    }
-  </style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 15px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #f5576c;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #f093fb; }
+.content {
+  padding: 40px 35px;
+}
+/* 章节标题 */
+.chapter-main-title {
+  font-size: 26px;
+  color: #2d1b4e;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f093fb;
+  display: inline-block;
+}
+.section-title {
+  font-size: 19px;
+  color: #4a1942;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #f5576c;
+  font-weight: 600;
+}
+/* 内容段落 */
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+  text-indent: 0;
+}
+/* 链接 */
+.content-link {
+  color: #f5576c;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #f5576c;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #f093fb;
+  border-bottom-style: solid;
+}
+/* 分隔线 */
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
+  margin: 25px 0;
+}
+/* 引用块 */
+.content-quote {
+  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
+  border-left: 4px solid #f5576c;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.content-quote::before {
+  content: '"';
+  position: absolute;
+  left: 8px;
+  top: -5px;
+  font-size: 40px;
+  color: rgba(245,87,108,0.2);
+  font-family: Georgia, serif;
+}
+/* 命令代码 */
+.cmd-code {
+  display: block;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px 18px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+/* 列表 */
+.content-list {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+.content-list-item {
+  margin: 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* 提示文本 */
+.tip-inline {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #f5576c;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+/* 图片占位符 */
+.image-placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px dashed #f5576c;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  color: #c2185b;
+}
+.image-placeholder i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+.image-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 22px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续） · 第十三章(续)</div>
-        <h1 class="page-title">webshell网页木马</h1>
+        <div class="chapter-badge">网络安全宝典（续）· 第8部分</div>
+        <h1 class="page-title">第十三章续 webshell网页木马</h1>
         <p class="page-subtitle">原创笔记 · 一字不差</p>
       </div>
     </div>
-
+    
     <div class="nav-bar">
       <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
       <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
     </div>
-
+    
     <div class="content">
-      <h1 class="chapter-title">第十三章 webshell网页木马 </h1>
-<h3 class="section-title">1. Webshell(网页木马)</h3>
-<h3 class="section-title">--攻击者藏在网站里的一个木马文件。只要在浏览器里访问这个特定的网页地址，就能像在电脑上操作文件管理器一样，去管理（或破坏）目标网站的服务器。</h3>
-<h3 class="section-title">--webshell基本上都是木马文件</h3>
-<h3 class="section-title">--Webshell和js钩子不一样</h3>
+      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第十三章 webshell网页木马 <span class="tip-inline">&lt;/h1&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. Webshell(网页木马)<span class="tip-inline">&lt;/h3&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--攻击者藏在网站里的一个木马文件。只要在浏览器里访问这个特定的网页地址，就能像在电脑上操作文件管理器一样，去管理（或破坏）目标网站的服务器。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--webshell基本上都是木马文件<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--Webshell和js钩子不一样<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">jQuery.js → 运行在受害者浏览器，负责前端交互。是BEEF工具制作的文件，主要控制受害者浏览器，可以配合MSF远程控制对方的电脑</p>
 <p class="content-p">            BeEF的核心是XSS漏洞，但是没有xss漏洞，beef还能用 只要想办法钩住受害者浏览器即可，比如 制作一个公网上的木马网站（或者制作一个带钩子的木马.exe）发送给受害者</p>
 <p class="content-p">Webshell → 运行在受害者服务器，负责远程控制。(本质上就是一段代码。它的诞生，主要来源于攻击者的手动编写、网络上的开源代码，或者像中国蚁剑这类工具“生成”出来的)，主要控制受害者的服务器（这里的受害者的服务器和受害者电脑还不一样）</p>
-<h3 class="section-title">2. Webshell（网站木马）的分类</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. Webshell（网站木马）的分类<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">小马（一句话木马）、大马、内存马等等</p>
-<h3 class="section-title">3. 一句话木马</h3>
-<h3 class="section-title">--代码极度精简（通常只有一行），但功能却无限强大的Webshell。</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. 一句话木马<span class="tip-inline">&lt;/h3&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--代码极度精简（通常只有一行），但功能却无限强大的Webshell。<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">它的核心设计哲学是“将恶意代码与执行指令分离”（即：小代码+大指令）。</p>
-<h3 class="section-title">--典型代码示例</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--典型代码示例<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">以最常见的PHP一句话木马为例，经典的写法是：</p>
-<p class="content-p">&lt;?php @eval($_POST['cmd']); ?&gt;</p>
+<p class="content-p">&lt;?php @eval($_POST[&#x27;cmd&#x27;]); ?&gt;</p>
 <p class="content-p"></p>
-<p class="content-p">类似这样的木马&lt;?php @eval($_POST['cmd']); ?&gt;，通常会写到.php文件中（比如: shell.php）,用中国蚁剑来添加、上传等一系列操作，如果一切正常，目标服务器的文件目录就会展示在你面前，你就获得了服务器的部分控制权限，可以执行命令、上传下载文件等。</p>
+<p class="content-p">类似这样的木马&lt;?php @eval($_POST[&#x27;cmd&#x27;]); ?&gt;，通常会写到.php文件中（比如: shell.php）,用中国蚁剑来添加、上传等一系列操作，如果一切正常，目标服务器的文件目录就会展示在你面前，你就获得了服务器的部分控制权限，可以执行命令、上传下载文件等。</p>
 <p class="content-p">可以用蚁剑的cmd输入命令控制，也可以直接cmd启动远程连接工具并获取密码 直接远程连接对方电脑</p>
-<h3 class="section-title">--“一句话木马”是目前做多、最常见、最核心的威胁，但说其他类型木马需要分场景来看。</h3>
-<h3 class="section-title">--cmd有什么作用？</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--“一句话木马”是目前做多、最常见、最核心的威胁，但说其他类型木马需要分场景来看。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--cmd有什么作用？<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">&gt; 主机里面win+R， 启动的是Windows 命令提示符。它虽然看起来是个“小黑框”略显复古，但功能极其强大，是绕过图形界面、直接与系统底层“对话”的快捷通道。</p>
 <p class="content-p">CMD窗口中的命令大多不可逆（如删除、格式化操作），输入前请务必确认路径和命令无误。如果遇到“管理员权限不足”的报错，请按 Win 键，输入 cmd，右键选择“以管理员身份运行”即可获取最高权限。</p>
 <p class="content-p">同时也可以对某个文件夹执行cmd操作</p>
 <p class="content-p">&gt; 中国蚁剑里面的虚拟终端，和直接操作受害者电脑的cmd的效果一样。但是要求木马文件正确上传并正常运行（如：shell.php），而且会在服务器留下日志记录，受害者可以通过查看日志，就能看到攻击者的操作。</p>
-<h3 class="section-title">--一句话木马的代码认识就行，不需要会写，用的时候可以直接去网上搜 或者问AI，然后把代码写到文件里面去，接下来就是使用”中国蚁剑”</h3>
-<h3 class="section-title">4. 大马 </h3>
-<h3 class="section-title">--什么是大马：就像一个已经集成了各种功能的“管理后台”。一旦上传成功，你只需要用浏览器访问这个“大马”文件，输入预设的密码，就能在一个图形化界面里完成各种操作，比如文件管理、执行系统命令、连接数据库等，非常方便。</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--一句话木马的代码认识就行，不需要会写，用的时候可以直接去网上搜 或者问AI，然后把代码写到文件里面去，接下来就是使用”中国蚁剑”<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. 大马 <span class="tip-inline">&lt;/h3&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--什么是大马：就像一个已经集成了各种功能的“管理后台”。一旦上传成功，你只需要用浏览器访问这个“大马”文件，输入预设的密码，就能在一个图形化界面里完成各种操作，比如文件管理、执行系统命令、连接数据库等，非常方便。<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">但因为它功能多、代码长，体积通常比较大（可能在50KB以上），特征更明显，也更容易被安全软件发现。大马的功能就相当于 小马+中国蚁剑</p>
-<h3 class="section-title">--假设大马文件是 bigshell.php，上传到了受害者网站根目录 <span class="tip-text">&lt;a href="http://www.target.com/，那么攻击者在自己的浏览器地址栏输入：" target="_blank" class="content-link"&gt;</span>http://www.target.com/，那么攻击者在自己的浏览器地址栏输入：<span class="tip-text">&lt;/a&gt;</span></h3>
-<span class="tip-text">&lt;a href="http://www.target.com/bigshell.php" target="_blank" class="content-link"&gt;</span>http://www.target.com/bigshell.php<span class="tip-text">&lt;/a&gt;</span>  ，就会加载出大马的图形化操作界面，输入预设密码后即可远程控制服务器。
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--假设大马文件是 bigshell.php，上传到了受害者网站根目录 <span class="tip-inline">&lt;a href="http://www.target.com/，那么攻击者在自己的浏览器地址栏输入：" target="_blank" class="content-link"&gt;</span>http://www.target.com/，那么攻击者在自己的浏览器地址栏输入：<span class="tip-inline">&lt;/a&gt;</span><span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;a href="http://www.target.com/bigshell.php" target="_blank" class="content-link"&gt;</span>http://www.target.com/bigshell.php<span class="tip-inline">&lt;/a&gt;</span>  ，就会加载出大马的图形化操作界面，输入预设密码后即可远程控制服务器。
 <p class="content-p">&gt; 关键点：这个访问是公开的。也就是说，如果路径或密码被泄露，任何人（包括受害者、其他攻击者）在浏览器输入这个URL，都能访问并操作这台服务器。所以大马的路径和密码必须足够隐蔽。</p>
-<p class="content-p">&gt; 这个URL就是大马文件在服务器上的访问地址，也就是攻击者在自己浏览器地址栏里输入的网址 像<span class="tip-text">&lt;a href="http://www.target.com/bigshell.php，www.target.com是受害者的目录文件。" target="_blank" class="content-link"&gt;</span>http://www.target.com/bigshell.php，www.target.com是受害者的目录文件。<span class="tip-text">&lt;/a&gt;</span></p>
-<h3 class="section-title">--大马是怎么上传的？</h3>
+<p class="content-p">&gt; 这个URL就是大马文件在服务器上的访问地址，也就是攻击者在自己浏览器地址栏里输入的网址 像<span class="tip-inline">&lt;a href="http://www.target.com/bigshell.php，www.target.com是受害者的目录文件。" target="_blank" class="content-link"&gt;</span>http://www.target.com/bigshell.php，www.target.com是受害者的目录文件。<span class="tip-inline">&lt;/a&gt;</span></p>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--大马是怎么上传的？<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">通过小马（也就是一句话木马，这种方法最常见）</p>
 <p class="content-p">通过网站自带的上传功能（或者直接发送）</p>
 <p class="content-p">通过SQL注入漏洞 写文件</p>
 <p class="content-p">通过其他漏洞</p>
-<h3 class="section-title">--如何去制作一个大马？</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--如何去制作一个大马？<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">先写一个bigshell.php文件，用记事本打开，里面写大量代码</p>
 <p class="content-p">制作一个大马和制作一个一句话木马，都一样，只是记事本里面代码多少</p>
+      
+      <div class="chapter-nav"><a href="chapter7.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter9.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
     </div>
-
+    
     <div class="footer">
       <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
     </div>

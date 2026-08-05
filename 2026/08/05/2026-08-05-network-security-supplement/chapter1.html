@@ -3,208 +3,250 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>补充章节一 Kali实战 | 网络安全宝典（续）</title>
+  <title>第1章 补充章节一 Kali实战 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-      min-height: 100vh;
-      padding: 20px;
-      line-height: 1.8;
-    }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    .header {
-      background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #6b1d5c 100%);
-      color: white;
-      padding: 40px 30px;
-      text-align: center;
-      position: relative;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(240,147,251,0.08) 0%, transparent 70%);
-    }
-    .header-content { position: relative; z-index: 1; }
-    .chapter-badge {
-      display: inline-block;
-      background: rgba(240,147,251,0.85);
-      padding: 8px 20px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 15px;
-      letter-spacing: 1px;
-    }
-    .page-title {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
-    .page-subtitle {
-      opacity: 0.85;
-      font-size: 16px;
-    }
-    .nav-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    .nav-link {
-      color: #f5576c;
-      text-decoration: none;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      transition: color 0.3s;
-    }
-    .nav-link:hover { color: #f093fb; }
-    .content {
-      padding: 40px 35px;
-    }
-    .chapter-title {
-      font-size: 28px;
-      color: #2d1b4e;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 3px solid #f5576c;
-      display: inline-block;
-    }
-    .section-title {
-      font-size: 20px;
-      color: #4a1942;
-      margin: 25px 0 15px 0;
-      padding-left: 15px;
-      border-left: 4px solid #f5576c;
-      font-weight: 600;
-    }
-    .content-p {
-      margin: 12px 0;
-      color: #333;
-      font-size: 15px;
-      text-align: justify;
-    }
-    .content-link {
-      color: #f5576c;
-      word-break: break-all;
-      text-decoration: none;
-      border-bottom: 1px dashed #f5576c;
-      transition: all 0.3s;
-    }
-    .content-link:hover {
-      color: #f093fb;
-      border-bottom-style: solid;
-    }
-    .content-hr {
-      border: none;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, #e9ecef, transparent);
-      margin: 20px 0;
-    }
-    .content-quote {
-      background: #fff5f7;
-      border-left: 4px solid #f5576c;
-      padding: 12px 18px;
-      margin: 15px 0;
-      color: #555;
-      font-style: italic;
-      border-radius: 0 8px 8px 0;
-    }
-    .tip-text {
-      background: linear-gradient(135deg, #fff0f6, #ffd6e7);
-      padding: 10px 15px;
-      border-radius: 8px;
-      display: block;
-      margin: 15px 0;
-      color: #a02040;
-      font-weight: 500;
-    }
-    .note-text {
-      color: #6c757d;
-      font-size: 14px;
-      background: #f1f3f5;
-      padding: 2px 8px;
-      border-radius: 4px;
-    }
-    .arrow-text {
-      color: #f5576c;
-      font-weight: 500;
-      margin: 10px 0;
-      padding-left: 10px;
-    }
-    .image-placeholder {
-      background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-      border: 2px dashed #f48fb1;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      margin: 20px 0;
-      color: #a02040;
-    }
-    .image-placeholder i {
-      font-size: 48px;
-      color: #f48fb1;
-      margin-bottom: 10px;
-    }
-    .image-placeholder p {
-      margin: 0;
-      font-size: 14px;
-    }
-    .footer {
-      text-align: center;
-      padding: 20px;
-      background: #f8f9fa;
-      color: #6c757d;
-      font-size: 13px;
-      border-top: 1px solid #e9ecef;
-    }
-    @media (max-width: 768px) {
-      body { padding: 10px; }
-      .header { padding: 30px 20px; }
-      .page-title { font-size: 24px; }
-      .content { padding: 25px 20px; }
-      .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    }
-  </style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  min-height: 100vh;
+  padding: 20px;
+  line-height: 1.8;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  overflow: hidden;
+}
+.header {
+  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
+  animation: rotate 20s linear infinite;
+}
+@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.header-content { position: relative; z-index: 1; }
+.chapter-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
+}
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.page-subtitle {
+  opacity: 0.85;
+  font-size: 15px;
+}
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.nav-link {
+  color: #f5576c;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color 0.3s;
+}
+.nav-link:hover { color: #f093fb; }
+.content {
+  padding: 40px 35px;
+}
+/* 章节标题 */
+.chapter-main-title {
+  font-size: 26px;
+  color: #2d1b4e;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #f093fb;
+  display: inline-block;
+}
+.section-title {
+  font-size: 19px;
+  color: #4a1942;
+  margin: 25px 0 15px 0;
+  padding-left: 15px;
+  border-left: 4px solid #f5576c;
+  font-weight: 600;
+}
+/* 内容段落 */
+.content-p {
+  margin: 12px 0;
+  color: #333;
+  font-size: 15px;
+  text-align: justify;
+  text-indent: 0;
+}
+/* 链接 */
+.content-link {
+  color: #f5576c;
+  word-break: break-all;
+  text-decoration: none;
+  border-bottom: 1px dashed #f5576c;
+  transition: all 0.3s;
+}
+.content-link:hover {
+  color: #f093fb;
+  border-bottom-style: solid;
+}
+/* 分隔线 */
+.content-hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
+  margin: 25px 0;
+}
+/* 引用块 */
+.content-quote {
+  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
+  border-left: 4px solid #f5576c;
+  padding: 12px 18px;
+  margin: 15px 0;
+  color: #555;
+  border-radius: 0 8px 8px 0;
+  position: relative;
+}
+.content-quote::before {
+  content: '"';
+  position: absolute;
+  left: 8px;
+  top: -5px;
+  font-size: 40px;
+  color: rgba(245,87,108,0.2);
+  font-family: Georgia, serif;
+}
+/* 命令代码 */
+.cmd-code {
+  display: block;
+  background: #1e1e1e;
+  color: #d4d4d4;
+  padding: 12px 18px;
+  margin: 15px 0;
+  border-radius: 8px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 14px;
+  overflow-x: auto;
+}
+/* 列表 */
+.content-list {
+  margin: 15px 0;
+  padding-left: 25px;
+}
+.content-list-item {
+  margin: 8px 0;
+  color: #333;
+  font-size: 15px;
+  line-height: 1.8;
+}
+/* 提示文本 */
+.tip-inline {
+  background: linear-gradient(135deg, #fff3cd, #ffeeba);
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #856404;
+  font-weight: 500;
+}
+.note-text {
+  color: #6c757d;
+  font-size: 14px;
+  background: #f1f3f5;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.arrow-text {
+  color: #f5576c;
+  font-weight: 500;
+  margin: 10px 0;
+  padding-left: 10px;
+}
+/* 图片占位符 */
+.image-placeholder {
+  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
+  border: 2px dashed #f5576c;
+  border-radius: 12px;
+  padding: 30px;
+  text-align: center;
+  margin: 25px 0;
+  color: #c2185b;
+}
+.image-placeholder i {
+  font-size: 48px;
+  margin-bottom: 10px;
+  display: block;
+}
+.image-text {
+  font-size: 16px;
+  font-weight: 500;
+}
+/* 页脚 */
+.footer {
+  text-align: center;
+  padding: 20px;
+  background: #f8f9fa;
+  color: #6c757d;
+  font-size: 13px;
+  border-top: 1px solid #e9ecef;
+}
+@media (max-width: 768px) {
+  body { padding: 10px; }
+  .header { padding: 30px 20px; }
+  .page-title { font-size: 22px; }
+  .content { padding: 25px 20px; }
+  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+}
+</style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续） · 补充章节一</div>
-        <h1 class="page-title">Kali实战</h1>
+        <div class="chapter-badge">网络安全宝典（续）· 第1部分</div>
+        <h1 class="page-title">补充章节一 Kali实战</h1>
         <p class="page-subtitle">原创笔记 · 一字不差</p>
       </div>
     </div>
-
+    
     <div class="nav-bar">
       <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
       <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
     </div>
-
+    
     <div class="content">
-      <h1 class="chapter-title">补充章节一 Kali实战 </h1>
-<h3 class="section-title">1. 实际应用场景题目</h3>
-<h3 class="section-title">公司的一名运维人员Lama发现其管理的服务器遭到黑客入侵，并植入了后门和木马。由于该服务器存在已久，Lama忘记了其IP地址和登录密码。</h3>
-<h3 class="section-title">请你协助协调处理此事：首先定位该服务器并记录相关信息，然后进行应急排查，找出并删除木马文件，恢复系统的正常运行。</h3>
+      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>补充章节一 Kali实战 <span class="tip-inline">&lt;/h1&gt;</span>1 .实际应用场景题目
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>公司的一名运维人员Lama发现其管理的服务器遭到黑客入侵，并植入了后门和木马。由于该服务器存在已久，Lama忘记了其IP地址和登录密码。<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>请你协助协调处理此事：首先定位该服务器并记录相关信息，然后进行应急排查，找出并删除木马文件，恢复系统的正常运行。<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">具体原理：</p>
 <p class="content-p">Kali虚拟机作为排查问题的工具电脑（模拟黑客入侵），netdiscover 是一个被动/主动 ARP 探测工具，它的原理是：</p>
 <p class="content-p">Kali 在局域网里发广播包（ARP 请求），问：“谁在 192.168.117.x 这个网段？请回答你是谁？”</p>
@@ -254,13 +296,13 @@
 <p class="content-p">然后输入密码（刚刚暴力破解得到的）</p>
 <p class="content-p">这样就登录了对方电脑（终端）</p>
 <p class="content-p">接下来就可以排查，找木马，恢复系统了</p>
-<h3 class="section-title">2. Linux系统本地入侵排查流程</h3>
-<h3 class="section-title">-Linux入侵前的信息收集的一些命令</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. Linux系统本地入侵排查流程<span class="tip-inline">&lt;/h3&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-Linux入侵前的信息收集的一些命令<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p"></p>
 <p class="content-p">cat /etc/passwd 这个命令得到的0~1000是系统内置的，1000以上基本上就是黑客留的（就要把黑客留的删除）</p>
 <p class="content-p">netstat -lntp 查看端口（比如：80，8080，443，3306，22，53）</p>
 <p class="content-p">ps -aux | grep 9999 查看哪个程序运行了9999端口</p>
-<h3 class="section-title">3. Linux恶意用户排查和清除（删除黑客留下的数据）</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. Linux恶意用户排查和清除（删除黑客留下的数据）<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">&gt; 在Linux系统中,存在着两个特殊的文件cat /etc/passwd 和cat /etc/shadow 这两个文件中存储着用户名和加密后的密码.</p>
 <p class="content-p">在目前大多数Linux系统中,将加密后的用户密码存放在 /etc/shadow 中但是 /etc/shadow 只能 root 用户查看</p>
 <p class="content-p">&gt; cat /etc/passwd，1000以上就是黑客留下的，给删掉</p>
@@ -268,8 +310,8 @@
 <p class="content-p">比如userdel -r losy ）</p>
 <p class="content-p">可以一个一个删，也可以一次性全部删完（不建议）</p>
 <p class="content-p">&gt; 有些时候程序正在运行(userdel -r losy 为例)，需要把程序/端口关闭，才能正常删除用户</p>
-<h3 class="section-title">---</h3>
-<h3 class="section-title">---</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">接下来讲解，怎么关闭正在运行的程序</p>
 <p class="content-p">&gt; 计划任务，</p>
 <p class="content-p">就是按照规定的计划时间，执行固定的程序，</p>
@@ -282,25 +324,25 @@
 <p class="content-p">这些都是时间点，任务到了这个时间点，就开始跑一次</p>
 <p class="content-p">如果是 ***** ，说明每隔一分钟，该程序就跑一次</p>
 <p class="content-p">&gt; 这样可以通过计划任务，查看 用户losy的程序 是何时运行的，然后想办法关闭</p>
-<h3 class="section-title">--(B站课程)root权限下执行 cd /opt/web 然后ls ，这时候出现index.php文件，说明黑客留了一个后门，以后可以通过9999端口，通过index.php，进入该受害者电脑 进行控制</h3>
-<h3 class="section-title">--然后cat index.php（cat ...就是查询的意思），里面是一串代码，说明index.php是一个木马（webshell）</h3>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--(B站课程)root权限下执行 cd /opt/web 然后ls ，这时候出现index.php文件，说明黑客留了一个后门，以后可以通过9999端口，通过index.php，进入该受害者电脑 进行控制<span class="tip-inline">&lt;/li&gt;</span>
+<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--然后cat index.php（cat ...就是查询的意思），里面是一串代码，说明index.php是一个木马（webshell）<span class="tip-inline">&lt;/li&gt;</span>
 <p class="content-p">&gt; 接下来我们要做的就是，删除文件index.php，然后把losy(黑客名)的计划任务停止</p>
-<p class="content-p"># rm index.php （删除文件）</p>
-<p class="content-p"># ls</p>
-<p class="content-p"># vim /etc/crontab （清理/删除计划任务进程，其实没木马了，任务可删可不删，保险起见，还是删了好）</p>
+<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># rm index.php （删除文件）<span class="tip-inline">&lt;/code&gt;</span>
+<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># ls<span class="tip-inline">&lt;/code&gt;</span>
+<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># vim /etc/crontab （清理/删除计划任务进程，其实没木马了，任务可删可不删，保险起见，还是删了好）<span class="tip-inline">&lt;/code&gt;</span>
 <p class="content-p">这时候，鼠标移动到最后一行第一个字符，双击键盘”DD”，</p>
-<p class="content-p">最后 :Wq! 保存一下</p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">最后 :Wq! 保存一下 </p>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">以上操作，是关闭了losy正在运行的程序</p>
 <p class="content-p">这个时候可以，root权限下，# userdel -r 黑客名(losy) ，删除用户</p>
 <p class="content-p"></p>
 <p class="content-p">发现不行，因为losy的程序已经运行了很多了，我们现在需要把 已经运行的程序给结束掉</p>
-<p class="content-p"># ps -aux | grep 9999（查看）</p>
-<p class="content-p"># kill -9 2007</p>
+<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># ps -aux | grep 9999（查看）<span class="tip-inline">&lt;/code&gt;</span>
+<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># kill -9 2007 <span class="tip-inline">&lt;/code&gt;</span>
 <p class="content-p">&lt;如果有更多的，比如2009 2014等等，重复一样的方法/操作，都给他们删除了&gt;</p>
 <p class="content-p">这个时候，root权限下，# userdel -r 黑客名(losy) ，即可删除用户</p>
 <p class="content-p">现在 # cat /etc/passwd 查看到电脑里面没有黑客文件/程序了</p>
-<h3 class="section-title">4. Sudo配置修改</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. Sudo配置修改<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">黑客程序删干净之后，由于黑客程序的运行，会导致sudo配置出现错误，这时候需要修改过来。</p>
 <p class="content-p">&gt; root权限下，终端输入 # vim /etc/sudoers，把里面不顺眼的删掉，比如:losy等有关黑客的东西，通常只留下一个root 相关的（删掉某一行，将鼠标放到该行的第一个字符位置，键盘敲”DD”，即可删除）</p>
 <p class="content-p">然后保存 :Wq!</p>
@@ -308,28 +350,30 @@
 <p class="content-p">&gt; 接下来重新打开一个新终端，不一定非要root权限，（比如ssh lama@192.168.41.137），我的kali是ssh root@192.168.1.163（ssh命令是远程连接，端口22，当然也能连接自身）</p>
 <p class="content-p">然后sudo -l</p>
 <p class="content-p">发现用户lama没有权限了，说明已经恢复了</p>
-<h3 class="section-title">5. 接下来说一些题外话，应急响应手册 windows版,Linux版，看完后可以直接找工作/护网</h3>
+<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. 接下来说一些题外话，应急响应手册 windows版,Linux版，看完后可以直接找工作/护网<span class="tip-inline">&lt;/h3&gt;</span>
 <p class="content-p">里面都是非常有用的内容</p>
 <p class="content-p">📖 NOP Team 系列手册（推荐）</p>
 <p class="content-p">这个团队做的手册在圈内口碑不错，而且持续在更新，你可以从这几个渠道获取：</p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">1&gt;在线版（访问最方便，代码可直接复制）</p>
-<p class="content-p">地址：<span class="tip-text">&lt;a href="https://book.noptrace.com/" target="_blank" class="content-link"&gt;</span>https://book.noptrace.com/<span class="tip-text">&lt;/a&gt;</span></p>
+<p class="content-p">地址：<span class="tip-inline">&lt;a href="https://book.noptrace.com/" target="_blank" class="content-link"&gt;</span>https://book.noptrace.com/<span class="tip-inline">&lt;/a&gt;</span> </p>
 <p class="content-p">说明：这是他们推出的在线版，阅读和复制代码都很方便 。</p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">2&gt;GitHub 项目仓库</p>
-<p class="content-p">Linux 版：<span class="tip-text">&lt;a href="https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK<span class="tip-text">&lt;/a&gt;</span></p>
-<p class="content-p">Windows 版：<span class="tip-text">&lt;a href="https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK<span class="tip-text">&lt;/a&gt;</span></p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">Linux 版：<span class="tip-inline">&lt;a href="https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK<span class="tip-inline">&lt;/a&gt;</span> </p>
+<p class="content-p">Windows 版：<span class="tip-inline">&lt;a href="https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK<span class="tip-inline">&lt;/a&gt;</span> </p>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">3&gt;微信/公众号</p>
-<p class="content-p">可以添加微信：just_hack_for_fun，或者关注他们的公众号获取最新版本</p>
-<span class="tip-text">&lt;hr class="content-hr"&gt;</span>
+<p class="content-p">可以添加微信：just_hack_for_fun，或者关注他们的公众号获取最新版本 </p>
+<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
 <p class="content-p">应急响应手册，有要了解的，可以直接去问AI</p>
 <p class="content-p">了解这些可以去挣外快/副业，恢复一个给多少多少，恢复N个给多少多少。</p>
 <p class="content-p">当然也可以去学视频剪辑等等等，挂咸鱼上挣钱</p>
 <p class="content-p">总之挣钱的方法有很多，有能力可以搞一搞副业</p>
+      
+      <div class="chapter-nav"><span></span><a href="chapter2.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
     </div>
-
+    
     <div class="footer">
       <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
     </div>
