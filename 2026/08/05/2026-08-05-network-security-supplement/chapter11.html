@@ -3,334 +3,366 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第11章 第十六章 Burpsuite挖漏洞 | 网络安全宝典（续）</title>
+  <title>第十六章 Burpsuite挖漏洞 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
+/* ========== 全局样式 ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f5f5;
   min-height: 100vh;
   padding: 20px;
   line-height: 1.8;
+  color: #333;
 }
+
 .container {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   overflow: hidden;
 }
+
+/* ========== 头部 ========== */
 .header {
-  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 40px 30px;
+  padding: 35px 30px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.header-content { position: relative; z-index: 1; }
+
 .chapter-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
   letter-spacing: 1px;
 }
+
 .page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
+
 .page-subtitle {
   opacity: 0.85;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
 }
+
+/* ========== 导航栏 ========== */
 .nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  padding: 12px 25px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
+
 .nav-link {
-  color: #f5576c;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.3s;
-}
-.nav-link:hover { color: #f093fb; }
-.content {
-  padding: 40px 35px;
-}
-/* 章节标题 */
-.chapter-main-title {
-  font-size: 26px;
-  color: #2d1b4e;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #f093fb;
-  display: inline-block;
-}
-.section-title {
-  font-size: 19px;
-  color: #4a1942;
-  margin: 25px 0 15px 0;
-  padding-left: 15px;
-  border-left: 4px solid #f5576c;
-  font-weight: 600;
-}
-/* 内容段落 */
-.content-p {
-  margin: 12px 0;
-  color: #333;
-  font-size: 15px;
-  text-align: justify;
-  text-indent: 0;
-}
-/* 链接 */
-.content-link {
-  color: #f5576c;
-  word-break: break-all;
-  text-decoration: none;
-  border-bottom: 1px dashed #f5576c;
-  transition: all 0.3s;
-}
-.content-link:hover {
-  color: #f093fb;
-  border-bottom-style: solid;
-}
-/* 分隔线 */
-.content-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
-  margin: 25px 0;
-}
-/* 引用块 */
-.content-quote {
-  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
-  border-left: 4px solid #f5576c;
-  padding: 12px 18px;
-  margin: 15px 0;
-  color: #555;
-  border-radius: 0 8px 8px 0;
-  position: relative;
-}
-.content-quote::before {
-  content: '"';
-  position: absolute;
-  left: 8px;
-  top: -5px;
-  font-size: 40px;
-  color: rgba(245,87,108,0.2);
-  font-family: Georgia, serif;
-}
-/* 命令代码 */
-.cmd-code {
-  display: block;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 12px 18px;
-  margin: 15px 0;
-  border-radius: 8px;
-  font-family: "Consolas", "Monaco", monospace;
   font-size: 14px;
-  overflow-x: auto;
+  font-weight: 500;
+  transition: color 0.2s;
 }
-/* 列表 */
-.content-list {
-  margin: 15px 0;
-  padding-left: 25px;
+
+.nav-link:hover { color: #764ba2; }
+
+/* ========== 内容区域 ========== */
+.content {
+  padding: 35px 40px;
 }
-.content-list-item {
-  margin: 8px 0;
-  color: #333;
+
+/* ---------- 章节标题 ---------- */
+.note-chapter-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 30px 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #667eea;
+}
+
+.note-chapter-title:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 小节标题 ---------- */
+.note-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 25px 0 15px 0;
+  padding-left: 12px;
+  border-left: 4px solid #667eea;
+  background: linear-gradient(90deg, #f8f9ff, transparent);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 普通段落 ---------- */
+.note-paragraph {
+  margin: 10px 0;
   font-size: 15px;
+  color: #444;
+  text-align: justify;
+  line-height: 1.9;
+  padding-left: 8px;
+}
+
+/* ---------- 列表项 ---------- */
+.note-list-item {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #444;
+  padding-left: 8px;
   line-height: 1.8;
 }
-/* 提示文本 */
-.tip-inline {
-  background: linear-gradient(135deg, #fff3cd, #ffeeba);
-  padding: 2px 8px;
-  border-radius: 4px;
-  color: #856404;
-  font-weight: 500;
+
+/* ---------- 引用块 ---------- */
+.note-quote {
+  background: #f8f9fa;
+  border-left: 3px solid #adb5bd;
+  padding: 10px 15px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  color: #555;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
 }
-.note-text {
-  color: #6c757d;
-  font-size: 14px;
-  background: #f1f3f5;
-  padding: 2px 8px;
-  border-radius: 4px;
+
+/* ---------- 命令行代码 ---------- */
+.note-command {
+  background: #1e1e1e;
+  color: #ce9178;
+  padding: 10px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13.5px;
+  overflow-x: auto;
+  border: 1px solid #333;
 }
-.arrow-text {
-  color: #f5576c;
-  font-weight: 500;
+
+/* ---------- 提示/箭头 ---------- */
+.note-tip {
   margin: 10px 0;
-  padding-left: 10px;
-}
-/* 图片占位符 */
-.image-placeholder {
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-  border: 2px dashed #f5576c;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  margin: 25px 0;
-  color: #c2185b;
-}
-.image-placeholder i {
-  font-size: 48px;
-  margin-bottom: 10px;
-  display: block;
-}
-.image-text {
-  font-size: 16px;
+  font-size: 14.5px;
+  color: #764ba2;
+  padding-left: 8px;
   font-weight: 500;
 }
-/* 页脚 */
+
+/* ---------- 图片占位符 ---------- */
+.note-image-placeholder {
+  background: linear-gradient(135deg, #fef5e7, #fdebd0);
+  border: 1px dashed #f39c12;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  text-align: center;
+  font-size: 14.5px;
+  color: #d68910;
+  font-weight: 500;
+}
+
+/* ---------- 特殊标记 ---------- */
+.note-special-mark {
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+/* ---------- 注释 ---------- */
+.note-annotation {
+  color: #888;
+  font-size: 13.5px;
+  background: #f5f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ---------- 分隔线 ---------- */
+.note-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+  margin: 25px 0;
+}
+
+/* ---------- 链接 ---------- */
+a {
+  color: #667eea;
+  text-decoration: none;
+  border-bottom: 1px dotted #667eea;
+}
+
+a:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+
+/* ---------- 章节导航 ---------- */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+}
+
+.chapter-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.chapter-nav a:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* ---------- 页脚 ---------- */
 .footer {
   text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  color: #6c757d;
-  font-size: 13px;
-  border-top: 1px solid #e9ecef;
+  padding: 18px;
+  background: #fafafa;
+  color: #999;
+  font-size: 12px;
+  border-top: 1px solid #eee;
 }
+
+/* ========== 响应式 ========== */
 @media (max-width: 768px) {
   body { padding: 10px; }
-  .header { padding: 30px 20px; }
-  .page-title { font-size: 22px; }
+  .header { padding: 25px 20px; }
+  .page-title { font-size: 20px; }
   .content { padding: 25px 20px; }
-  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+  .nav-bar { padding: 10px 20px; }
 }
 </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续）· 第11部分</div>
-        <h1 class="page-title">第十六章 Burpsuite挖漏洞</h1>
-        <p class="page-subtitle">原创笔记 · 一字不差</p>
-      </div>
+      <div class="chapter-badge">网络安全宝典（续）· 第11部分</div>
+      <h1 class="page-title">第十六章 Burpsuite挖漏洞</h1>
+      <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
     
     <div class="nav-bar">
-      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
-      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+      <a href="main.html" class="nav-link">📋 目录</a>
+      <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
     
     <div class="content">
-      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第十六章 Burpsuite挖漏洞 <span class="tip-inline">&lt;/h1&gt;</span>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. 漏洞类型<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 远程控制漏洞：通过漏洞可以远程控制系统，如RCE、XML等</p>
-<p class="content-p">&gt; 破解漏洞：破解类型漏洞、账号、密码、验证码</p>
-<p class="content-p">&gt; 支付漏洞：关于金钱相关漏洞，0元购、免运费、免会会员</p>
-<p class="content-p">&gt; 权限漏洞：鉴权不当，如未授权信息泄露、越权</p>
-<p class="content-p">等等等等</p>
-<p class="content-p">我们最关键的是要学好10大漏洞、原理、防御方法、中间件</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. 什么是支付漏洞？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 关干金钱相关漏洞，像0元购、免运费、免会员</p>
-<p class="content-p">&gt; 我们可以通过BP工具、抓取支付数据包、修改其中的数据，实现O元购买</p>
-<p class="content-p">&gt; 像腾讯、美团、阿里巴巴、支付宝、微信等是没有支付漏洞的，就算有也轮不到初学者来挖，我们用支付漏洞，通常是黑一些小网站、小公司或者个人胡乱开价的网站，或者一些小型游戏 直接给破解了等等。大公司别想 有进去的风险。</p>
-<p class="content-p">&gt; BP抓网站的话，总共会出现两个重要的数据包（点击购买、点击支付）</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. 搭建支付漏洞靶场<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">我在win10虚拟机的宝塔面板里面搭建了支付漏洞靶场，主机也能访问（NAT模式）</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>192. 168.228.128:1027<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">我装的这个BP拦截方式和老版本不同，注意一下</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. 发现漏洞如何变现？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 帮助其他公司挖漏洞（副业）</p>
-<p class="content-p">&gt; SRC平台（可以录屏）</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>接下来是挣钱（副业）方法<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">&gt; 破解小游戏去咸鱼上卖</p>
-<p class="content-p">&gt; 制作一些有用的学习资料挂咸鱼上，自动拍卖</p>
-<p class="content-p">&gt; 学视频剪辑</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. 常见的端口有哪些？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">Http，超文本传输协议，默认端口80，备用端口8080</p>
-<p class="content-p">Https，超文本传输安全协议，默认端口443</p>
-<p class="content-p">FTP，文件传输协议，端口 20 21 ，20是数据口 21是控制口</p>
-<p class="content-p">SSH，远程连接，端口 22，</p>
-<p class="content-p">Telnet，远程控制终端，端口 23</p>
-<p class="content-p">RPD，远程连接windows服务器，端口 3389</p>
-<p class="content-p">SMTP，发邮件，端口 25</p>
-<p class="content-p">IMAP，收邮件，端口 110</p>
-<p class="content-p">DNS，把域名变IP，端口 53</p>
-<p class="content-p">MySQL，数据库，端口 3306</p>
-<p class="content-p">Redis，缓存数据库，端口 6379</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>6. 用户枚举案例<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">在UC浏览器 注册页面，随便写一个名字，显示用户名已存在，请输入其他用户名。</p>
-<p class="content-p">这个就算是漏洞。可以一个一个把已注册的名字列举出来。</p>
-<p class="content-p">知道了用户名后，还可以直接使用BP 进行”暴力破解”，进入网站内部(当然UC这种大公司不行)。 </p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>7. 弱口令和弱密码的区别：<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">弱密码 = 密码强度不够（技术问题）</p>
-<p class="content-p">弱口令 = 身份验证体系脆弱（人为/管理问题）</p>
-<p class="content-p">关系：弱密码一定是弱口令，但弱口令不一定是弱密码</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>8. CDN和CNVD区别：<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">CDN 是一种网络加速技术，目的是让用户更快地访问网站、图片、视频等资源。常见 CDN 厂商：Cloudflare、阿里云 CDN、腾讯云 CDN、百度智能云 CDN。</p>
-<p class="content-p">CNVD 是国家信息安全漏洞库，负责漏洞收集、管理、修复与发布平台。</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>9. F12开发者工具 有什么用？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">F12开发者工具是前端调试、Web渗透、接口分析最常用的工具，没有之一。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">Elements：改HTML结构（前端逆向）</p>
-<p class="content-p">Console：执行JS代码（XSS测试、Cookie查看）</p>
-<p class="content-p">Network：抓包分析接口（渗透测试最核心功能）</p>
-<p class="content-p">Application：查看Cookie/Storage（越权测试）</p>
-<p class="content-p">Sources：看JS源码（找硬编码敏感信息）</p>
-<p class="content-p">等等等等</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>10. 如何找一个网站做渗透测试？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">百度，高级搜索 title: (后台登录) </p>
-<p class="content-p"></p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>11. 短信验证码爆破<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 验证码的类型</p>
-<p class="content-p">短信验证码、图片识别字符验证码、滑块验证码、语音验证码、</p>
-<p class="content-p">（之前学过了，登录页面的”图片识别验证码”绕过）</p>
-<p class="content-p">现在我们学习短信验证码（有4位 或者6位）</p>
-<p class="content-p">&gt; 下面讲一下短信验证码相关的漏洞</p>
-<p class="content-p">验证码爆破、验证码回显、验证码与手机未绑定认证关系、修改返回包绕过验证码</p>
-<p class="content-p">验证码转发、任意验证码登录、验证码为空登录、固定验证码登录、验证码轰炸</p>
-<p class="content-p">目前列举9种</p>
-<p class="content-p">&gt; 短信验证码爆破 漏洞</p>
-<p class="content-p">短信验证码,服务端未对验证时间（一般5分钟以内）、次数作出限制，存在爆破的可能性。简单的系统存在可以直接爆破的可能性，但做过一些防护的系统还得进行一些绕过才能进行爆破，一般验证码分为4位或者6位</p>
-<p class="content-p">对于4位纯数字验证码：从0000~9999的10000，5分钟之内（如果输入次数不限的话）。</p>
-<p class="content-p">对于6位纯数字验证码：六位数的验证码1000000位，5分钟之内跑不完。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">6位验证码的话，一个BP在5分钟内是跑不完的。这时候可以分批跑，同时开10个BP，每个BP跑一万个（把第一个数据包分别复制到剩下的9个BP里面）。</p>
-<p class="content-p">可以用弄虚作假的方法，先发送给自己的手机获取验证码(比如 786253)，这个时候可以BP定区域（786000~787000），简化操作的同时，爆破成功后，<span class="tip-inline">&lt;div class="image-placeholder"&gt;</span><span class="tip-inline">&lt;i class="fa fa-image"&gt;</span><span class="tip-inline">&lt;/i&gt;</span><span class="tip-inline">&lt;div class="image-text"&gt;</span>截图<span class="tip-inline">&lt;/div&gt;</span><span class="tip-inline">&lt;/div&gt;</span>写报告，这就相当于挖到漏洞，公司会给你钱。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">写报告的时候，漏洞的名字不要写短信验证码爆破漏洞，要写：</p>
-<p class="content-p">任意用户登录、任意用户密码重置等等（要显得对公司有害一点）。</p>
-<p class="content-p">&gt; 短信验证码回显 漏洞</p>
-<p class="content-p">老师没讲，课程到此结束</p>
-<p class="content-p">&gt; win10虚拟机里面的来抓皮卡丘靶场 pikachu.com:1025，刚刚配置有很多问题，已经解决</p>
-      
-      <div class="chapter-nav"><a href="chapter10.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a></div>
+      <div class="note-chapter-title">第十六章 Burpsuite挖漏洞</div>
+<div class="note-section-title">1. 漏洞类型</div>
+<div class="note-paragraph">&gt; 远程控制漏洞：通过漏洞可以远程控制系统，如RCE、XML等</div>
+<div class="note-paragraph">&gt; 破解漏洞：破解类型漏洞、账号、密码、验证码</div>
+<div class="note-paragraph">&gt; 支付漏洞：关于金钱相关漏洞，0元购、免运费、免会会员</div>
+<div class="note-paragraph">&gt; 权限漏洞：鉴权不当，如未授权信息泄露、越权</div>
+<div class="note-paragraph">等等等等</div>
+<div class="note-paragraph">我们最关键的是要学好10大漏洞、原理、防御方法、中间件</div>
+<div class="note-section-title">2. 什么是支付漏洞？</div>
+<div class="note-paragraph">&gt; 关干金钱相关漏洞，像0元购、免运费、免会员</div>
+<div class="note-paragraph">&gt; 我们可以通过BP工具、抓取支付数据包、修改其中的数据，实现O元购买</div>
+<div class="note-paragraph">&gt; 像腾讯、美团、阿里巴巴、支付宝、微信等是没有支付漏洞的，就算有也轮不到初学者来挖，我们用支付漏洞，通常是黑一些小网站、小公司或者个人胡乱开价的网站，或者一些小型游戏 直接给破解了等等。大公司别想 有进去的风险。</div>
+<div class="note-paragraph">&gt; BP抓网站的话，总共会出现两个重要的数据包（点击购买、点击支付）</div>
+<div class="note-section-title">3. 搭建支付漏洞靶场</div>
+<div class="note-paragraph">我在win10虚拟机的宝塔面板里面搭建了支付漏洞靶场，主机也能访问（NAT模式）</div>
+<div class="note-section-title">192. 168.228.128:1027</div>
+<div class="note-paragraph">我装的这个BP拦截方式和老版本不同，注意一下</div>
+<div class="note-section-title">4. 发现漏洞如何变现？</div>
+<div class="note-paragraph">&gt; 帮助其他公司挖漏洞（副业）</div>
+<div class="note-paragraph">&gt; SRC平台（可以录屏）</div>
+<div class="note-list-item">• 接下来是挣钱（副业）方法</div>
+<div class="note-paragraph">&gt; 破解小游戏去咸鱼上卖</div>
+<div class="note-paragraph">&gt; 制作一些有用的学习资料挂咸鱼上，自动拍卖</div>
+<div class="note-paragraph">&gt; 学视频剪辑</div>
+<div class="note-section-title">5. 常见的端口有哪些？</div>
+<div class="note-paragraph">Http，超文本传输协议，默认端口80，备用端口8080</div>
+<div class="note-paragraph">Https，超文本传输安全协议，默认端口443</div>
+<div class="note-paragraph">FTP，文件传输协议，端口 20 21 ，20是数据口 21是控制口</div>
+<div class="note-paragraph">SSH，远程连接，端口 22，</div>
+<div class="note-paragraph">Telnet，远程控制终端，端口 23</div>
+<div class="note-paragraph">RPD，远程连接windows服务器，端口 3389</div>
+<div class="note-paragraph">SMTP，发邮件，端口 25</div>
+<div class="note-paragraph">IMAP，收邮件，端口 110</div>
+<div class="note-paragraph">DNS，把域名变IP，端口 53</div>
+<div class="note-paragraph">MySQL，数据库，端口 3306</div>
+<div class="note-paragraph">Redis，缓存数据库，端口 6379</div>
+<div class="note-section-title">6. 用户枚举案例</div>
+<div class="note-paragraph">在UC浏览器 注册页面，随便写一个名字，显示用户名已存在，请输入其他用户名。</div>
+<div class="note-paragraph">这个就算是漏洞。可以一个一个把已注册的名字列举出来。</div>
+<div class="note-paragraph">知道了用户名后，还可以直接使用BP 进行”暴力破解”，进入网站内部(当然UC这种大公司不行)。</div>
+<div class="note-section-title">7. 弱口令和弱密码的区别：</div>
+<div class="note-paragraph">弱密码 = 密码强度不够（技术问题）</div>
+<div class="note-paragraph">弱口令 = 身份验证体系脆弱（人为/管理问题）</div>
+<div class="note-paragraph">关系：弱密码一定是弱口令，但弱口令不一定是弱密码</div>
+<div class="note-section-title">8. CDN和CNVD区别：</div>
+<div class="note-paragraph">CDN 是一种网络加速技术，目的是让用户更快地访问网站、图片、视频等资源。常见 CDN 厂商：Cloudflare、阿里云 CDN、腾讯云 CDN、百度智能云 CDN。</div>
+<div class="note-paragraph">CNVD 是国家信息安全漏洞库，负责漏洞收集、管理、修复与发布平台。</div>
+<div class="note-section-title">9. F12开发者工具 有什么用？</div>
+<div class="note-paragraph">F12开发者工具是前端调试、Web渗透、接口分析最常用的工具，没有之一。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">Elements：改HTML结构（前端逆向）</div>
+<div class="note-paragraph">Console：执行JS代码（XSS测试、Cookie查看）</div>
+<div class="note-paragraph">Network：抓包分析接口（渗透测试最核心功能）</div>
+<div class="note-paragraph">Application：查看Cookie/Storage（越权测试）</div>
+<div class="note-paragraph">Sources：看JS源码（找硬编码敏感信息）</div>
+<div class="note-paragraph">等等等等</div>
+<div class="note-section-title">10. 如何找一个网站做渗透测试？</div>
+<div class="note-paragraph">百度，高级搜索 title: (后台登录)</div>
+<div class="note-paragraph"></div>
+<div class="note-section-title">11. 短信验证码爆破</div>
+<div class="note-paragraph">&gt; 验证码的类型</div>
+<div class="note-paragraph">短信验证码、图片识别字符验证码、滑块验证码、语音验证码、</div>
+<div class="note-paragraph">（之前学过了，登录页面的”图片识别验证码”绕过）</div>
+<div class="note-paragraph">现在我们学习短信验证码（有4位 或者6位）</div>
+<div class="note-paragraph">&gt; 下面讲一下短信验证码相关的漏洞</div>
+<div class="note-paragraph">验证码爆破、验证码回显、验证码与手机未绑定认证关系、修改返回包绕过验证码</div>
+<div class="note-paragraph">验证码转发、任意验证码登录、验证码为空登录、固定验证码登录、验证码轰炸</div>
+<div class="note-paragraph">目前列举9种</div>
+<div class="note-paragraph">&gt; 短信验证码爆破 漏洞</div>
+<div class="note-paragraph">短信验证码,服务端未对验证时间（一般5分钟以内）、次数作出限制，存在爆破的可能性。简单的系统存在可以直接爆破的可能性，但做过一些防护的系统还得进行一些绕过才能进行爆破，一般验证码分为4位或者6位</div>
+<div class="note-paragraph">对于4位纯数字验证码：从0000~9999的10000，5分钟之内（如果输入次数不限的话）。</div>
+<div class="note-paragraph">对于6位纯数字验证码：六位数的验证码1000000位，5分钟之内跑不完。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">6位验证码的话，一个BP在5分钟内是跑不完的。这时候可以分批跑，同时开10个BP，每个BP跑一万个（把第一个数据包分别复制到剩下的9个BP里面）。</div>
+<div class="note-paragraph">可以用弄虚作假的方法，先发送给自己的手机获取验证码(比如 786253)，这个时候可以BP定区域（786000~787000），简化操作的同时，爆破成功后，截图写报告，这就相当于挖到漏洞，公司会给你钱。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">写报告的时候，漏洞的名字不要写短信验证码爆破漏洞，要写：</div>
+<div class="note-paragraph">任意用户登录、任意用户密码重置等等（要显得对公司有害一点）。</div>
+<div class="note-paragraph">&gt; 短信验证码回显 漏洞</div>
+<div class="note-paragraph">老师没讲，课程到此结束</div>
+<div class="note-paragraph">&gt; win10虚拟机里面的来抓皮卡丘靶场 pikachu.com:1025，刚刚配置有很多问题，已经解决</div>
+      <div class="chapter-nav"><a href="chapter10.html">← 上一章</a></div>
     </div>
     
     <div class="footer">
-      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+      📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>
   </div>
 </body>

@@ -3,379 +3,412 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第1章 补充章节一 Kali实战 | 网络安全宝典（续）</title>
+  <title>补充章节一 Kali实战 | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
+/* ========== 全局样式 ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f5f5;
   min-height: 100vh;
   padding: 20px;
   line-height: 1.8;
+  color: #333;
 }
+
 .container {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   overflow: hidden;
 }
+
+/* ========== 头部 ========== */
 .header {
-  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 40px 30px;
+  padding: 35px 30px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.header-content { position: relative; z-index: 1; }
+
 .chapter-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
   letter-spacing: 1px;
 }
+
 .page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
+
 .page-subtitle {
   opacity: 0.85;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
 }
+
+/* ========== 导航栏 ========== */
 .nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  padding: 12px 25px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
+
 .nav-link {
-  color: #f5576c;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.3s;
-}
-.nav-link:hover { color: #f093fb; }
-.content {
-  padding: 40px 35px;
-}
-/* 章节标题 */
-.chapter-main-title {
-  font-size: 26px;
-  color: #2d1b4e;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #f093fb;
-  display: inline-block;
-}
-.section-title {
-  font-size: 19px;
-  color: #4a1942;
-  margin: 25px 0 15px 0;
-  padding-left: 15px;
-  border-left: 4px solid #f5576c;
-  font-weight: 600;
-}
-/* 内容段落 */
-.content-p {
-  margin: 12px 0;
-  color: #333;
-  font-size: 15px;
-  text-align: justify;
-  text-indent: 0;
-}
-/* 链接 */
-.content-link {
-  color: #f5576c;
-  word-break: break-all;
-  text-decoration: none;
-  border-bottom: 1px dashed #f5576c;
-  transition: all 0.3s;
-}
-.content-link:hover {
-  color: #f093fb;
-  border-bottom-style: solid;
-}
-/* 分隔线 */
-.content-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
-  margin: 25px 0;
-}
-/* 引用块 */
-.content-quote {
-  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
-  border-left: 4px solid #f5576c;
-  padding: 12px 18px;
-  margin: 15px 0;
-  color: #555;
-  border-radius: 0 8px 8px 0;
-  position: relative;
-}
-.content-quote::before {
-  content: '"';
-  position: absolute;
-  left: 8px;
-  top: -5px;
-  font-size: 40px;
-  color: rgba(245,87,108,0.2);
-  font-family: Georgia, serif;
-}
-/* 命令代码 */
-.cmd-code {
-  display: block;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 12px 18px;
-  margin: 15px 0;
-  border-radius: 8px;
-  font-family: "Consolas", "Monaco", monospace;
   font-size: 14px;
-  overflow-x: auto;
+  font-weight: 500;
+  transition: color 0.2s;
 }
-/* 列表 */
-.content-list {
-  margin: 15px 0;
-  padding-left: 25px;
+
+.nav-link:hover { color: #764ba2; }
+
+/* ========== 内容区域 ========== */
+.content {
+  padding: 35px 40px;
 }
-.content-list-item {
-  margin: 8px 0;
-  color: #333;
+
+/* ---------- 章节标题 ---------- */
+.note-chapter-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 30px 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #667eea;
+}
+
+.note-chapter-title:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 小节标题 ---------- */
+.note-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 25px 0 15px 0;
+  padding-left: 12px;
+  border-left: 4px solid #667eea;
+  background: linear-gradient(90deg, #f8f9ff, transparent);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 普通段落 ---------- */
+.note-paragraph {
+  margin: 10px 0;
   font-size: 15px;
+  color: #444;
+  text-align: justify;
+  line-height: 1.9;
+  padding-left: 8px;
+}
+
+/* ---------- 列表项 ---------- */
+.note-list-item {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #444;
+  padding-left: 8px;
   line-height: 1.8;
 }
-/* 提示文本 */
-.tip-inline {
-  background: linear-gradient(135deg, #fff3cd, #ffeeba);
-  padding: 2px 8px;
-  border-radius: 4px;
-  color: #856404;
-  font-weight: 500;
+
+/* ---------- 引用块 ---------- */
+.note-quote {
+  background: #f8f9fa;
+  border-left: 3px solid #adb5bd;
+  padding: 10px 15px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  color: #555;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
 }
-.note-text {
-  color: #6c757d;
-  font-size: 14px;
-  background: #f1f3f5;
-  padding: 2px 8px;
-  border-radius: 4px;
+
+/* ---------- 命令行代码 ---------- */
+.note-command {
+  background: #1e1e1e;
+  color: #ce9178;
+  padding: 10px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13.5px;
+  overflow-x: auto;
+  border: 1px solid #333;
 }
-.arrow-text {
-  color: #f5576c;
-  font-weight: 500;
+
+/* ---------- 提示/箭头 ---------- */
+.note-tip {
   margin: 10px 0;
-  padding-left: 10px;
-}
-/* 图片占位符 */
-.image-placeholder {
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-  border: 2px dashed #f5576c;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  margin: 25px 0;
-  color: #c2185b;
-}
-.image-placeholder i {
-  font-size: 48px;
-  margin-bottom: 10px;
-  display: block;
-}
-.image-text {
-  font-size: 16px;
+  font-size: 14.5px;
+  color: #764ba2;
+  padding-left: 8px;
   font-weight: 500;
 }
-/* 页脚 */
+
+/* ---------- 图片占位符 ---------- */
+.note-image-placeholder {
+  background: linear-gradient(135deg, #fef5e7, #fdebd0);
+  border: 1px dashed #f39c12;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  text-align: center;
+  font-size: 14.5px;
+  color: #d68910;
+  font-weight: 500;
+}
+
+/* ---------- 特殊标记 ---------- */
+.note-special-mark {
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+/* ---------- 注释 ---------- */
+.note-annotation {
+  color: #888;
+  font-size: 13.5px;
+  background: #f5f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ---------- 分隔线 ---------- */
+.note-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+  margin: 25px 0;
+}
+
+/* ---------- 链接 ---------- */
+a {
+  color: #667eea;
+  text-decoration: none;
+  border-bottom: 1px dotted #667eea;
+}
+
+a:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+
+/* ---------- 章节导航 ---------- */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+}
+
+.chapter-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.chapter-nav a:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* ---------- 页脚 ---------- */
 .footer {
   text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  color: #6c757d;
-  font-size: 13px;
-  border-top: 1px solid #e9ecef;
+  padding: 18px;
+  background: #fafafa;
+  color: #999;
+  font-size: 12px;
+  border-top: 1px solid #eee;
 }
+
+/* ========== 响应式 ========== */
 @media (max-width: 768px) {
   body { padding: 10px; }
-  .header { padding: 30px 20px; }
-  .page-title { font-size: 22px; }
+  .header { padding: 25px 20px; }
+  .page-title { font-size: 20px; }
   .content { padding: 25px 20px; }
-  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+  .nav-bar { padding: 10px 20px; }
 }
 </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续）· 第1部分</div>
-        <h1 class="page-title">补充章节一 Kali实战</h1>
-        <p class="page-subtitle">原创笔记 · 一字不差</p>
-      </div>
+      <div class="chapter-badge">网络安全宝典（续）· 第1部分</div>
+      <h1 class="page-title">补充章节一 Kali实战</h1>
+      <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
     
     <div class="nav-bar">
-      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
-      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+      <a href="main.html" class="nav-link">📋 目录</a>
+      <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
     
     <div class="content">
-      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>补充章节一 Kali实战 <span class="tip-inline">&lt;/h1&gt;</span>1 .实际应用场景题目
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>公司的一名运维人员Lama发现其管理的服务器遭到黑客入侵，并植入了后门和木马。由于该服务器存在已久，Lama忘记了其IP地址和登录密码。<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>请你协助协调处理此事：首先定位该服务器并记录相关信息，然后进行应急排查，找出并删除木马文件，恢复系统的正常运行。<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">具体原理：</p>
-<p class="content-p">Kali虚拟机作为排查问题的工具电脑（模拟黑客入侵），netdiscover 是一个被动/主动 ARP 探测工具，它的原理是：</p>
-<p class="content-p">Kali 在局域网里发广播包（ARP 请求），问：“谁在 192.168.117.x 这个网段？请回答你是谁？”</p>
-<p class="content-p">所有在线的主机都会自动回应（这是网络协议的规定，不需要密码）</p>
-<p class="content-p">Kali 收集这些回应的 MAC 地址和 IP 地址，列成一张表显示给你</p>
-<p class="content-p">这个模拟实验的本质 = 用 Kali 虚拟机（模拟攻击者/工具机）去访问/探测 真实物理机/主机（模拟受害者服务器）</p>
-<p class="content-p">3）真实情况下，是不能用这种方法来获取受害者电脑的Ip地址的</p>
-<p class="content-p">4）kali虚拟机要想扫到主机的IP地址，必须用桥接模式(不能用net模式和仅主机模式)，这样能够保证kali的IP地址和主机的IP地址处于同一个网段</p>
-<p class="content-p">5）建议kali虚拟机设置双网卡模式</p>
-<p class="content-p">双网卡会增加难度，需要什么模式可以随时更换，</p>
-<p class="content-p">6）/24 叫做 CIDR 前缀长度（Classless Inter-Domain Routing），它告诉计算机：这个网段有多大。（规定了扫描范围，把搜索圈定在了 192.168.1.0 ~ 192.168.1.255 这个区间里）</p>
-<p class="content-p">简单来说，/24 就是子网掩码 255.255.255.0 的简写。</p>
-<p class="content-p">解决方法</p>
-<p class="content-p">第一步</p>
-<p class="content-p">查看kali虚拟机的Ip地址，打开终端，输入sudo su root，切换到管理员权限，输入ifconfig。</p>
-<p class="content-p">（没有 ipconfig 这个命令（这是 Windows 的命令），Linux 系统里用的是 ifconfig）</p>
-<p class="content-p">比如：目前我的kaliI IP地址为：192.168.1.163</p>
-<p class="content-p">第二步</p>
-<p class="content-p">因为靶机和kali属于同一个网段，所以靶机的IP地址也是【192.168.1.163】这个网段，</p>
-<p class="content-p">我们使用局域网发现工具进行探测靶机的IP地址探测。</p>
-<p class="content-p">终端输入命令: sudo netdiscover -r 192.168.1.0/24 （注意只有3个空格，sudo就是以最高权限去运行）</p>
-<p class="content-p">扫描出来同一网段的东西（比如 192.168.1.13，那么被入侵的那台电脑（主机）的IP就是其中之一，至于怎么判断，......）</p>
-<p class="content-p">第三步</p>
-<p class="content-p">1）获取完主机的IP地址后，接下来就是对靶机的IP地址进行扫描，在Kai中可以使用NMAP工具进行扫描</p>
-<p class="content-p">Nmap是不少黑客及脚本小子爱用的工具，可以检测目标主机是否在线、端口开放情况、侦测运行的服务类型及版本信息、侦测操作系统与设备类型等信息。</p>
-<p class="content-p">2）一台电脑有65535个端口，</p>
-<p class="content-p">知名端口（0 — 1023）：“固定的政府/机构大楼”</p>
-<p class="content-p">特点：全世界统一规定，固定分配给特定的顶级服务。普通程序不能用，只有管理员（root）权限才能启动。</p>
-<p class="content-p">作用：让客户端不用问就知道去哪里找服务。</p>
-<p class="content-p"></p>
-<p class="content-p">注册端口（1024 — 49151）：“公司/软件专属办公区”</p>
-<p class="content-p">特点：需要向 IANA（互联网数字分配机构）申请注册，但不像知名端口那么死板。某些大型软件或游戏会固定占用这里。</p>
-<p class="content-p">作用：给知名软件用的“固定门牌号”</p>
-<p class="content-p"></p>
-<p class="content-p">动态/私有端口（49152 — 65535）：“临时访客/随机门牌号”</p>
-<p class="content-p">特点：随机分配，不需要申请。不固定绑定任何服务。</p>
-<p class="content-p">作用：当你的电脑访问百度（目标 80 端口）时，系统会随手抓一个这里面的空闲数字（比如 52341）作为临时门牌号，用来接收百度返回的数据。用完就释放，下次访问换个号码</p>
-<p class="content-p">3）kali中nmap扫描</p>
-<p class="content-p">sudo nmap -O 192.168.1.13（主机防火墙会拦截）</p>
-<p class="content-p">4）获取对方电脑的账号密码，账号Lama，密码用暴力破解</p>
-<p class="content-p">&gt; Kali中，可以使用medusa工具，Medusa(美土莎)是一个速度快，支持大规模并行，模块化，爆破登录。可以同时对多个主机，用户或密码执行强力测试。根本原理是暴力破解，需要有密码字典（密码字典可以从外面传，也可以在kali浏览器里面下载，最后放到桌面上）。</p>
-<p class="content-p">&gt; “美杜莎”（Medusa）是Kali Linux自带的一款命令行密码爆破工具，它的设计目标就是运行在Linux和macOS这类操作系统上，Windows系统无法直接安装和使用它。</p>
-<p class="content-p">&gt; 至于美杜莎在Kali中的命令，可以去问AI</p>
-<p class="content-p">出现 [SUCCESS]，说明破解成功了</p>
-<p class="content-p">5）远程登录对方电脑</p>
-<p class="content-p">获取完，账号、密码、IP地址后，在kali里面输入 ssh 用户名@192.168.1.13</p>
-<p class="content-p">然后输入密码（刚刚暴力破解得到的）</p>
-<p class="content-p">这样就登录了对方电脑（终端）</p>
-<p class="content-p">接下来就可以排查，找木马，恢复系统了</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. Linux系统本地入侵排查流程<span class="tip-inline">&lt;/h3&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-Linux入侵前的信息收集的一些命令<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p"></p>
-<p class="content-p">cat /etc/passwd 这个命令得到的0~1000是系统内置的，1000以上基本上就是黑客留的（就要把黑客留的删除）</p>
-<p class="content-p">netstat -lntp 查看端口（比如：80，8080，443，3306，22，53）</p>
-<p class="content-p">ps -aux | grep 9999 查看哪个程序运行了9999端口</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. Linux恶意用户排查和清除（删除黑客留下的数据）<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 在Linux系统中,存在着两个特殊的文件cat /etc/passwd 和cat /etc/shadow 这两个文件中存储着用户名和加密后的密码.</p>
-<p class="content-p">在目前大多数Linux系统中,将加密后的用户密码存放在 /etc/shadow 中但是 /etc/shadow 只能 root 用户查看</p>
-<p class="content-p">&gt; cat /etc/passwd，1000以上就是黑客留下的，给删掉</p>
-<p class="content-p">删除的方法，root权限下，执行命令 userdel -r 用户名 （ 用户名是刚刚检测到的，</p>
-<p class="content-p">比如userdel -r losy ）</p>
-<p class="content-p">可以一个一个删，也可以一次性全部删完（不建议）</p>
-<p class="content-p">&gt; 有些时候程序正在运行(userdel -r losy 为例)，需要把程序/端口关闭，才能正常删除用户</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">接下来讲解，怎么关闭正在运行的程序</p>
-<p class="content-p">&gt; 计划任务，</p>
-<p class="content-p">就是按照规定的计划时间，执行固定的程序，</p>
-<p class="content-p">当我们需要在服务器上定时执行一些重复性的事件时使用的，</p>
-<p class="content-p">可以通过计划任务程序来运行准备好的脚本、批处理文件夹、程序或命令，在某个特定的时间运行。</p>
-<p class="content-p">&gt; 计划任务的文件夹，root权限下，ls /etc/cron*、cat /etc/crontab</p>
-<p class="content-p"></p>
-<p class="content-p"></p>
-<p class="content-p"></p>
-<p class="content-p">这些都是时间点，任务到了这个时间点，就开始跑一次</p>
-<p class="content-p">如果是 ***** ，说明每隔一分钟，该程序就跑一次</p>
-<p class="content-p">&gt; 这样可以通过计划任务，查看 用户losy的程序 是何时运行的，然后想办法关闭</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--(B站课程)root权限下执行 cd /opt/web 然后ls ，这时候出现index.php文件，说明黑客留了一个后门，以后可以通过9999端口，通过index.php，进入该受害者电脑 进行控制<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--然后cat index.php（cat ...就是查询的意思），里面是一串代码，说明index.php是一个木马（webshell）<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">&gt; 接下来我们要做的就是，删除文件index.php，然后把losy(黑客名)的计划任务停止</p>
-<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># rm index.php （删除文件）<span class="tip-inline">&lt;/code&gt;</span>
-<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># ls<span class="tip-inline">&lt;/code&gt;</span>
-<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># vim /etc/crontab （清理/删除计划任务进程，其实没木马了，任务可删可不删，保险起见，还是删了好）<span class="tip-inline">&lt;/code&gt;</span>
-<p class="content-p">这时候，鼠标移动到最后一行第一个字符，双击键盘”DD”，</p>
-<p class="content-p">最后 :Wq! 保存一下 </p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">以上操作，是关闭了losy正在运行的程序</p>
-<p class="content-p">这个时候可以，root权限下，# userdel -r 黑客名(losy) ，删除用户</p>
-<p class="content-p"></p>
-<p class="content-p">发现不行，因为losy的程序已经运行了很多了，我们现在需要把 已经运行的程序给结束掉</p>
-<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># ps -aux | grep 9999（查看）<span class="tip-inline">&lt;/code&gt;</span>
-<span class="tip-inline">&lt;code class="cmd-code"&gt;</span># kill -9 2007 <span class="tip-inline">&lt;/code&gt;</span>
-<p class="content-p">&lt;如果有更多的，比如2009 2014等等，重复一样的方法/操作，都给他们删除了&gt;</p>
-<p class="content-p">这个时候，root权限下，# userdel -r 黑客名(losy) ，即可删除用户</p>
-<p class="content-p">现在 # cat /etc/passwd 查看到电脑里面没有黑客文件/程序了</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. Sudo配置修改<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">黑客程序删干净之后，由于黑客程序的运行，会导致sudo配置出现错误，这时候需要修改过来。</p>
-<p class="content-p">&gt; root权限下，终端输入 # vim /etc/sudoers，把里面不顺眼的删掉，比如:losy等有关黑客的东西，通常只留下一个root 相关的（删掉某一行，将鼠标放到该行的第一个字符位置，键盘敲”DD”，即可删除）</p>
-<p class="content-p">然后保存 :Wq!</p>
-<p class="content-p">&gt; 可以再看一下 # vim /etc/sudoers ，查看是否删除干净</p>
-<p class="content-p">&gt; 接下来重新打开一个新终端，不一定非要root权限，（比如ssh lama@192.168.41.137），我的kali是ssh root@192.168.1.163（ssh命令是远程连接，端口22，当然也能连接自身）</p>
-<p class="content-p">然后sudo -l</p>
-<p class="content-p">发现用户lama没有权限了，说明已经恢复了</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. 接下来说一些题外话，应急响应手册 windows版,Linux版，看完后可以直接找工作/护网<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">里面都是非常有用的内容</p>
-<p class="content-p">📖 NOP Team 系列手册（推荐）</p>
-<p class="content-p">这个团队做的手册在圈内口碑不错，而且持续在更新，你可以从这几个渠道获取：</p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">1&gt;在线版（访问最方便，代码可直接复制）</p>
-<p class="content-p">地址：<span class="tip-inline">&lt;a href="https://book.noptrace.com/" target="_blank" class="content-link"&gt;</span>https://book.noptrace.com/<span class="tip-inline">&lt;/a&gt;</span> </p>
-<p class="content-p">说明：这是他们推出的在线版，阅读和复制代码都很方便 。</p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">2&gt;GitHub 项目仓库</p>
-<p class="content-p">Linux 版：<span class="tip-inline">&lt;a href="https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK<span class="tip-inline">&lt;/a&gt;</span> </p>
-<p class="content-p">Windows 版：<span class="tip-inline">&lt;a href="https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK" target="_blank" class="content-link"&gt;</span>https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK<span class="tip-inline">&lt;/a&gt;</span> </p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">3&gt;微信/公众号</p>
-<p class="content-p">可以添加微信：just_hack_for_fun，或者关注他们的公众号获取最新版本 </p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">应急响应手册，有要了解的，可以直接去问AI</p>
-<p class="content-p">了解这些可以去挣外快/副业，恢复一个给多少多少，恢复N个给多少多少。</p>
-<p class="content-p">当然也可以去学视频剪辑等等等，挂咸鱼上挣钱</p>
-<p class="content-p">总之挣钱的方法有很多，有能力可以搞一搞副业</p>
-      
-      <div class="chapter-nav"><span></span><a href="chapter2.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
+      <div class="note-chapter-title">补充章节一 Kali实战</div>
+<div class="note-section-title">1. 实际应用场景题目</div>
+<div class="note-list-item">• 公司的一名运维人员Lama发现其管理的服务器遭到黑客入侵，并植入了后门和木马。由于该服务器存在已久，Lama忘记了其IP地址和登录密码。</div>
+<div class="note-list-item">• 请你协助协调处理此事：首先定位该服务器并记录相关信息，然后进行应急排查，找出并删除木马文件，恢复系统的正常运行。</div>
+<div class="note-paragraph">具体原理：</div>
+<div class="note-paragraph">Kali虚拟机作为排查问题的工具电脑（模拟黑客入侵），netdiscover 是一个被动/主动 ARP 探测工具，它的原理是：</div>
+<div class="note-paragraph">Kali 在局域网里发广播包（ARP 请求），问：“谁在 192.168.117.x 这个网段？请回答你是谁？”</div>
+<div class="note-paragraph">所有在线的主机都会自动回应（这是网络协议的规定，不需要密码）</div>
+<div class="note-paragraph">Kali 收集这些回应的 MAC 地址和 IP 地址，列成一张表显示给你</div>
+<div class="note-paragraph">这个模拟实验的本质 = 用 Kali 虚拟机（模拟攻击者/工具机）去访问/探测 真实物理机/主机（模拟受害者服务器）</div>
+<div class="note-paragraph">3）真实情况下，是不能用这种方法来获取受害者电脑的Ip地址的</div>
+<div class="note-paragraph">4）kali虚拟机要想扫到主机的IP地址，必须用桥接模式(不能用net模式和仅主机模式)，这样能够保证kali的IP地址和主机的IP地址处于同一个网段</div>
+<div class="note-paragraph">5）建议kali虚拟机设置双网卡模式</div>
+<div class="note-paragraph">双网卡会增加难度，需要什么模式可以随时更换，</div>
+<div class="note-paragraph">6）/24 叫做 CIDR 前缀长度（Classless Inter-Domain Routing），它告诉计算机：这个网段有多大。（规定了扫描范围，把搜索圈定在了 192.168.1.0 ~ 192.168.1.255 这个区间里）</div>
+<div class="note-paragraph">简单来说，/24 就是子网掩码 255.255.255.0 的简写。</div>
+<div class="note-paragraph">解决方法</div>
+<div class="note-paragraph">第一步</div>
+<div class="note-paragraph">查看kali虚拟机的Ip地址，打开终端，输入sudo su root，切换到管理员权限，输入ifconfig。</div>
+<div class="note-paragraph">（没有 ipconfig 这个命令（这是 Windows 的命令），Linux 系统里用的是 ifconfig）</div>
+<div class="note-paragraph">比如：目前我的kaliI IP地址为：192.168.1.163</div>
+<div class="note-paragraph">第二步</div>
+<div class="note-paragraph">因为靶机和kali属于同一个网段，所以靶机的IP地址也是【192.168.1.163】这个网段，</div>
+<div class="note-paragraph">我们使用局域网发现工具进行探测靶机的IP地址探测。</div>
+<div class="note-paragraph">终端输入命令: sudo netdiscover -r 192.168.1.0/24 （注意只有3个空格，sudo就是以最高权限去运行）</div>
+<div class="note-paragraph">扫描出来同一网段的东西（比如 192.168.1.13，那么被入侵的那台电脑（主机）的IP就是其中之一，至于怎么判断，......）</div>
+<div class="note-paragraph">第三步</div>
+<div class="note-paragraph">1）获取完主机的IP地址后，接下来就是对靶机的IP地址进行扫描，在Kai中可以使用NMAP工具进行扫描</div>
+<div class="note-paragraph">Nmap是不少黑客及脚本小子爱用的工具，可以检测目标主机是否在线、端口开放情况、侦测运行的服务类型及版本信息、侦测操作系统与设备类型等信息。</div>
+<div class="note-paragraph">2）一台电脑有65535个端口，</div>
+<div class="note-paragraph">知名端口（0 — 1023）：“固定的政府/机构大楼”</div>
+<div class="note-paragraph">特点：全世界统一规定，固定分配给特定的顶级服务。普通程序不能用，只有管理员（root）权限才能启动。</div>
+<div class="note-paragraph">作用：让客户端不用问就知道去哪里找服务。</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">注册端口（1024 — 49151）：“公司/软件专属办公区”</div>
+<div class="note-paragraph">特点：需要向 IANA（互联网数字分配机构）申请注册，但不像知名端口那么死板。某些大型软件或游戏会固定占用这里。</div>
+<div class="note-paragraph">作用：给知名软件用的“固定门牌号”</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">动态/私有端口（49152 — 65535）：“临时访客/随机门牌号”</div>
+<div class="note-paragraph">特点：随机分配，不需要申请。不固定绑定任何服务。</div>
+<div class="note-paragraph">作用：当你的电脑访问百度（目标 80 端口）时，系统会随手抓一个这里面的空闲数字（比如 52341）作为临时门牌号，用来接收百度返回的数据。用完就释放，下次访问换个号码</div>
+<div class="note-paragraph">3）kali中nmap扫描</div>
+<div class="note-paragraph">sudo nmap -O 192.168.1.13（主机防火墙会拦截）</div>
+<div class="note-paragraph">4）获取对方电脑的账号密码，账号Lama，密码用暴力破解</div>
+<div class="note-paragraph">&gt; Kali中，可以使用medusa工具，Medusa(美土莎)是一个速度快，支持大规模并行，模块化，爆破登录。可以同时对多个主机，用户或密码执行强力测试。根本原理是暴力破解，需要有密码字典（密码字典可以从外面传，也可以在kali浏览器里面下载，最后放到桌面上）。</div>
+<div class="note-paragraph">&gt; “美杜莎”（Medusa）是Kali Linux自带的一款命令行密码爆破工具，它的设计目标就是运行在Linux和macOS这类操作系统上，Windows系统无法直接安装和使用它。</div>
+<div class="note-paragraph">&gt; 至于美杜莎在Kali中的命令，可以去问AI</div>
+<div class="note-paragraph">出现 [SUCCESS]，说明破解成功了</div>
+<div class="note-paragraph">5）远程登录对方电脑</div>
+<div class="note-paragraph">获取完，账号、密码、IP地址后，在kali里面输入 ssh 用户名@192.168.1.13</div>
+<div class="note-paragraph">然后输入密码（刚刚暴力破解得到的）</div>
+<div class="note-paragraph">这样就登录了对方电脑（终端）</div>
+<div class="note-paragraph">接下来就可以排查，找木马，恢复系统了</div>
+<div class="note-section-title">2. Linux系统本地入侵排查流程</div>
+<div class="note-list-item">• -Linux入侵前的信息收集的一些命令</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">cat /etc/passwd 这个命令得到的0~1000是系统内置的，1000以上基本上就是黑客留的（就要把黑客留的删除）</div>
+<div class="note-paragraph">netstat -lntp 查看端口（比如：80，8080，443，3306，22，53）</div>
+<div class="note-paragraph">ps -aux | grep 9999 查看哪个程序运行了9999端口</div>
+<div class="note-section-title">3. Linux恶意用户排查和清除（删除黑客留下的数据）</div>
+<div class="note-paragraph">&gt; 在Linux系统中,存在着两个特殊的文件cat /etc/passwd 和cat /etc/shadow 这两个文件中存储着用户名和加密后的密码.</div>
+<div class="note-paragraph">在目前大多数Linux系统中,将加密后的用户密码存放在 /etc/shadow 中但是 /etc/shadow 只能 root 用户查看</div>
+<div class="note-paragraph">&gt; cat /etc/passwd，1000以上就是黑客留下的，给删掉</div>
+<div class="note-paragraph">删除的方法，root权限下，执行命令 userdel -r 用户名 （ 用户名是刚刚检测到的，</div>
+<div class="note-paragraph">比如userdel -r losy ）</div>
+<div class="note-paragraph">可以一个一个删，也可以一次性全部删完（不建议）</div>
+<div class="note-paragraph">&gt; 有些时候程序正在运行(userdel -r losy 为例)，需要把程序/端口关闭，才能正常删除用户</div>
+<div class="note-list-item">• ---</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">接下来讲解，怎么关闭正在运行的程序</div>
+<div class="note-paragraph">&gt; 计划任务，</div>
+<div class="note-paragraph">就是按照规定的计划时间，执行固定的程序，</div>
+<div class="note-paragraph">当我们需要在服务器上定时执行一些重复性的事件时使用的，</div>
+<div class="note-paragraph">可以通过计划任务程序来运行准备好的脚本、批处理文件夹、程序或命令，在某个特定的时间运行。</div>
+<div class="note-paragraph">&gt; 计划任务的文件夹，root权限下，ls /etc/cron*、cat /etc/crontab</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">这些都是时间点，任务到了这个时间点，就开始跑一次</div>
+<div class="note-paragraph">如果是 ***** ，说明每隔一分钟，该程序就跑一次</div>
+<div class="note-paragraph">&gt; 这样可以通过计划任务，查看 用户losy的程序 是何时运行的，然后想办法关闭</div>
+<div class="note-list-item">• --(B站课程)root权限下执行 cd /opt/web 然后ls ，这时候出现index.php文件，说明黑客留了一个后门，以后可以通过9999端口，通过index.php，进入该受害者电脑 进行控制</div>
+<div class="note-list-item">• --然后cat index.php（cat ...就是查询的意思），里面是一串代码，说明index.php是一个木马（webshell）</div>
+<div class="note-paragraph">&gt; 接下来我们要做的就是，删除文件index.php，然后把losy(黑客名)的计划任务停止</div>
+<div class="note-command"># rm index.php （删除文件）</div>
+<div class="note-command"># ls</div>
+<div class="note-command"># vim /etc/crontab （清理/删除计划任务进程，其实没木马了，任务可删可不删，保险起见，还是删了好）</div>
+<div class="note-paragraph">这时候，鼠标移动到最后一行第一个字符，双击键盘”DD”，</div>
+<div class="note-paragraph">最后 :Wq! 保存一下</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">以上操作，是关闭了losy正在运行的程序</div>
+<div class="note-paragraph">这个时候可以，root权限下，# userdel -r 黑客名(losy) ，删除用户</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">发现不行，因为losy的程序已经运行了很多了，我们现在需要把 已经运行的程序给结束掉</div>
+<div class="note-command"># ps -aux | grep 9999（查看）</div>
+<div class="note-command"># kill -9 2007</div>
+<div class="note-paragraph">&lt;如果有更多的，比如2009 2014等等，重复一样的方法/操作，都给他们删除了&gt;</div>
+<div class="note-paragraph">这个时候，root权限下，# userdel -r 黑客名(losy) ，即可删除用户</div>
+<div class="note-paragraph">现在 # cat /etc/passwd 查看到电脑里面没有黑客文件/程序了</div>
+<div class="note-section-title">4. Sudo配置修改</div>
+<div class="note-paragraph">黑客程序删干净之后，由于黑客程序的运行，会导致sudo配置出现错误，这时候需要修改过来。</div>
+<div class="note-paragraph">&gt; root权限下，终端输入 # vim /etc/sudoers，把里面不顺眼的删掉，比如:losy等有关黑客的东西，通常只留下一个root 相关的（删掉某一行，将鼠标放到该行的第一个字符位置，键盘敲”DD”，即可删除）</div>
+<div class="note-paragraph">然后保存 :Wq!</div>
+<div class="note-paragraph">&gt; 可以再看一下 # vim /etc/sudoers ，查看是否删除干净</div>
+<div class="note-paragraph">&gt; 接下来重新打开一个新终端，不一定非要root权限，（比如ssh lama@192.168.41.137），我的kali是ssh root@192.168.1.163（ssh命令是远程连接，端口22，当然也能连接自身）</div>
+<div class="note-paragraph">然后sudo -l</div>
+<div class="note-paragraph">发现用户lama没有权限了，说明已经恢复了</div>
+<div class="note-section-title">5. 接下来说一些题外话，应急响应手册 windows版,Linux版，看完后可以直接找工作/护网</div>
+<div class="note-paragraph">里面都是非常有用的内容</div>
+<div class="note-paragraph">📖 NOP Team 系列手册（推荐）</div>
+<div class="note-paragraph">这个团队做的手册在圈内口碑不错，而且持续在更新，你可以从这几个渠道获取：</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">1&gt;在线版（访问最方便，代码可直接复制）</div>
+<div class="note-paragraph">地址：<a href="https://book.noptrace.com/" target="_blank">https://book.noptrace.com/</a></div>
+<div class="note-paragraph">说明：这是他们推出的在线版，阅读和复制代码都很方便 。</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">2&gt;GitHub 项目仓库</div>
+<div class="note-paragraph">Linux 版：<a href="https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK" target="_blank">https://github.com/Just-Hack-For-Fun/Linux-INCIDENT-RESPONSE-COOKBOOK</a></div>
+<div class="note-paragraph">Windows 版：<a href="https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK" target="_blank">https://github.com/Just-Hack-For-Fun/Windows-INCIDENT-RESPONSE-COOKBOOK</a></div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">3&gt;微信/公众号</div>
+<div class="note-paragraph">可以添加微信：just_hack_for_fun，或者关注他们的公众号获取最新版本</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">应急响应手册，有要了解的，可以直接去问AI</div>
+<div class="note-paragraph">了解这些可以去挣外快/副业，恢复一个给多少多少，恢复N个给多少多少。</div>
+<div class="note-paragraph">当然也可以去学视频剪辑等等等，挂咸鱼上挣钱</div>
+<div class="note-paragraph">总之挣钱的方法有很多，有能力可以搞一搞副业</div>
+      <div class="chapter-nav"><span></span><a href="chapter2.html">下一章 →</a></div>
     </div>
     
     <div class="footer">
-      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+      📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>
   </div>
 </body>

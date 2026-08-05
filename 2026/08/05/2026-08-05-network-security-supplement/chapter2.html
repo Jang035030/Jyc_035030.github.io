@@ -3,445 +3,478 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第2章 补充章节二 Kali系统里面进行渗透测试（Linux系统） | 网络安全宝典（续）</title>
+  <title>补充章节二 Kali系统里面进行渗透测试（Linux系统） | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
+/* ========== 全局样式 ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f5f5;
   min-height: 100vh;
   padding: 20px;
   line-height: 1.8;
+  color: #333;
 }
+
 .container {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   overflow: hidden;
 }
+
+/* ========== 头部 ========== */
 .header {
-  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 40px 30px;
+  padding: 35px 30px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.header-content { position: relative; z-index: 1; }
+
 .chapter-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
   letter-spacing: 1px;
 }
+
 .page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
+
 .page-subtitle {
   opacity: 0.85;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
 }
+
+/* ========== 导航栏 ========== */
 .nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  padding: 12px 25px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
+
 .nav-link {
-  color: #f5576c;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.3s;
-}
-.nav-link:hover { color: #f093fb; }
-.content {
-  padding: 40px 35px;
-}
-/* 章节标题 */
-.chapter-main-title {
-  font-size: 26px;
-  color: #2d1b4e;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #f093fb;
-  display: inline-block;
-}
-.section-title {
-  font-size: 19px;
-  color: #4a1942;
-  margin: 25px 0 15px 0;
-  padding-left: 15px;
-  border-left: 4px solid #f5576c;
-  font-weight: 600;
-}
-/* 内容段落 */
-.content-p {
-  margin: 12px 0;
-  color: #333;
-  font-size: 15px;
-  text-align: justify;
-  text-indent: 0;
-}
-/* 链接 */
-.content-link {
-  color: #f5576c;
-  word-break: break-all;
-  text-decoration: none;
-  border-bottom: 1px dashed #f5576c;
-  transition: all 0.3s;
-}
-.content-link:hover {
-  color: #f093fb;
-  border-bottom-style: solid;
-}
-/* 分隔线 */
-.content-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
-  margin: 25px 0;
-}
-/* 引用块 */
-.content-quote {
-  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
-  border-left: 4px solid #f5576c;
-  padding: 12px 18px;
-  margin: 15px 0;
-  color: #555;
-  border-radius: 0 8px 8px 0;
-  position: relative;
-}
-.content-quote::before {
-  content: '"';
-  position: absolute;
-  left: 8px;
-  top: -5px;
-  font-size: 40px;
-  color: rgba(245,87,108,0.2);
-  font-family: Georgia, serif;
-}
-/* 命令代码 */
-.cmd-code {
-  display: block;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 12px 18px;
-  margin: 15px 0;
-  border-radius: 8px;
-  font-family: "Consolas", "Monaco", monospace;
   font-size: 14px;
-  overflow-x: auto;
+  font-weight: 500;
+  transition: color 0.2s;
 }
-/* 列表 */
-.content-list {
-  margin: 15px 0;
-  padding-left: 25px;
+
+.nav-link:hover { color: #764ba2; }
+
+/* ========== 内容区域 ========== */
+.content {
+  padding: 35px 40px;
 }
-.content-list-item {
-  margin: 8px 0;
-  color: #333;
+
+/* ---------- 章节标题 ---------- */
+.note-chapter-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 30px 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #667eea;
+}
+
+.note-chapter-title:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 小节标题 ---------- */
+.note-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 25px 0 15px 0;
+  padding-left: 12px;
+  border-left: 4px solid #667eea;
+  background: linear-gradient(90deg, #f8f9ff, transparent);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 普通段落 ---------- */
+.note-paragraph {
+  margin: 10px 0;
   font-size: 15px;
+  color: #444;
+  text-align: justify;
+  line-height: 1.9;
+  padding-left: 8px;
+}
+
+/* ---------- 列表项 ---------- */
+.note-list-item {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #444;
+  padding-left: 8px;
   line-height: 1.8;
 }
-/* 提示文本 */
-.tip-inline {
-  background: linear-gradient(135deg, #fff3cd, #ffeeba);
-  padding: 2px 8px;
-  border-radius: 4px;
-  color: #856404;
-  font-weight: 500;
+
+/* ---------- 引用块 ---------- */
+.note-quote {
+  background: #f8f9fa;
+  border-left: 3px solid #adb5bd;
+  padding: 10px 15px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  color: #555;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
 }
-.note-text {
-  color: #6c757d;
-  font-size: 14px;
-  background: #f1f3f5;
-  padding: 2px 8px;
-  border-radius: 4px;
+
+/* ---------- 命令行代码 ---------- */
+.note-command {
+  background: #1e1e1e;
+  color: #ce9178;
+  padding: 10px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13.5px;
+  overflow-x: auto;
+  border: 1px solid #333;
 }
-.arrow-text {
-  color: #f5576c;
-  font-weight: 500;
+
+/* ---------- 提示/箭头 ---------- */
+.note-tip {
   margin: 10px 0;
-  padding-left: 10px;
-}
-/* 图片占位符 */
-.image-placeholder {
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-  border: 2px dashed #f5576c;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  margin: 25px 0;
-  color: #c2185b;
-}
-.image-placeholder i {
-  font-size: 48px;
-  margin-bottom: 10px;
-  display: block;
-}
-.image-text {
-  font-size: 16px;
+  font-size: 14.5px;
+  color: #764ba2;
+  padding-left: 8px;
   font-weight: 500;
 }
-/* 页脚 */
+
+/* ---------- 图片占位符 ---------- */
+.note-image-placeholder {
+  background: linear-gradient(135deg, #fef5e7, #fdebd0);
+  border: 1px dashed #f39c12;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  text-align: center;
+  font-size: 14.5px;
+  color: #d68910;
+  font-weight: 500;
+}
+
+/* ---------- 特殊标记 ---------- */
+.note-special-mark {
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+/* ---------- 注释 ---------- */
+.note-annotation {
+  color: #888;
+  font-size: 13.5px;
+  background: #f5f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ---------- 分隔线 ---------- */
+.note-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+  margin: 25px 0;
+}
+
+/* ---------- 链接 ---------- */
+a {
+  color: #667eea;
+  text-decoration: none;
+  border-bottom: 1px dotted #667eea;
+}
+
+a:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+
+/* ---------- 章节导航 ---------- */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+}
+
+.chapter-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.chapter-nav a:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* ---------- 页脚 ---------- */
 .footer {
   text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  color: #6c757d;
-  font-size: 13px;
-  border-top: 1px solid #e9ecef;
+  padding: 18px;
+  background: #fafafa;
+  color: #999;
+  font-size: 12px;
+  border-top: 1px solid #eee;
 }
+
+/* ========== 响应式 ========== */
 @media (max-width: 768px) {
   body { padding: 10px; }
-  .header { padding: 30px 20px; }
-  .page-title { font-size: 22px; }
+  .header { padding: 25px 20px; }
+  .page-title { font-size: 20px; }
   .content { padding: 25px 20px; }
-  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+  .nav-bar { padding: 10px 20px; }
 }
 </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续）· 第2部分</div>
-        <h1 class="page-title">补充章节二 Kali系统里面进行渗透测试（Linux系统）</h1>
-        <p class="page-subtitle">原创笔记 · 一字不差</p>
-      </div>
+      <div class="chapter-badge">网络安全宝典（续）· 第2部分</div>
+      <h1 class="page-title">补充章节二 Kali系统里面进行渗透测试（Linux系统）</h1>
+      <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
     
     <div class="nav-bar">
-      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
-      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+      <a href="main.html" class="nav-link">📋 目录</a>
+      <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
     
     <div class="content">
-      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>补充章节二 Kali系统里面进行渗透测试（Linux系统） <span class="tip-inline">&lt;/h1&gt;</span>1 .Sqlmap说白了就是判断网站是否存在sql注入漏洞的、并利用漏洞(查看数据库信息 如账号 密码等)的工具
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">这里补充一下Sqlmap的知识</p>
-<p class="content-p">&gt; 这是sqlmap一些简单的命令</p>
-<p class="content-p"></p>
-<p class="content-p">Kali里面完整的命令就是：</p>
-<p class="content-p">sudo sqlmap -u “要测试的网站” --random-agent  </p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-cookie PHPSESSID=b26b66ck03s96eimlthf5llv66 --batch -D --dbs<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">（其实可以把网址地址和Cookie值，发给AI，让ai写命令）</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>-----<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">测试前，需要把网站，先在kali虚拟机的 浏览器里面成功登录运行，浏览器页面按F12——Network——点击对应的网站地址——Cookies——获取钥匙(<span class="tip-inline">&lt;div class="image-placeholder"&gt;</span><span class="tip-inline">&lt;i class="fa fa-image"&gt;</span><span class="tip-inline">&lt;/i&gt;</span><span class="tip-inline">&lt;div class="image-text"&gt;</span>如图所示<span class="tip-inline">&lt;/div&gt;</span><span class="tip-inline">&lt;/div&gt;</span>)</p>
-<p class="content-p"></p>
-<p class="content-p">&gt; 利用sqlmap命令，获取数据库信息（账号、密码）</p>
-<p class="content-p"></p>
-<p class="content-p">这时候可以，ssh jehad@192.168.x.xx，输入密码fool，利用该账号，登录到了网站系统里面去，相当于入侵成功</p>
-<p class="content-p">这相当于初步登录了该网站的账号，接下来就是要向内部渗透，获取更多的信息</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. Linux系统本地收集信息<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 当我们有幸获取了SSH账号，并且成功渗透到该网站/受害者电脑中后，接下来要做的第一步就是信息收集（搜集受害者电脑/被入侵网站的 相关信息，比如：）</p>
-<p class="content-p">这时候kali虚拟机（Linux系统）充当的就是攻击者的电脑/工具，被入侵的电脑可能是其他系统（比如：windows、Ubuntu乌班图系统）</p>
-<p class="content-p">&gt; 接下来将 Linux入侵后的信息收集的一些命令（跟上面的2 .那个不一样，那个是入侵前，这个是入侵后）</p>
-<p class="content-p"></p>
-<p class="content-p">这些命令和入侵前信息收集的命令基本类似</p>
-<p class="content-p">登录SSH账号后，在Linux/Kali中执行这些命令，可以获取受害者电脑的信息</p>
-<p class="content-p">&gt; Apach 、Mysql、Nginx、、FTP这四个分别代表什么？</p>
-<p class="content-p">Nginx / Apache（网页服务器） = 门卫/接待员。它们负责接待访客（浏览器）的请求，并把网页内容发给访客。Nginx 像一位高效的前台，擅长同时处理大量访客；Apache 像一位功能强大的管家，配置灵活但人多时可能慢一些。</p>
-<p class="content-p">MySQL（数据库） = 档案库/仓库。它负责存储网站的所有数据，比如用户注册信息、文章内容、商品列表。你看到的动态内容（比如用户名、价格）都是从这里面调取出来的。</p>
-<p class="content-p">FTP（文件传输协议） = 搬运货物的后门。它不是网站运行必须的部分，而是一个上传工具。当你需要把网站代码、图片等文件从自己的电脑传到服务器上时，就需要通过FTP这个“搬运通道”。</p>
-<p class="content-p">真正搭建网站的时候FTP一般不需要</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>3. 操作系统Linux计划任务权限提升（提权）<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 我们通过执行命令 获取到受害者一大堆信息后，接下来就是要提权（就是拿到最高权限root，然后才能完整地控制受害者电脑）</p>
-<p class="content-p">&gt; LINUX提权的方式有很多【SUID】【sudo滥用】【计划任务】【自启动】【内核提权】</p>
-<p class="content-p">【第三方软件提权】【环境变量提权】【通配符提权】等等方式很多，</p>
-<p class="content-p">我们今天来学习&quot;计划任务提权&quot;</p>
-<p class="content-p">真正的渗透测试实战中，需要把每一种方法都试一试，并不是每个方法都能成功</p>
-<p class="content-p">&gt; 计划任务，顾名思义，就是按照规定的计划时间，执行固定的程序，</p>
-<p class="content-p">当我们需要在服务器上定时执行一些重复性的事件时使用的，可以通过计划任务程序来运行准备好的脚本、批处理文件夹、程序或命令，在某个特定的时间运行。</p>
-<p class="content-p">&gt; 计划任务的文件夹在 /etc/cr on*——打开cat /etc/cron*——cat /etc/crontab 可以查看计划任务，如下图 有多条任务正在运行</p>
-<p class="content-p">之前，做恢复系统的时候，就已经用到过计划任务了</p>
-<p class="content-p"></p>
-<p class="content-p">&gt; 计划任务提权 方法一：改计划任务</p>
-<p class="content-p">有些管理员，安全防护做的不到位，导致普通用户也能修改计划任务的内容（甚至可以添加计划任务 或删除计划任务），这时候我们可以尝试 修改计划任务来提权</p>
-<p class="content-p">比如说，把root service apache2 start &amp;&amp; service mysql start 改成一个木马，</p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">执行以下命令来打开编辑器，来修改计划任务</p>
-<p class="content-p">vim /etc/cron</p>
-<p class="content-p">vim /etc/crontab</p>
-<p class="content-p">看看能不能修改和保存，能的话就破坏掉命令 或改成一个木马；不能的话就换另一种方法</p>
-<p class="content-p">&gt; 计划提权任务 方法二：找到计划任务的记录，然后观察是否存存在高危险的命令和运行</p>
-<p class="content-p">程序，看看是否能提权</p>
-<p class="content-p">比如这个计划任务 * * * * * losy cd/opt/web &amp;&amp; php -S localhost:9999</p>
-<p class="content-p">经过一系列操作，拿到用户losy的权限（这里的操作有点复杂，具体可以让AI辅助执行）</p>
-<p class="content-p"></p>
-<p class="content-p">&lt;这里非常麻烦，需要反复操作，执行一些复杂而陌生的命令，以及复杂陌生的操作；</p>
-<p class="content-p">我这里第一遍听不懂&gt;</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>4. Kali美杜莎工具账号密码破解<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 通过上面的步骤，我们已经拿到了两个用户的权限，jehad和losy，通过查看/etc/pass wd</p>
-<p class="content-p">文件发现还有一个用户是lama，我们还没拿到权限</p>
-<p class="content-p">&gt; lama用美杜莎工具（kali里面已经自带安装了，我们不需要手动安装），来暴力破解，获取其密码（账号已知，lama）</p>
-<p class="content-p">命令可以问AI，密码字典可以kali浏览器baidu.com里面下载，放到kali虚拟机桌面上</p>
-<p class="content-p">medusa -M ssh -h 192.168.41.136 -u lama -P /home/kali/Desktop/top100_ssh.txt -t 10 -F</p>
-<p class="content-p">出现[SUCCESS]，说明密码破出来了</p>
-<p class="content-p">这个时候就可以登录用户lama权限</p>
-<p class="content-p"></p>
-<p class="content-p"></p>
-<p class="content-p">到这里，这三个账号jehad、losy、lama已经破解出来了（拿到这三个账号的权限了），接下来就剩下一个最高权限root</p>
-<p class="content-p">Jehead: 利用sqlmap查看数据库，获取到密码</p>
-<p class="content-p">Losy: 提权，查找记录，获取到密码</p>
-<p class="content-p">Lama: 美杜莎暴力破解，获取到密码</p>
-<p class="content-p">这些用户ID都是1000出头，都是低权限的用户，接下来要拿到root最高权限</p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>5. Sudo提权 获取root用户最高权限<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; sudo介绍</p>
-<p class="content-p">SUDO是Linux系统管理指令，是允许系统管理员让普通用户执行一些或者全部的root命令的一个工具</p>
-<p class="content-p">在一些应用场景里面，为了方便运维人员以低权限帐号进行运维，往往会开启帐号的一些SUDO权限给运维帐号，从而减少root等登录频率</p>
-<p class="content-p">&gt; 这里补充一下Linux系统常见的命令</p>
-<p class="content-p">（这里先记录一下常见命令，Linux操作系统作为一个大模块要单独学习）</p>
-<p class="content-p">面试官考Linux命令，核心就盯着文件管理、权限和状态排查。你不用全背，把这20个以内的高频命令及“考点”记牢就行：</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">cd / ls / pwd：切换、列表、显示当前路径。考点：ls -l 看权限，ls -a 看隐藏文件。</p>
-<p class="content-p">cp / mv / rm：复制、移动/重命名、删除。致命考点：rm -rf 慎用，面试必问“如何安全删除”（先ls确认再删）。</p>
-<p class="content-p">cat / less / tail：查看文件。考点：tail -f 实时看日志，绝对高频。</p>
-<p class="content-p">vim：编辑文件。考点：三种模式（命令/插入/底行），保存退出 :wq，强制退出 :q!。</p>
-<p class="content-p">chmod / chown：权限和归属。考点：chmod 755 的数字含义（属主7=rwx，属组5=rx，其他人5=rx）。</p>
-<p class="content-p">ps / top / netstat：看进程、看资源、看端口。考点：ps -ef | grep java 查进程，netstat -tlnp 查端口占用。</p>
-<p class="content-p">grep / find：文本搜索和文件查找。考点：管道符 | 组合使用，如 grep ERROR app.log。</p>
-<p class="content-p">df / du：看磁盘和文件大小。考点：df -h 看整体，du -sh * 看当前目录下各文件大小。</p>
-<p class="content-p">tar：打包压缩。考点：解压 tar -zxvf（z代表gzip，x解压，v显示，f文件）。</p>
-<p class="content-p">kill：终止进程。考点：kill -9 强制杀，kill -15 优雅终止（可被捕获清理资源）。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">面试Linux操作系统，有3个必考题：</p>
-<p class="content-p">// 日志报错磁盘满？ 答：用 df -h 看分区，再用 du -sh * 找大文件，清空用 &gt; filename。</p>
-<p class="content-p">// 端口被占用？     答：netstat -tlnp | grep 8080 查PID，然后 kill -9 PID。</p>
-<p class="content-p">// 权限不够？       答：加 sudo，或检查 ls -l 看属主，用 chmod 改权限。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">最后记个“保命口诀”：增删改查用Tab补全，删前先看，改前先备份。</p>
-<p class="content-p">&gt; 接下来将如何使用Sudo提权，获取root用户最高权限</p>
-<p class="content-p">先登录获取lama用户权限(这三个用户 哪个能行就用哪个，假设lama能行)——sudo -l 输入lama密码，查看——whoami 查看用户名(就是返回lama)——sudo whoami 返回root（不同的用户，不一定都返回root，要么返回root 要么命令执行失败或报错）——sudo id（id变成0，也就是最高权限）</p>
-<p class="content-p">总之，sudo xxxx ，就是在lama/... 用户权限下，以最高权限执行命令</p>
-<p class="content-p">（比如 sudo sqlmap -u） </p>
-<p class="content-p">&gt; sudo su root 就是切换到最高权限（root权限）</p>
-<p class="content-p"></p>
-<p class="content-p">&gt; 如果sudo whoami 没有返回root，而是命令执行失败（说明用户没有sudo权限，比如说losy用户没有sudo权限），那么现在该怎么提权呢？</p>
-<p class="content-p">答案：Python建立反弹SHELL连接</p>
-<p class="content-p">Python是一种高级的、动态类型的编程语言，它的设计注重代码的可读性和简洁性。</p>
-<p class="content-p">Python于1989年首次公开发布，至今已经成为了全球最受欢迎的编程语言之一。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">在命令行输入python就进入到了编程页面</p>
-<p class="content-p">（这是Linux下的命令行终端（Shell）调用了Python解释器</p>
-<p class="content-p">Windows操作系统，配置完python环境变量后，在 CMD或 PowerShell 里输入 python，效果和 Linux 终端完全一样）。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">Python的作用比较多，可以实现数学运算、网站编程、算法设计等，当然Python也可以去执行操作系统的命令，因为Python是由sudo命令启动的，所以也就是ROOT启动的Python，那么我们使用Python执行系统命令也就是ROOT的权限</p>
-<p class="content-p">也就是我们要说的，利用python来提权</p>
-<p class="content-p">接下来将实际操作（kali虚拟机）</p>
-<p class="content-p">su - losy → 完整切换到 losy 用户（环境变量也切换）——python3 进入python编辑器，里面可以敲各种各样的python语法代码来实现编程</p>
-<p class="content-p">sudo python3 → root权限启动</p>
-<p class="content-p">&gt; python命令执行</p>
-<p class="content-p">在python3里面，分别执行一下两个命令</p>
-<p class="content-p">import os      //导入os库</p>
-<p class="content-p">os.system(&quot;命令&quot;)    //system(“命令”) 这个是命令执行函数</p>
-<p class="content-p"></p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>6. Python建立反弹SHELL连接<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">上面讲到的，获取root权限必须用sudo ；那么我们不想用sudo，能不能直接获取root权限？</p>
-<p class="content-p">Python建立反弹SHELL连接</p>
-<p class="content-p">&gt; Bash是许多Linux发行版的默认Shell，类似windows中的CMD命令行，使用Bash就可以启动一个Shell，从而执行操作系统的命令</p>
-<p class="content-p">我们可以通过Python执行Bash命令从而实现启动losy用户的Shell</p>
-<p class="content-p">&gt; Shell 就是一个命令行解释器，webshell是网站木马</p>
-<p class="content-p"></p>
-<p class="content-p">&gt;具体操作：在 python3里面执行命令</p>
-<p class="content-p">import os      </p>
-<p class="content-p">os.system(&quot;bash&quot;)</p>
-<p class="content-p">打开之后，就直接变成root权限</p>
-<p class="content-p"></p>
-<p class="content-p">或者是，在普通用户权限下，直接执行 sudo bash，不用python，也能从普通用户</p>
-<p class="content-p">权限—root权限</p>
-<p class="content-p"></p>
-<p class="content-p">&gt; sudo滥用</p>
-<p class="content-p">Sudo滥用是root乱给的权限，它不是漏洞，而是管理员在配置root的时候配置的</p>
-<p class="content-p">普通用户默认不能使用 sudo，管理员可以通过配置主动赋予这个权限</p>
-<span class="tip-inline">&lt;hr class="content-hr"&gt;</span>
-<p class="content-p">为什么必须给普通用户 sudo 权限？</p>
-<p class="content-p">因为 Linux 的设计原则是：</p>
-<p class="content-p">日常工作用普通用户（安全，防止误删系统文件）</p>
-<p class="content-p">需要管理操作时提权（通过 sudo 临时获得 root 权限）</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">如果不给 sudo 权限，普通用户连这些基础操作都做不了</p>
-<p class="content-p"></p>
-<p class="content-p"></p>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>7. Shadow文件和特权账号<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">你作为攻击方，受害者（Linux操作系统）已经发现你对其电脑/服务器/...做出了入侵、篡改、窃取数据等操作，然后受害者就开始修复这些问题（漏洞bug等）。</p>
-<p class="content-p">那么攻击方下一次要入侵电脑，就变得十分困难。</p>
-<p class="content-p">这个时候，攻击方可以考虑留一个后门，下次入侵的时候，直接通过这个后门进入受害者电脑。</p>
-<p class="content-p">Linux操作系统，留后门的方法有许多，这里将：特权账号留后门</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">&gt; 在Linux系统中,存在着两个特殊的文件 /etc/passwd 和 /etc/shadow 这两个文件中存储着用户名和加密后的密码.</p>
-<p class="content-p">在目前大多数Linux系统中,将加密后的用户密码存放在 /etc/shadow 中，但是 /etc/shadow 只能root用户查看.</p>
-<p class="content-p">那么有了root权限后，就能查看 用户密码 了.</p>
-<p class="content-p">passwd文件里面存放着用户名，什么权限的用户都能查看 cat /etc/passwd，</p>
-<p class="content-p">&gt; 如何提权到root权限，上面介绍了几种方法了</p>
-<p class="content-p">sudo提权、直接运行sudo bash、sudo su root、sudo + python提权、计划任务提权</p>
-<p class="content-p">这些都是普通用户获取权限——最高权限（root权限）的方法</p>
-<p class="content-p">kali虚拟机里面还能直接打开root终端，本质和sudo su root一样</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">接下来将，shadow文件介绍</p>
-<p class="content-p">&gt; Shadow文件用于存储Linux系统中用户的密码信息，又称为&quot;影子文件&quot;，只有root用户可以查看。cat /etc/shadow</p>
-<p class="content-p">用户名：加密密码：最后一次修改时间：最小修改时间间隔：密码有效期：密码需要变更前的警告天数：</p>
-<p class="content-p">&lt;重要的就账号 密码，其他都是一些无关紧要的东西&gt;</p>
-<p class="content-p">密码过期后的宽限时间：账号失效时间：保留字段</p>
-<p class="content-p"></p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>----<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">特权账号的创建</p>
-<p class="content-p">&gt; 比如说，我要在Linux操作系统（kali虚拟机）里面创建一个账号baili，并且获得最高权限</p>
-<p class="content-p">那么就需要</p>
-<p class="content-p">在/etc/passwd 和 /etc/shadow这两个文件里面添加baili的信息——把用户ID、组ID都改成0——</p>
-<p class="content-p">不建议 把root改成baili，</p>
-<p class="content-p"></p>
-<p class="content-p">&gt; PASS WD文件主要是存放账户的文件，任意用户都可以查看，格式如下</p>
-<p class="content-p">用户名：密码：U ID（用户ID）：GID（组ID）：描述性信息：主目录：默认Shell</p>
-<p class="content-p">&gt; 创建用户需要用到的命令是 </p>
-<p class="content-p">首先，root权限下，useradd xxxx （比如：usersdd baili 、 useradd test）</p>
-<p class="content-p">然后，查看cat /etc/passwd ，发现创建成功</p>
-<p class="content-p">////</p>
-<p class="content-p">下面这条命令能直接创建</p>
-<p class="content-p">useradd -p &#x27;openssl passwd-1-salt &#x27;salt&#x27; 123456&#x27; test -0 -u 0 -g root- G root -s /bin/bash -d /home/test</p>
-<p class="content-p">test是用户名，123456是密码，其余都是模板</p>
-<p class="content-p">查看cat /etc/passwd ，发现创建成功</p>
-<p class="content-p">复杂命令的话，直接提供用户名，剩下的让AI来写</p>
-<p class="content-p">&gt; 创建完成后，名为test，实为root，仅仅是账号密码的区别。因为对于一台电脑而言，用户名ID:组ID=0:0 ，就是root（电脑默认的）</p>
-<p class="content-p"> 根据上述原理，说明bali创建后不易被发现和修复，那么就可以把baili作为 再次进入受害者电脑的后门，下次直接用该账号访问就是最高权限，</p>
-<p class="content-p">如果真不小心被发现的话，可以写一个计划任务，就是定时创建该账号，被删除后自动重新创建（除非把计划任务删了）</p>
-<p class="content-p">有的系统，管理员可能设置禁止root登录，可以修改一下，使其允许root登录</p>
-<p class="content-p">&gt; 再次熟悉一下这个命令</p>
-<p class="content-p">ssh baili@192.168.41.136</p>
-<p class="content-p">从你当前的 Kali 机器，以 baili 这个用户的身份，远程连接到 IP 地址为 192.168.41.136 的那台电脑上，并获得一个命令行终端（Shell）。</p>
-      
-      <div class="chapter-nav"><a href="chapter1.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter3.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
+      <div class="note-chapter-title">补充章节二 Kali系统里面进行渗透测试（Linux系统）</div>
+<div class="note-section-title">1. Sqlmap说白了就是判断网站是否存在sql注入漏洞的、并利用漏洞(查看数据库信息 如账号 密码等)的工具</div>
+<div class="note-list-item">• -</div>
+<div class="note-paragraph">这里补充一下Sqlmap的知识</div>
+<div class="note-paragraph">&gt; 这是sqlmap一些简单的命令</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">Kali里面完整的命令就是：</div>
+<div class="note-paragraph">sudo sqlmap -u “要测试的网站” --random-agent</div>
+<div class="note-list-item">• -cookie PHPSESSID=b26b66ck03s96eimlthf5llv66 --batch -D --dbs</div>
+<div class="note-paragraph">（其实可以把网址地址和Cookie值，发给AI，让ai写命令）</div>
+<div class="note-list-item">• -----</div>
+<div class="note-image-placeholder">📷 测试前，需要把网站，先在kali虚拟机的 浏览器里面成功登录运行，浏览器页面按F12——Network——点击对应的网站地址——Cookies——获取钥匙(如图所示)</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt; 利用sqlmap命令，获取数据库信息（账号、密码）</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">这时候可以，ssh jehad@192.168.x.xx，输入密码fool，利用该账号，登录到了网站系统里面去，相当于入侵成功</div>
+<div class="note-paragraph">这相当于初步登录了该网站的账号，接下来就是要向内部渗透，获取更多的信息</div>
+<div class="note-section-title">2. Linux系统本地收集信息</div>
+<div class="note-paragraph">&gt; 当我们有幸获取了SSH账号，并且成功渗透到该网站/受害者电脑中后，接下来要做的第一步就是信息收集（搜集受害者电脑/被入侵网站的 相关信息，比如：）</div>
+<div class="note-paragraph">这时候kali虚拟机（Linux系统）充当的就是攻击者的电脑/工具，被入侵的电脑可能是其他系统（比如：windows、Ubuntu乌班图系统）</div>
+<div class="note-paragraph">&gt; 接下来将 Linux入侵后的信息收集的一些命令（跟上面的2 .那个不一样，那个是入侵前，这个是入侵后）</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">这些命令和入侵前信息收集的命令基本类似</div>
+<div class="note-paragraph">登录SSH账号后，在Linux/Kali中执行这些命令，可以获取受害者电脑的信息</div>
+<div class="note-paragraph">&gt; Apach 、Mysql、Nginx、、FTP这四个分别代表什么？</div>
+<div class="note-paragraph">Nginx / Apache（网页服务器） = 门卫/接待员。它们负责接待访客（浏览器）的请求，并把网页内容发给访客。Nginx 像一位高效的前台，擅长同时处理大量访客；Apache 像一位功能强大的管家，配置灵活但人多时可能慢一些。</div>
+<div class="note-paragraph">MySQL（数据库） = 档案库/仓库。它负责存储网站的所有数据，比如用户注册信息、文章内容、商品列表。你看到的动态内容（比如用户名、价格）都是从这里面调取出来的。</div>
+<div class="note-paragraph">FTP（文件传输协议） = 搬运货物的后门。它不是网站运行必须的部分，而是一个上传工具。当你需要把网站代码、图片等文件从自己的电脑传到服务器上时，就需要通过FTP这个“搬运通道”。</div>
+<div class="note-paragraph">真正搭建网站的时候FTP一般不需要</div>
+<div class="note-section-title">3. 操作系统Linux计划任务权限提升（提权）</div>
+<div class="note-paragraph">&gt; 我们通过执行命令 获取到受害者一大堆信息后，接下来就是要提权（就是拿到最高权限root，然后才能完整地控制受害者电脑）</div>
+<div class="note-paragraph">&gt; LINUX提权的方式有很多【SUID】【sudo滥用】【计划任务】【自启动】【内核提权】</div>
+<div class="note-paragraph">【第三方软件提权】【环境变量提权】【通配符提权】等等方式很多，</div>
+<div class="note-paragraph">我们今天来学习&quot;计划任务提权&quot;</div>
+<div class="note-paragraph">真正的渗透测试实战中，需要把每一种方法都试一试，并不是每个方法都能成功</div>
+<div class="note-paragraph">&gt; 计划任务，顾名思义，就是按照规定的计划时间，执行固定的程序，</div>
+<div class="note-paragraph">当我们需要在服务器上定时执行一些重复性的事件时使用的，可以通过计划任务程序来运行准备好的脚本、批处理文件夹、程序或命令，在某个特定的时间运行。</div>
+<div class="note-paragraph">&gt; 计划任务的文件夹在 /etc/cr on*——打开cat /etc/cron*——cat /etc/crontab 可以查看计划任务，如下图 有多条任务正在运行</div>
+<div class="note-paragraph">之前，做恢复系统的时候，就已经用到过计划任务了</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt; 计划任务提权 方法一：改计划任务</div>
+<div class="note-paragraph">有些管理员，安全防护做的不到位，导致普通用户也能修改计划任务的内容（甚至可以添加计划任务 或删除计划任务），这时候我们可以尝试 修改计划任务来提权</div>
+<div class="note-paragraph">比如说，把root service apache2 start &amp;&amp; service mysql start 改成一个木马，</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">执行以下命令来打开编辑器，来修改计划任务</div>
+<div class="note-paragraph">vim /etc/cron</div>
+<div class="note-paragraph">vim /etc/crontab</div>
+<div class="note-paragraph">看看能不能修改和保存，能的话就破坏掉命令 或改成一个木马；不能的话就换另一种方法</div>
+<div class="note-paragraph">&gt; 计划提权任务 方法二：找到计划任务的记录，然后观察是否存存在高危险的命令和运行</div>
+<div class="note-paragraph">程序，看看是否能提权</div>
+<div class="note-paragraph">比如这个计划任务 * * * * * losy cd/opt/web &amp;&amp; php -S localhost:9999</div>
+<div class="note-paragraph">经过一系列操作，拿到用户losy的权限（这里的操作有点复杂，具体可以让AI辅助执行）</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&lt;这里非常麻烦，需要反复操作，执行一些复杂而陌生的命令，以及复杂陌生的操作；</div>
+<div class="note-paragraph">我这里第一遍听不懂&gt;</div>
+<div class="note-section-title">4. Kali美杜莎工具账号密码破解</div>
+<div class="note-paragraph">&gt; 通过上面的步骤，我们已经拿到了两个用户的权限，jehad和losy，通过查看/etc/pass wd</div>
+<div class="note-paragraph">文件发现还有一个用户是lama，我们还没拿到权限</div>
+<div class="note-paragraph">&gt; lama用美杜莎工具（kali里面已经自带安装了，我们不需要手动安装），来暴力破解，获取其密码（账号已知，lama）</div>
+<div class="note-paragraph">命令可以问AI，密码字典可以kali浏览器baidu.com里面下载，放到kali虚拟机桌面上</div>
+<div class="note-paragraph">medusa -M ssh -h 192.168.41.136 -u lama -P /home/kali/Desktop/top100_ssh.txt -t 10 -F</div>
+<div class="note-paragraph">出现[SUCCESS]，说明密码破出来了</div>
+<div class="note-paragraph">这个时候就可以登录用户lama权限</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">到这里，这三个账号jehad、losy、lama已经破解出来了（拿到这三个账号的权限了），接下来就剩下一个最高权限root</div>
+<div class="note-paragraph">Jehead: 利用sqlmap查看数据库，获取到密码</div>
+<div class="note-paragraph">Losy: 提权，查找记录，获取到密码</div>
+<div class="note-paragraph">Lama: 美杜莎暴力破解，获取到密码</div>
+<div class="note-paragraph">这些用户ID都是1000出头，都是低权限的用户，接下来要拿到root最高权限</div>
+<div class="note-section-title">5. Sudo提权 获取root用户最高权限</div>
+<div class="note-paragraph">&gt; sudo介绍</div>
+<div class="note-paragraph">SUDO是Linux系统管理指令，是允许系统管理员让普通用户执行一些或者全部的root命令的一个工具</div>
+<div class="note-paragraph">在一些应用场景里面，为了方便运维人员以低权限帐号进行运维，往往会开启帐号的一些SUDO权限给运维帐号，从而减少root等登录频率</div>
+<div class="note-paragraph">&gt; 这里补充一下Linux系统常见的命令</div>
+<div class="note-paragraph">（这里先记录一下常见命令，Linux操作系统作为一个大模块要单独学习）</div>
+<div class="note-paragraph">面试官考Linux命令，核心就盯着文件管理、权限和状态排查。你不用全背，把这20个以内的高频命令及“考点”记牢就行：</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">cd / ls / pwd：切换、列表、显示当前路径。考点：ls -l 看权限，ls -a 看隐藏文件。</div>
+<div class="note-paragraph">cp / mv / rm：复制、移动/重命名、删除。致命考点：rm -rf 慎用，面试必问“如何安全删除”（先ls确认再删）。</div>
+<div class="note-paragraph">cat / less / tail：查看文件。考点：tail -f 实时看日志，绝对高频。</div>
+<div class="note-paragraph">vim：编辑文件。考点：三种模式（命令/插入/底行），保存退出 :wq，强制退出 :q!。</div>
+<div class="note-paragraph">chmod / chown：权限和归属。考点：chmod 755 的数字含义（属主7=rwx，属组5=rx，其他人5=rx）。</div>
+<div class="note-paragraph">ps / top / netstat：看进程、看资源、看端口。考点：ps -ef | grep java 查进程，netstat -tlnp 查端口占用。</div>
+<div class="note-paragraph">grep / find：文本搜索和文件查找。考点：管道符 | 组合使用，如 grep ERROR app.log。</div>
+<div class="note-paragraph">df / du：看磁盘和文件大小。考点：df -h 看整体，du -sh * 看当前目录下各文件大小。</div>
+<div class="note-paragraph">tar：打包压缩。考点：解压 tar -zxvf（z代表gzip，x解压，v显示，f文件）。</div>
+<div class="note-paragraph">kill：终止进程。考点：kill -9 强制杀，kill -15 优雅终止（可被捕获清理资源）。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">面试Linux操作系统，有3个必考题：</div>
+<div class="note-paragraph">// 日志报错磁盘满？ 答：用 df -h 看分区，再用 du -sh * 找大文件，清空用 &gt; filename。</div>
+<div class="note-paragraph">// 端口被占用？     答：netstat -tlnp | grep 8080 查PID，然后 kill -9 PID。</div>
+<div class="note-paragraph">// 权限不够？       答：加 sudo，或检查 ls -l 看属主，用 chmod 改权限。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">最后记个“保命口诀”：增删改查用Tab补全，删前先看，改前先备份。</div>
+<div class="note-paragraph">&gt; 接下来将如何使用Sudo提权，获取root用户最高权限</div>
+<div class="note-paragraph">先登录获取lama用户权限(这三个用户 哪个能行就用哪个，假设lama能行)——sudo -l 输入lama密码，查看——whoami 查看用户名(就是返回lama)——sudo whoami 返回root（不同的用户，不一定都返回root，要么返回root 要么命令执行失败或报错）——sudo id（id变成0，也就是最高权限）</div>
+<div class="note-paragraph">总之，sudo xxxx ，就是在lama/... 用户权限下，以最高权限执行命令</div>
+<div class="note-paragraph">（比如 sudo sqlmap -u）</div>
+<div class="note-paragraph">&gt; sudo su root 就是切换到最高权限（root权限）</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt; 如果sudo whoami 没有返回root，而是命令执行失败（说明用户没有sudo权限，比如说losy用户没有sudo权限），那么现在该怎么提权呢？</div>
+<div class="note-paragraph">答案：Python建立反弹SHELL连接</div>
+<div class="note-paragraph">Python是一种高级的、动态类型的编程语言，它的设计注重代码的可读性和简洁性。</div>
+<div class="note-paragraph">Python于1989年首次公开发布，至今已经成为了全球最受欢迎的编程语言之一。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">在命令行输入python就进入到了编程页面</div>
+<div class="note-paragraph">（这是Linux下的命令行终端（Shell）调用了Python解释器</div>
+<div class="note-paragraph">Windows操作系统，配置完python环境变量后，在 CMD或 PowerShell 里输入 python，效果和 Linux 终端完全一样）。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">Python的作用比较多，可以实现数学运算、网站编程、算法设计等，当然Python也可以去执行操作系统的命令，因为Python是由sudo命令启动的，所以也就是ROOT启动的Python，那么我们使用Python执行系统命令也就是ROOT的权限</div>
+<div class="note-paragraph">也就是我们要说的，利用python来提权</div>
+<div class="note-paragraph">接下来将实际操作（kali虚拟机）</div>
+<div class="note-paragraph">su - losy → 完整切换到 losy 用户（环境变量也切换）——python3 进入python编辑器，里面可以敲各种各样的python语法代码来实现编程</div>
+<div class="note-paragraph">sudo python3 → root权限启动</div>
+<div class="note-paragraph">&gt; python命令执行</div>
+<div class="note-paragraph">在python3里面，分别执行一下两个命令</div>
+<div class="note-paragraph">import os      //导入os库</div>
+<div class="note-paragraph">os.system(&quot;命令&quot;)    //system(“命令”) 这个是命令执行函数</div>
+<div class="note-paragraph"></div>
+<div class="note-section-title">6. Python建立反弹SHELL连接</div>
+<div class="note-paragraph">上面讲到的，获取root权限必须用sudo ；那么我们不想用sudo，能不能直接获取root权限？</div>
+<div class="note-paragraph">Python建立反弹SHELL连接</div>
+<div class="note-paragraph">&gt; Bash是许多Linux发行版的默认Shell，类似windows中的CMD命令行，使用Bash就可以启动一个Shell，从而执行操作系统的命令</div>
+<div class="note-paragraph">我们可以通过Python执行Bash命令从而实现启动losy用户的Shell</div>
+<div class="note-paragraph">&gt; Shell 就是一个命令行解释器，webshell是网站木马</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt;具体操作：在 python3里面执行命令</div>
+<div class="note-paragraph">import os</div>
+<div class="note-paragraph">os.system(&quot;bash&quot;)</div>
+<div class="note-paragraph">打开之后，就直接变成root权限</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">或者是，在普通用户权限下，直接执行 sudo bash，不用python，也能从普通用户</div>
+<div class="note-paragraph">权限—root权限</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt; sudo滥用</div>
+<div class="note-paragraph">Sudo滥用是root乱给的权限，它不是漏洞，而是管理员在配置root的时候配置的</div>
+<div class="note-paragraph">普通用户默认不能使用 sudo，管理员可以通过配置主动赋予这个权限</div>
+<div class="note-list-item">• --</div>
+<div class="note-paragraph">为什么必须给普通用户 sudo 权限？</div>
+<div class="note-paragraph">因为 Linux 的设计原则是：</div>
+<div class="note-paragraph">日常工作用普通用户（安全，防止误删系统文件）</div>
+<div class="note-paragraph">需要管理操作时提权（通过 sudo 临时获得 root 权限）</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">如果不给 sudo 权限，普通用户连这些基础操作都做不了</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph"></div>
+<div class="note-section-title">7. Shadow文件和特权账号</div>
+<div class="note-paragraph">你作为攻击方，受害者（Linux操作系统）已经发现你对其电脑/服务器/...做出了入侵、篡改、窃取数据等操作，然后受害者就开始修复这些问题（漏洞bug等）。</div>
+<div class="note-paragraph">那么攻击方下一次要入侵电脑，就变得十分困难。</div>
+<div class="note-paragraph">这个时候，攻击方可以考虑留一个后门，下次入侵的时候，直接通过这个后门进入受害者电脑。</div>
+<div class="note-paragraph">Linux操作系统，留后门的方法有许多，这里将：特权账号留后门</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">&gt; 在Linux系统中,存在着两个特殊的文件 /etc/passwd 和 /etc/shadow 这两个文件中存储着用户名和加密后的密码.</div>
+<div class="note-paragraph">在目前大多数Linux系统中,将加密后的用户密码存放在 /etc/shadow 中，但是 /etc/shadow 只能root用户查看.</div>
+<div class="note-paragraph">那么有了root权限后，就能查看 用户密码 了.</div>
+<div class="note-paragraph">passwd文件里面存放着用户名，什么权限的用户都能查看 cat /etc/passwd，</div>
+<div class="note-paragraph">&gt; 如何提权到root权限，上面介绍了几种方法了</div>
+<div class="note-paragraph">sudo提权、直接运行sudo bash、sudo su root、sudo + python提权、计划任务提权</div>
+<div class="note-paragraph">这些都是普通用户获取权限——最高权限（root权限）的方法</div>
+<div class="note-paragraph">kali虚拟机里面还能直接打开root终端，本质和sudo su root一样</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">接下来将，shadow文件介绍</div>
+<div class="note-paragraph">&gt; Shadow文件用于存储Linux系统中用户的密码信息，又称为&quot;影子文件&quot;，只有root用户可以查看。cat /etc/shadow</div>
+<div class="note-paragraph">用户名：加密密码：最后一次修改时间：最小修改时间间隔：密码有效期：密码需要变更前的警告天数：</div>
+<div class="note-paragraph">&lt;重要的就账号 密码，其他都是一些无关紧要的东西&gt;</div>
+<div class="note-paragraph">密码过期后的宽限时间：账号失效时间：保留字段</div>
+<div class="note-paragraph"></div>
+<div class="note-list-item">• ----</div>
+<div class="note-paragraph">特权账号的创建</div>
+<div class="note-paragraph">&gt; 比如说，我要在Linux操作系统（kali虚拟机）里面创建一个账号baili，并且获得最高权限</div>
+<div class="note-paragraph">那么就需要</div>
+<div class="note-paragraph">在/etc/passwd 和 /etc/shadow这两个文件里面添加baili的信息——把用户ID、组ID都改成0——</div>
+<div class="note-paragraph">不建议 把root改成baili，</div>
+<div class="note-paragraph"></div>
+<div class="note-paragraph">&gt; PASS WD文件主要是存放账户的文件，任意用户都可以查看，格式如下</div>
+<div class="note-paragraph">用户名：密码：U ID（用户ID）：GID（组ID）：描述性信息：主目录：默认Shell</div>
+<div class="note-paragraph">&gt; 创建用户需要用到的命令是</div>
+<div class="note-paragraph">首先，root权限下，useradd xxxx （比如：usersdd baili 、 useradd test）</div>
+<div class="note-paragraph">然后，查看cat /etc/passwd ，发现创建成功</div>
+<div class="note-paragraph">////</div>
+<div class="note-paragraph">下面这条命令能直接创建</div>
+<div class="note-paragraph">useradd -p &#x27;openssl passwd-1-salt &#x27;salt&#x27; 123456&#x27; test -0 -u 0 -g root- G root -s /bin/bash -d /home/test</div>
+<div class="note-paragraph">test是用户名，123456是密码，其余都是模板</div>
+<div class="note-paragraph">查看cat /etc/passwd ，发现创建成功</div>
+<div class="note-paragraph">复杂命令的话，直接提供用户名，剩下的让AI来写</div>
+<div class="note-paragraph">&gt; 创建完成后，名为test，实为root，仅仅是账号密码的区别。因为对于一台电脑而言，用户名ID:组ID=0:0 ，就是root（电脑默认的）</div>
+<div class="note-paragraph">根据上述原理，说明bali创建后不易被发现和修复，那么就可以把baili作为 再次进入受害者电脑的后门，下次直接用该账号访问就是最高权限，</div>
+<div class="note-paragraph">如果真不小心被发现的话，可以写一个计划任务，就是定时创建该账号，被删除后自动重新创建（除非把计划任务删了）</div>
+<div class="note-paragraph">有的系统，管理员可能设置禁止root登录，可以修改一下，使其允许root登录</div>
+<div class="note-paragraph">&gt; 再次熟悉一下这个命令</div>
+<div class="note-paragraph">ssh baili@192.168.41.136</div>
+<div class="note-paragraph">从你当前的 Kali 机器，以 baili 这个用户的身份，远程连接到 IP 地址为 192.168.41.136 的那台电脑上，并获得一个命令行终端（Shell）。</div>
+      <div class="chapter-nav"><a href="chapter1.html">← 上一章</a><a href="chapter3.html">下一章 →</a></div>
     </div>
     
     <div class="footer">
-      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+      📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>
   </div>
 </body>

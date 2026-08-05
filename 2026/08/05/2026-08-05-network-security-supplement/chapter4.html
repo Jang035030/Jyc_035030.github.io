@@ -3,279 +3,311 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>第4章 第十章 POC | 网络安全宝典（续）</title>
+  <title>第十章 POC | 网络安全宝典（续）</title>
   <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
   <style>
+/* ========== 全局样式 ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: #f5f5f5;
   min-height: 100vh;
   padding: 20px;
   line-height: 1.8;
+  color: #333;
 }
+
 .container {
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
   overflow: hidden;
 }
+
+/* ========== 头部 ========== */
 .header {
-  background: linear-gradient(135deg, #2d1b4e 0%, #4a1942 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  padding: 40px 30px;
+  padding: 35px 30px;
   text-align: center;
-  position: relative;
-  overflow: hidden;
 }
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(240,147,251,0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-}
-@keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.header-content { position: relative; z-index: 1; }
+
 .chapter-badge {
   display: inline-block;
-  background: linear-gradient(135deg, #f093fb, #f5576c);
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 15px;
+  background: rgba(255,255,255,0.2);
+  padding: 5px 15px;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 12px;
   letter-spacing: 1px;
 }
+
 .page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  line-height: 1.4;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 8px;
 }
+
 .page-subtitle {
   opacity: 0.85;
-  font-size: 15px;
+  font-size: 14px;
+  font-weight: 300;
 }
+
+/* ========== 导航栏 ========== */
 .nav-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 30px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  padding: 12px 25px;
+  background: #fafafa;
+  border-bottom: 1px solid #eee;
 }
+
 .nav-link {
-  color: #f5576c;
+  color: #667eea;
   text-decoration: none;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: color 0.3s;
-}
-.nav-link:hover { color: #f093fb; }
-.content {
-  padding: 40px 35px;
-}
-/* 章节标题 */
-.chapter-main-title {
-  font-size: 26px;
-  color: #2d1b4e;
-  margin-bottom: 25px;
-  padding-bottom: 15px;
-  border-bottom: 3px solid #f093fb;
-  display: inline-block;
-}
-.section-title {
-  font-size: 19px;
-  color: #4a1942;
-  margin: 25px 0 15px 0;
-  padding-left: 15px;
-  border-left: 4px solid #f5576c;
-  font-weight: 600;
-}
-/* 内容段落 */
-.content-p {
-  margin: 12px 0;
-  color: #333;
-  font-size: 15px;
-  text-align: justify;
-  text-indent: 0;
-}
-/* 链接 */
-.content-link {
-  color: #f5576c;
-  word-break: break-all;
-  text-decoration: none;
-  border-bottom: 1px dashed #f5576c;
-  transition: all 0.3s;
-}
-.content-link:hover {
-  color: #f093fb;
-  border-bottom-style: solid;
-}
-/* 分隔线 */
-.content-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #fce4ec, transparent);
-  margin: 25px 0;
-}
-/* 引用块 */
-.content-quote {
-  background: linear-gradient(135deg, #fff5f7, #ffe4e8);
-  border-left: 4px solid #f5576c;
-  padding: 12px 18px;
-  margin: 15px 0;
-  color: #555;
-  border-radius: 0 8px 8px 0;
-  position: relative;
-}
-.content-quote::before {
-  content: '"';
-  position: absolute;
-  left: 8px;
-  top: -5px;
-  font-size: 40px;
-  color: rgba(245,87,108,0.2);
-  font-family: Georgia, serif;
-}
-/* 命令代码 */
-.cmd-code {
-  display: block;
-  background: #1e1e1e;
-  color: #d4d4d4;
-  padding: 12px 18px;
-  margin: 15px 0;
-  border-radius: 8px;
-  font-family: "Consolas", "Monaco", monospace;
   font-size: 14px;
-  overflow-x: auto;
+  font-weight: 500;
+  transition: color 0.2s;
 }
-/* 列表 */
-.content-list {
-  margin: 15px 0;
-  padding-left: 25px;
+
+.nav-link:hover { color: #764ba2; }
+
+/* ========== 内容区域 ========== */
+.content {
+  padding: 35px 40px;
 }
-.content-list-item {
-  margin: 8px 0;
-  color: #333;
+
+/* ---------- 章节标题 ---------- */
+.note-chapter-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a2e;
+  margin: 30px 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #667eea;
+}
+
+.note-chapter-title:first-child {
+  margin-top: 0;
+}
+
+/* ---------- 小节标题 ---------- */
+.note-section-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 25px 0 15px 0;
+  padding-left: 12px;
+  border-left: 4px solid #667eea;
+  background: linear-gradient(90deg, #f8f9ff, transparent);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-radius: 0 4px 4px 0;
+}
+
+/* ---------- 普通段落 ---------- */
+.note-paragraph {
+  margin: 10px 0;
   font-size: 15px;
+  color: #444;
+  text-align: justify;
+  line-height: 1.9;
+  padding-left: 8px;
+}
+
+/* ---------- 列表项 ---------- */
+.note-list-item {
+  margin: 8px 0;
+  font-size: 15px;
+  color: #444;
+  padding-left: 8px;
   line-height: 1.8;
 }
-/* 提示文本 */
-.tip-inline {
-  background: linear-gradient(135deg, #fff3cd, #ffeeba);
-  padding: 2px 8px;
-  border-radius: 4px;
-  color: #856404;
-  font-weight: 500;
+
+/* ---------- 引用块 ---------- */
+.note-quote {
+  background: #f8f9fa;
+  border-left: 3px solid #adb5bd;
+  padding: 10px 15px;
+  margin: 12px 0;
+  font-size: 14.5px;
+  color: #555;
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
 }
-.note-text {
-  color: #6c757d;
-  font-size: 14px;
-  background: #f1f3f5;
-  padding: 2px 8px;
-  border-radius: 4px;
+
+/* ---------- 命令行代码 ---------- */
+.note-command {
+  background: #1e1e1e;
+  color: #ce9178;
+  padding: 10px 16px;
+  margin: 12px 0;
+  border-radius: 6px;
+  font-family: "Consolas", "Monaco", "Courier New", monospace;
+  font-size: 13.5px;
+  overflow-x: auto;
+  border: 1px solid #333;
 }
-.arrow-text {
-  color: #f5576c;
-  font-weight: 500;
+
+/* ---------- 提示/箭头 ---------- */
+.note-tip {
   margin: 10px 0;
-  padding-left: 10px;
-}
-/* 图片占位符 */
-.image-placeholder {
-  background: linear-gradient(135deg, #fce4ec, #f8bbd0);
-  border: 2px dashed #f5576c;
-  border-radius: 12px;
-  padding: 30px;
-  text-align: center;
-  margin: 25px 0;
-  color: #c2185b;
-}
-.image-placeholder i {
-  font-size: 48px;
-  margin-bottom: 10px;
-  display: block;
-}
-.image-text {
-  font-size: 16px;
+  font-size: 14.5px;
+  color: #764ba2;
+  padding-left: 8px;
   font-weight: 500;
 }
-/* 页脚 */
+
+/* ---------- 图片占位符 ---------- */
+.note-image-placeholder {
+  background: linear-gradient(135deg, #fef5e7, #fdebd0);
+  border: 1px dashed #f39c12;
+  border-radius: 8px;
+  padding: 18px 20px;
+  margin: 18px 0;
+  text-align: center;
+  font-size: 14.5px;
+  color: #d68910;
+  font-weight: 500;
+}
+
+/* ---------- 特殊标记 ---------- */
+.note-special-mark {
+  display: inline-block;
+  background: #fff3cd;
+  color: #856404;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin: 8px 0;
+  font-weight: 500;
+}
+
+/* ---------- 注释 ---------- */
+.note-annotation {
+  color: #888;
+  font-size: 13.5px;
+  background: #f5f5f5;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+/* ---------- 分隔线 ---------- */
+.note-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ddd, transparent);
+  margin: 25px 0;
+}
+
+/* ---------- 链接 ---------- */
+a {
+  color: #667eea;
+  text-decoration: none;
+  border-bottom: 1px dotted #667eea;
+}
+
+a:hover {
+  color: #764ba2;
+  border-bottom-style: solid;
+}
+
+/* ---------- 章节导航 ---------- */
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #eee;
+}
+
+.chapter-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #f8f9ff;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: all 0.2s;
+  border: none;
+}
+
+.chapter-nav a:hover {
+  background: #667eea;
+  color: white;
+}
+
+/* ---------- 页脚 ---------- */
 .footer {
   text-align: center;
-  padding: 20px;
-  background: #f8f9fa;
-  color: #6c757d;
-  font-size: 13px;
-  border-top: 1px solid #e9ecef;
+  padding: 18px;
+  background: #fafafa;
+  color: #999;
+  font-size: 12px;
+  border-top: 1px solid #eee;
 }
+
+/* ========== 响应式 ========== */
 @media (max-width: 768px) {
   body { padding: 10px; }
-  .header { padding: 30px 20px; }
-  .page-title { font-size: 22px; }
+  .header { padding: 25px 20px; }
+  .page-title { font-size: 20px; }
   .content { padding: 25px 20px; }
-  .nav-bar { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+  .nav-bar { padding: 10px 20px; }
 }
 </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div class="header-content">
-        <div class="chapter-badge">网络安全宝典（续）· 第4部分</div>
-        <h1 class="page-title">第十章 POC</h1>
-        <p class="page-subtitle">原创笔记 · 一字不差</p>
-      </div>
+      <div class="chapter-badge">网络安全宝典（续）· 第4部分</div>
+      <h1 class="page-title">第十章 POC</h1>
+      <p class="page-subtitle">原创笔记 · 一字不差</p>
     </div>
     
     <div class="nav-bar">
-      <a href="main.html" class="nav-link"><i class="fa fa-list-ul"></i> 目录</a>
-      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+      <a href="main.html" class="nav-link">📋 目录</a>
+      <a href="index.html" class="nav-link">🏠 返回首页</a>
     </div>
     
     <div class="content">
-      <span class="tip-inline">&lt;h1 class="chapter-main-title"&gt;</span>第十章 POC <span class="tip-inline">&lt;/h1&gt;</span>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>1. POC是什么？<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">POC是&quot;Proof of Concept&quot;的缩写，中文意思是&quot;概念验证。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--在网络安全领域，这个词非常常见。一个POC通常是一段用来验证漏洞是否真实存在的代码或程序。<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--举个例子：就像一位新药研发者为了证明自己的理论，制作了一小份药剂样品来验证药效。这个&quot;样品&quot;就是POC，它不是一个可以量产销售的药品，而是用来证明&quot;这个思路可行&quot;的证据<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>--POC不是一个可以下载的软件，但可以下载到大量用于执行POC验证的工具和脚本集合。 这些工具都是为安全研究人员、渗透测试人员等专业人士准备的。<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">如果你对网络安全没有深入了解，请不要随意下载运行，以免触犯法律或对自身系统造成危害。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>----<span class="tip-inline">&lt;/li&gt;</span>
-<span class="tip-inline">&lt;h3 class="section-title"&gt;</span>2. 目前的话，我可以下载的关于POC的东西如下(POC要下载的东西只有这三类)：<span class="tip-inline">&lt;/h3&gt;</span>
-<p class="content-p">&gt; 📦 POC脚本/代码集合</p>
-<p class="content-p">下载 1个 就够了</p>
-<p class="content-p">推荐：Awesome-POC</p>
-<p class="content-p">理由：它像一个“漏洞字典”，收录了1000+漏洞，按CMS、OA、框架分类，非常适合实习期查阅和学习。有一个这样的集合，基本够日常翻查用了。</p>
-<p class="content-p">不需要多下：这类项目内容高度重叠，下多了只是占用硬盘空间，而且更新维护也跟不上。</p>
-<p class="content-p">&gt; 🛠️ POC管理/扫描工具</p>
-<p class="content-p">下载 1个 就够了</p>
-<p class="content-p">推荐：Nuclei（命令行工具，开源免费，社区最活跃）</p>
-<p class="content-p">理由：这是安服工程师的“标配”。它本身不包含POC，但可以加载第一类里的YAML模板，实现批量扫描。学会Nuclei，实习期基本够用。</p>
-<span class="tip-inline">&lt;li class="content-list-item"&gt;</span>---<span class="tip-inline">&lt;/li&gt;</span>
-<p class="content-p">备选：如果你实在不喜欢命令行，可以试试 Goby（有图形界面），但它更偏向资产测绘+漏洞扫描，概念上稍有不同。</p>
-<p class="content-p">不要多下：不同工具的核心功能相似，学精一个比装一堆更实用。</p>
-<p class="content-p">&gt; 🎯 单一漏洞POC</p>
-<p class="content-p">不需要提前下载，按需下载</p>
-<p class="content-p">理由：这类POC是针对某个特定CVE漏洞的，你不可能提前知道明天会遇到哪个漏洞。</p>
-<p class="content-p">正确做法是：遇到具体漏洞时，再去GitHub搜索 CVE编号 + POC，临时下载那个单一脚本。</p>
-<p class="content-p">比如，你的扫描器报了一个 CVE-2023-28432，你就去搜这个编号的POC，下载回来验证。用完就删或归档，不用长期囤积。</p>
-      
-      <div class="chapter-nav"><a href="chapter3.html" class="nav-link"><i class="fa fa-arrow-left"></i> 上一章</a><a href="chapter5.html" class="nav-link">下一章 <i class="fa fa-arrow-right"></i></a></div>
+      <div class="note-chapter-title">第十章 POC</div>
+<div class="note-section-title">1. POC是什么？</div>
+<div class="note-paragraph">POC是&quot;Proof of Concept&quot;的缩写，中文意思是&quot;概念验证。</div>
+<div class="note-list-item">• --在网络安全领域，这个词非常常见。一个POC通常是一段用来验证漏洞是否真实存在的代码或程序。</div>
+<div class="note-list-item">• --举个例子：就像一位新药研发者为了证明自己的理论，制作了一小份药剂样品来验证药效。这个&quot;样品&quot;就是POC，它不是一个可以量产销售的药品，而是用来证明&quot;这个思路可行&quot;的证据</div>
+<div class="note-list-item">• --POC不是一个可以下载的软件，但可以下载到大量用于执行POC验证的工具和脚本集合。 这些工具都是为安全研究人员、渗透测试人员等专业人士准备的。</div>
+<div class="note-paragraph">如果你对网络安全没有深入了解，请不要随意下载运行，以免触犯法律或对自身系统造成危害。</div>
+<div class="note-list-item">• ----</div>
+<div class="note-section-title">2. 目前的话，我可以下载的关于POC的东西如下(POC要下载的东西只有这三类)：</div>
+<div class="note-paragraph">&gt; 📦 POC脚本/代码集合</div>
+<div class="note-paragraph">下载 1个 就够了</div>
+<div class="note-paragraph">推荐：Awesome-POC</div>
+<div class="note-paragraph">理由：它像一个“漏洞字典”，收录了1000+漏洞，按CMS、OA、框架分类，非常适合实习期查阅和学习。有一个这样的集合，基本够日常翻查用了。</div>
+<div class="note-paragraph">不需要多下：这类项目内容高度重叠，下多了只是占用硬盘空间，而且更新维护也跟不上。</div>
+<div class="note-paragraph">&gt; 🛠️ POC管理/扫描工具</div>
+<div class="note-paragraph">下载 1个 就够了</div>
+<div class="note-paragraph">推荐：Nuclei（命令行工具，开源免费，社区最活跃）</div>
+<div class="note-paragraph">理由：这是安服工程师的“标配”。它本身不包含POC，但可以加载第一类里的YAML模板，实现批量扫描。学会Nuclei，实习期基本够用。</div>
+<div class="note-list-item">• ---</div>
+<div class="note-paragraph">备选：如果你实在不喜欢命令行，可以试试 Goby（有图形界面），但它更偏向资产测绘+漏洞扫描，概念上稍有不同。</div>
+<div class="note-paragraph">不要多下：不同工具的核心功能相似，学精一个比装一堆更实用。</div>
+<div class="note-paragraph">&gt; 🎯 单一漏洞POC</div>
+<div class="note-paragraph">不需要提前下载，按需下载</div>
+<div class="note-paragraph">理由：这类POC是针对某个特定CVE漏洞的，你不可能提前知道明天会遇到哪个漏洞。</div>
+<div class="note-paragraph">正确做法是：遇到具体漏洞时，再去GitHub搜索 CVE编号 + POC，临时下载那个单一脚本。</div>
+<div class="note-paragraph">比如，你的扫描器报了一个 CVE-2023-28432，你就去搜这个编号的POC，下载回来验证。用完就删或归档，不用长期囤积。</div>
+      <div class="chapter-nav"><a href="chapter3.html">← 上一章</a><a href="chapter5.html">下一章 →</a></div>
     </div>
     
     <div class="footer">
-      <p>📝 网络安全宝典（续）· 原创笔记 | 我的博客</p>
+      📝 网络安全宝典（续）· 原创笔记 | 我的博客
     </div>
   </div>
 </body>
