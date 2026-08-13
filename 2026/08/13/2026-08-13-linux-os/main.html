@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Linux操作系统 - 目录 | 我的博客</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", serif;
+      background: linear-gradient(180deg, #F1F8E9 0%, #DCEDC8 50%, #C8E6C9 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255,183,178,0.12) 0%, transparent 18%),
+        radial-gradient(circle at 90% 80%, rgba(129,199,132,0.15) 0%, transparent 22%),
+        radial-gradient(circle at 50% 50%, rgba(255,236,179,0.1) 0%, transparent 28%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(46,125,50,0.12);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* 头部 */
+    .header {
+      background: linear-gradient(135deg, #2E7D32 0%, #43A047 50%, #66BB6A 100%);
+      color: white;
+      padding: 55px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '🌺';
+      position: absolute;
+      top: 18px;
+      right: 25px;
+      font-size: 65px;
+      opacity: 0.2;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .header::after {
+      content: '🌷';
+      position: absolute;
+      bottom: 12px;
+      left: 22px;
+      font-size: 48px;
+      opacity: 0.16;
+      animation: float 7s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-14px) rotate(4deg); }
+    }
+    
+    .header-content { position: relative; z-index: 1; }
+    
+    .book-icon {
+      font-size: 72px;
+      margin-bottom: 18px;
+      display: block;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
+    
+    .main-title {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: 3px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .subtitle {
+      font-size: 17px;
+      opacity: 0.95;
+      font-weight: 400;
+    }
+    
+    /* 简介 */
+    .intro {
+      text-align: center;
+      color: #558B2F;
+      font-size: 15.5px;
+      line-height: 1.85;
+      margin-bottom: 42px;
+      padding: 24px 32px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      border-radius: 14px;
+      border-left: 4px solid #81C784;
+    }
+    
+    .content { padding: 45px 38px; }
+    
+    /* 章节网格 */
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 22px;
+    }
+    
+    /* 章节卡片 */
+    .chapter-card {
+      background: white;
+      border: 2px solid #C8E6C9;
+      border-radius: 18px;
+      padding: 28px;
+      transition: all 0.35s ease;
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .chapter-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      transform: scaleX(0);
+      transition: transform 0.35s ease;
+    }
+    
+    .chapter-card:nth-child(1)::before { background: linear-gradient(90deg, #66BB6A, #A5D6A7); }
+    .chapter-card:nth-child(2)::before { background: linear-gradient(90deg, #81C784, #C5E1A5); }
+    .chapter-card:nth-child(3)::before { background: linear-gradient(90deg, #FFAB91, #FFCCBC); }
+    .chapter-card:nth-child(4)::before { background: linear-gradient(90deg, #FFCC80, #FFE0B2); }
+    .chapter-card:nth-child(5)::before { background: linear-gradient(90deg, #CE93D8, #E1BEE7); }
+    .chapter-card:nth-child(6)::before { background: linear-gradient(90deg, #90CAF9, #BBDEFB); }
+    .chapter-card:nth-child(7)::before { background: linear-gradient(90deg, #F48FB1, #F8BBD9); }
+
+    .chapter-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 40px rgba(102,187,106,0.2);
+      border-color: transparent;
+    }
+    
+    .chapter-card:hover::before { transform: scaleX(1); }
+    
+    /* 章节编号 */
+    .chapter-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: white;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+    }
+    
+    .chapter-card:nth-child(1) .chapter-number { background: linear-gradient(135deg, #66BB6A, #43A047); }
+    .chapter-card:nth-child(2) .chapter-number { background: linear-gradient(135deg, #81C784, #66BB6A); }
+    .chapter-card:nth-child(3) .chapter-number { background: linear-gradient(135deg, #FFAB91, #FF7043); }
+    .chapter-card:nth-child(4) .chapter-number { background: linear-gradient(135deg, #FFCC80, #FFA726); }
+    .chapter-card:nth-child(5) .chapter-number { background: linear-gradient(135deg, #CE93D8, #AB47BC); }
+    .chapter-card:nth-child(6) .chapter-number { background: linear-gradient(135deg, #90CAF9, #42A5F5); }
+    .chapter-card:nth-child(7) .chapter-number { background: linear-gradient(135deg, #F48FB1, #EC407A); }
+
+    .chapter-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #2E7D32;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    
+    .chapter-desc {
+      font-size: 13.5px;
+      color: #689F38;
+      line-height: 1.65;
+    }
+    
+    .chapter-icon {
+      float: right;
+      font-size: 26px;
+      opacity: 0.6;
+      margin-left: 10px;
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 22px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      color: #43A047;
+      font-size: 13.5px;
+      border-top: 2px solid #A5D6A7;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      body { padding: 15px; }
+      .header { padding: 38px 24px; }
+      .main-title { font-size: 30px; }
+      .content { padding: 28px 20px; }
+      .chapter-grid { grid-template-columns: 1fr; gap: 16px; }
+      .chapter-card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <span class="book-icon">📖</span>
+        <h1 class="main-title">Linux操作系统</h1>
+        <p class="subtitle">原创学习笔记 · 七大核心模块 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="content">
+      <div class="intro">
+        本笔记记录了从零开始学习 Linux 操作系统的完整过程，涵盖操作系统概述、目录结构、基础命令、用户权限、软件安装、数据库配置等核心知识点。所有内容均为手写原创，力求准确完整。
+      </div>
+      
+      <div class="chapter-grid">
+        
+        <!-- 第一章 -->
+        <a href="chapter1.html" class="chapter-card">
+          <span class="chapter-icon">🌸</span>
+          <div class="chapter-number">1</div>
+          <h3 class="chapter-title">操作系统概述与Linux基础</h3>
+          <p class="chapter-desc">操作系统的作用、Linux系统组成、常见发行版、命令行操作、WSL与虚拟机快照等拓展知识</p>
+        </a>
+        
+        <!-- 第二章 -->
+        <a href="chapter2.html" class="chapter-card">
+          <span class="chapter-icon">🌼</span>
+          <div class="chapter-number">2</div>
+          <h3 class="chapter-title">Linux目录结构与基础命令</h3>
+          <p class="chapter-desc">树型目录结构、路径描述、ls/cd/pwd/mv/cp/rm/cat/more/tail/grep/find等常用命令详解</p>
+        </a>
+        
+        <!-- 第三章 -->
+        <a href="chapter3.html" class="chapter-card">
+          <span class="chapter-icon">🌺</span>
+          <div class="chapter-number">3</div>
+          <h3 class="chapter-title">Root用户与权限管理</h3>
+          <p class="chapter-desc">root用户介绍、sudo提权、用户切换、权限控制等核心概念与实践操作</p>
+        </a>
+        
+        <!-- 第四章 -->
+        <a href="chapter4.html" class="chapter-card">
+          <span class="chapter-icon">🌻</span>
+          <div class="chapter-number">4</div>
+          <h3 class="chapter-title">快捷键、软件安装与服务配置</h3>
+          <p class="chapter-desc">常用快捷键、yum/apt安装软件、systemctl服务管理、网络配置、域名解析、DHCP/NTP/Docker等进阶内容</p>
+        </a>
+        
+        <!-- 第五章 -->
+        <a href="chapter5.html" class="chapter-card">
+          <span class="chapter-icon">🌷</span>
+          <div class="chapter-number">5</div>
+          <h3 class="chapter-title">MySQL数据库安装</h3>
+          <p class="chapter-desc">MySQL 5.7/8.0在CentOS上的安装步骤、初始化配置、远程连接设置等实战操作</p>
+        </a>
+        
+        <!-- 第六章 -->
+        <a href="chapter6.html" class="chapter-card">
+          <span class="chapter-icon">💐</span>
+          <div class="chapter-number">6</div>
+          <h3 class="chapter-title">后续章节预告</h3>
+          <p class="chapter-desc">脚本与自动化、项目实战、云平台等高级主题预告</p>
+        </a>
+        
+        <!-- 第七章 -->
+        <a href="chapter7.html" class="chapter-card">
+          <span class="chapter-icon">🌹</span>
+          <div class="chapter-number">7</div>
+          <h3 class="chapter-title">常见命令速查表</h3>
+          <p class="chapter-desc">文件目录操作、文件编辑、用户权限、系统服务等各类命令的快速参考表格</p>
+        </a>
+        
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>🌿 Linux操作系统 · 原创学习笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

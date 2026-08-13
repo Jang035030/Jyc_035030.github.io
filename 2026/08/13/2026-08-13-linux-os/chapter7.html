@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第7章 常见命令速查表 | Linux操作系统</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", serif;
+      background: linear-gradient(180deg, #F1F8E9 0%, #DCEDC8 50%, #C8E6C9 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.9;
+      color: #2D3436;
+    }
+    
+    /* 背景装饰 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255,183,178,0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(129,199,132,0.15) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255,236,179,0.1) 0%, transparent 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 
+        0 10px 40px rgba(46, 125, 50, 0.1),
+        0 0 0 1px rgba(165, 214, 167, 0.3);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* 头部 - 春天主题 */
+    .header {
+      background: linear-gradient(135deg, #43A047 0%, #66BB6A 50%, #81C784 100%);
+      color: white;
+      padding: 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '🌹';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 60px;
+      opacity: 0.2;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .header::after {
+      content: '🌹';
+      position: absolute;
+      bottom: 10px;
+      left: 25px;
+      font-size: 45px;
+      opacity: 0.15;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    .header-content { position: relative; z-index: 1; }
+    
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 8px 22px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .page-subtitle {
+      opacity: 0.95;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    
+    /* 导航栏 */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      border-bottom: 2px solid #A5D6A7;
+    }
+    
+    .nav-link {
+      color: #2E7D32;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-link:hover {
+      background: #E8F5E9;
+      color: #2E7D32;
+      transform: translateY(-2px);
+    }
+    
+    /* 内容区域 */
+    .content {
+      padding: 45px 40px;
+      background: white;
+    }
+    
+    /* 章节标题 */
+    .spring-chapter-title {
+      font-size: 28px;
+      color: #2E7D32;
+      margin-bottom: 35px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid #81C784;
+      display: inline-block;
+      position: relative;
+      font-weight: 700;
+    }
+    
+    .spring-chapter-title::after {
+      content: '🌹';
+      position: absolute;
+      right: -45px;
+      top: -5px;
+      font-size: 28px;
+      opacity: 0.6;
+    }
+    
+    /* 大节标题 */
+    .spring-section-title {
+      font-size: 22px;
+      color: #2E7D32;
+      margin: 32px 0 18px 0;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, #E8F5E9, transparent);
+      border-left: 5px solid #81C784;
+      border-radius: 0 12px 12px 0;
+      font-weight: 600;
+    }
+    
+    /* 小节标题 */
+    .spring-subsection-title {
+      font-size: 17px;
+      color: #558B2F;
+      margin: 22px 0 12px 0;
+      padding-left: 16px;
+      border-left: 3px solid #A5D6A7;
+      font-weight: 600;
+    }
+    
+    /* 普通段落 */
+    .spring-paragraph {
+      margin: 10px 0;
+      color: #2D3436;
+      font-size: 15.5px;
+      text-align: justify;
+      text-indent: 2em;
+      line-height: 2;
+    }
+    
+    /* 引用块 */
+    .spring-quote {
+      background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+      padding: 16px 22px;
+      margin: 18px 0;
+      border-left: 4px solid #FFB74D;
+      border-radius: 0 12px 12px 0;
+      color: #5D4037;
+      font-style: italic;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.1);
+    }
+    
+    .spring-quote::before {
+      content: '"';
+      position: absolute;
+      top: -5px;
+      left: 10px;
+      font-size: 40px;
+      color: #FFB74D;
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    
+    /* 注释文字 */
+    .spring-note {
+      display: block;
+      background: #F3E5F5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #7B1FA2;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    
+    /* 图片占位符 */
+    .spring-image-placeholder {
+      background: linear-gradient(135deg, #FFF9C4, #FFF59D);
+      border: 2px dashed #FFD54F;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      margin: 24px 0;
+      color: #F57F17;
+    }
+    
+    .leaf-icon {
+      font-size: 42px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .spring-image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    /* 表格样式 */
+    .spring-table-container {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    
+    .spring-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 14.5px;
+    }
+    
+    .spring-table thead {
+      background: linear-gradient(135deg, #2E7D32, #81C784);
+      color: white;
+    }
+    
+    .spring-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .spring-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #E8F5E9;
+      color: #2D3436;
+    }
+    
+    .spring-table tbody tr:hover {
+      background: #E8F5E9;
+    }
+    
+    .spring-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* 分隔线 */
+    .spring-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #A5D6A7, transparent);
+      margin: 28px 0;
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 22px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      color: #2E7D32;
+      font-size: 13.5px;
+      border-top: 2px solid #A5D6A7;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 35px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 28px 20px; }
+      .nav-bar { padding: 12px 18px; flex-wrap: wrap; gap: 10px; }
+      .spring-section-title { font-size: 19px; }
+      .spring-subsection-title { font-size: 16px; }
+      .spring-paragraph { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">Linux操作系统 · 第7章</div>
+        <h1 class="page-title">常见命令速查表</h1>
+        <p class="page-subtitle">原创学习笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="spring-chapter-title">第七章 Linux操作系统常见的命令</h1>
+<h2 class="spring-section-title">一、文件目录操作（基础）</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ls</p>
+<p class="spring-paragraph">列出目录内容</p>
+<p class="spring-paragraph">ls -la 显示所有文件（含隐藏）+ 详细信息</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">cd</p>
+<p class="spring-paragraph">切换目录</p>
+<p class="spring-paragraph">cd /home、cd ..、cd ~</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">pwd</p>
+<p class="spring-paragraph">显示当前路径</p>
+<p class="spring-paragraph">直接执行</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">mkdir</p>
+<p class="spring-paragraph">创建目录</p>
+<p class="spring-paragraph">mkdir -p a/b/c 一次性创建多级</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">rm</p>
+<p class="spring-paragraph">删除文件/目录</p>
+<p class="spring-paragraph">rm -rf 强制递归删除（危险）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">cp</p>
+<p class="spring-paragraph">复制</p>
+<p class="spring-paragraph">cp -r 复制目录</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">mv</p>
+<p class="spring-paragraph">移动/重命名</p>
+<p class="spring-paragraph">mv a.txt b.txt 重命名</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">touch</p>
+<p class="spring-paragraph">创建空文件</p>
+<p class="spring-paragraph">touch test.txt</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">cat</p>
+<p class="spring-paragraph">查看完整文件</p>
+<p class="spring-paragraph">cat /etc/passwd</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">more / less</p>
+<p class="spring-paragraph">分页查看</p>
+<p class="spring-paragraph">空格翻页，q 退出</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">head / tail</p>
+<p class="spring-paragraph">查看头/尾</p>
+<p class="spring-paragraph">tail -f 实时跟踪日志（必考）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">find</p>
+<p class="spring-paragraph">搜索文件</p>
+<p class="spring-paragraph">find / -name &quot;*.log&quot;</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">grep</p>
+<p class="spring-paragraph">搜索文本内容</p>
+<p class="spring-paragraph">grep -n &quot;error&quot; app.log</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">which</p>
+<p class="spring-paragraph">查命令所在路径</p>
+<p class="spring-paragraph">which java</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">二、权限管理</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">chmod</p>
+<p class="spring-paragraph">修改权限</p>
+<p class="spring-paragraph">chmod 755 file、chmod u+x file</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">chown</p>
+<p class="spring-paragraph">修改所有者</p>
+<p class="spring-paragraph">chown root:root file</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">useradd / userdel</p>
+<p class="spring-paragraph">添加/删除用户</p>
+<p class="spring-paragraph">useradd tom</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">groupadd / groupdel</p>
+<p class="spring-paragraph">添加/删除用户组</p>
+<p class="spring-paragraph">groupadd dev</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">passwd</p>
+<p class="spring-paragraph">修改密码</p>
+<p class="spring-paragraph">passwd tom</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">su</p>
+<p class="spring-paragraph">切换用户</p>
+<p class="spring-paragraph">su - root</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">sudo</p>
+<p class="spring-paragraph">临时提权</p>
+<p class="spring-paragraph">sudo yum install xxx</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">三、进程管理</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ps</p>
+<p class="spring-paragraph">查看进程</p>
+<p class="spring-paragraph">ps -ef、ps aux</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">top</p>
+<p class="spring-paragraph">实时系统状态</p>
+<p class="spring-paragraph">按 M 按内存排序，按 P 按 CPU 排序</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">kill</p>
+<p class="spring-paragraph">杀死进程</p>
+<p class="spring-paragraph">kill -9 PID（强制杀）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">killall</p>
+<p class="spring-paragraph">按名称杀进程</p>
+<p class="spring-paragraph">killall java</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">nohup</p>
+<p class="spring-paragraph">后台运行</p>
+<p class="spring-paragraph">nohup java -jar app.jar &amp;</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">jobs / fg / bg</p>
+<p class="spring-paragraph">查看/切换前后台任务</p>
+<p class="spring-paragraph">不常用但会问</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">四、系统状态监控</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">df -h</p>
+<p class="spring-paragraph">查看磁盘空间</p>
+<p class="spring-paragraph">看 已用% 列</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">free -h</p>
+<p class="spring-paragraph">查看内存</p>
+<p class="spring-paragraph">看 available 列</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">top</p>
+<p class="spring-paragraph">CPU/内存实时</p>
+<p class="spring-paragraph">同上方进程管理</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">netstat</p>
+<p class="spring-paragraph">查看端口/网络</p>
+<p class="spring-paragraph">netstat -tlnp | grep 8080</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">iostat</p>
+<p class="spring-paragraph">磁盘 I/O</p>
+<p class="spring-paragraph">iostat -x 2 3</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">sar</p>
+<p class="spring-paragraph">网络统计</p>
+<p class="spring-paragraph">sar -n DEV 2</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ping</p>
+<p class="spring-paragraph">测试网络连通</p>
+<p class="spring-paragraph">ping baidu.com</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">hostname</p>
+<p class="spring-paragraph">查看/设置主机名</p>
+<p class="spring-paragraph">hostnamectl set-hostname node1</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">uptime</p>
+<p class="spring-paragraph">运行时间+负载</p>
+<p class="spring-paragraph">看 load average</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">五、压缩打包</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">tar</p>
+<p class="spring-paragraph">打包/解包</p>
+<p class="spring-paragraph">tar -czvf test.tar.gz /path（打包压缩）</p>
+<p class="spring-paragraph">tar -xzvf test.tar.gz（解压）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">gzip</p>
+<p class="spring-paragraph">压缩单个文件</p>
+<p class="spring-paragraph">gzip file.txt</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">gunzip</p>
+<p class="spring-paragraph">解压 .gz</p>
+<p class="spring-paragraph">gunzip file.txt.gz</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">zip / unzip</p>
+<p class="spring-paragraph">压缩/解压 zip</p>
+<p class="spring-paragraph">zip -r test.zip /path、unzip test.zip</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">六、网络相关</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ping</p>
+<p class="spring-paragraph">测网络连通</p>
+<p class="spring-paragraph">ping 192.168.1.1</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">wget</p>
+<p class="spring-paragraph">下载文件</p>
+<p class="spring-paragraph">wget https://xxx.com/file.tar.gz</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">curl</p>
+<p class="spring-paragraph">HTTP 请求</p>
+<p class="spring-paragraph">curl http://localhost:8080</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ifconfig / ip addr</p>
+<p class="spring-paragraph">查看 IP</p>
+<p class="spring-paragraph">看 inet 行</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">netstat</p>
+<p class="spring-paragraph">查看端口</p>
+<p class="spring-paragraph">netstat -anp | grep 3306</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ss</p>
+<p class="spring-paragraph">查看端口（更快）</p>
+<p class="spring-paragraph">ss -tlnp</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">scp</p>
+<p class="spring-paragraph">跨机拷贝文件</p>
+<p class="spring-paragraph">scp file root@192.168.1.2:/tmp</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">七、文件上传下载</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">说明</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">rz</p>
+<p class="spring-paragraph">上传文件到服务器</p>
+<p class="spring-paragraph">需装 lrzsz</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">sz</p>
+<p class="spring-paragraph">从服务器下载文件</p>
+<p class="spring-paragraph">默认到 桌面/fsdownload</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">scp</p>
+<p class="spring-paragraph">跨机拷贝</p>
+<p class="spring-paragraph">上面已列</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">rsync</p>
+<p class="spring-paragraph">增量同步</p>
+<p class="spring-paragraph">高级，加分项</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">八、软件包管理</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">yum</p>
+<p class="spring-paragraph">CentOS 包管理</p>
+<p class="spring-paragraph">yum install -y nginx</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">rpm</p>
+<p class="spring-paragraph">RPM 包管理</p>
+<p class="spring-paragraph">rpm -ivh xxx.rpm</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">systemctl</p>
+<p class="spring-paragraph">管理服务（启动/停止/自启）</p>
+<p class="spring-paragraph">systemctl start nginx、</p>
+<p class="spring-paragraph">systemctl enable nginx</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">ps</p>
+<p class="spring-paragraph">查看服务进程</p>
+<p class="spring-paragraph">ps -ef | grep nginx</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">九、文本处理</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">grep</p>
+<p class="spring-paragraph">过滤</p>
+<p class="spring-paragraph">grep &quot;error&quot; app.log</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">wc</p>
+<p class="spring-paragraph">统计</p>
+<p class="spring-paragraph">wc -l 统计行数</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">echo</p>
+<p class="spring-paragraph">输出</p>
+<p class="spring-paragraph">echo $PATH</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">|（管道符）</p>
+<p class="spring-paragraph">前一个命令的输出作为后一个的输入</p>
+<p class="spring-paragraph">ps -ef | grep java</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">&gt; / &gt;&gt;</p>
+<p class="spring-paragraph">重定向输出</p>
+<p class="spring-paragraph">echo hello &gt; file.txt（覆盖）、</p>
+<p class="spring-paragraph">&gt;&gt;（追加）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">十、环境变量</h2>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">示例</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">env</p>
+<p class="spring-paragraph">查看所有环境变量</p>
+<p class="spring-paragraph">env</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">echo $变量名</p>
+<p class="spring-paragraph">查看单个变量</p>
+<p class="spring-paragraph">echo $PATH</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">export</p>
+<p class="spring-paragraph">设置环境变量（临时）</p>
+<p class="spring-paragraph">export MY_NAME=John</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">source</p>
+<p class="spring-paragraph">重新加载配置文件</p>
+<p class="spring-paragraph">source ~/.bashrc</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">十一、面试版</h2>
+<p class="spring-paragraph">面试的时候很有可能就会考实操，这个的话，要多加练习。</p>
+<p class="spring-paragraph">以下是deekseek生成的一部分：</p>
+<p class="spring-paragraph">需求</p>
+<p class="spring-paragraph">命令</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查 8080 端口谁占了</p>
+<p class="spring-paragraph">netstat -tlnp | grep 8080</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查 Java 进程</p>
+<p class="spring-paragraph">ps -ef | grep java</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">杀掉一个 Java 进程</p>
+<p class="spring-paragraph">ps -ef | grep java 查 PID，然后 kill -9 PID</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">实时看日志</p>
+<p class="spring-paragraph">tail -f /var/log/xxx.log</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查磁盘满了没</p>
+<p class="spring-paragraph">df -h</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查内存剩多少</p>
+<p class="spring-paragraph">free -h</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">从远程下载文件</p>
+<p class="spring-paragraph">wget http://xxx/file.tar.gz</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">复制整个文件夹到另一台机器</p>
+<p class="spring-paragraph">scp -r /root/folder root@192.168.1.2:/tmp</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">打包压缩整个目录</p>
+<p class="spring-paragraph">tar -czvf backup.tar.gz /var/log</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">解压 tar.gz 到当前目录</p>
+<p class="spring-paragraph">tar -xzvf backup.tar.gz</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">解压 zip</p>
+<p class="spring-paragraph">unzip file.zip</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">找 .log 结尾的文件</p>
+<p class="spring-paragraph">find / -name &quot;*.log&quot;</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">在日志里搜 error</p>
+<p class="spring-paragraph">grep -n &quot;error&quot; app.log</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">改文件权限为 755</p>
+<p class="spring-paragraph">chmod 755 file</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">把文件所有者改成 root</p>
+<p class="spring-paragraph">chown root file</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">看当前目录有几个文件/文件夹</p>
+<p class="spring-paragraph">ls -l | wc -l</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查看历史命令</p>
+<p class="spring-paragraph">history</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">重复执行上一个命令</p>
+<p class="spring-paragraph">!!</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+    </div>
+    
+    <div class="footer">
+      <p>🌹 Linux操作系统 · 原创学习笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

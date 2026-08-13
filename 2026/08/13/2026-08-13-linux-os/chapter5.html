@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第5章 MySQL数据库安装 | Linux操作系统</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", serif;
+      background: linear-gradient(180deg, #F1F8E9 0%, #DCEDC8 50%, #C8E6C9 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.9;
+      color: #2D3436;
+    }
+    
+    /* 背景装饰 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255,183,178,0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(129,199,132,0.15) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255,236,179,0.1) 0%, transparent 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 
+        0 10px 40px rgba(46, 125, 50, 0.1),
+        0 0 0 1px rgba(165, 214, 167, 0.3);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* 头部 - 春天主题 */
+    .header {
+      background: linear-gradient(135deg, #43A047 0%, #66BB6A 50%, #81C784 100%);
+      color: white;
+      padding: 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '🌻';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 60px;
+      opacity: 0.2;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .header::after {
+      content: '🌻';
+      position: absolute;
+      bottom: 10px;
+      left: 25px;
+      font-size: 45px;
+      opacity: 0.15;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    .header-content { position: relative; z-index: 1; }
+    
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 8px 22px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .page-subtitle {
+      opacity: 0.95;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    
+    /* 导航栏 */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      border-bottom: 2px solid #A5D6A7;
+    }
+    
+    .nav-link {
+      color: #2E7D32;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-link:hover {
+      background: #E8F5E9;
+      color: #2E7D32;
+      transform: translateY(-2px);
+    }
+    
+    /* 内容区域 */
+    .content {
+      padding: 45px 40px;
+      background: white;
+    }
+    
+    /* 章节标题 */
+    .spring-chapter-title {
+      font-size: 28px;
+      color: #2E7D32;
+      margin-bottom: 35px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid #81C784;
+      display: inline-block;
+      position: relative;
+      font-weight: 700;
+    }
+    
+    .spring-chapter-title::after {
+      content: '🌻';
+      position: absolute;
+      right: -45px;
+      top: -5px;
+      font-size: 28px;
+      opacity: 0.6;
+    }
+    
+    /* 大节标题 */
+    .spring-section-title {
+      font-size: 22px;
+      color: #2E7D32;
+      margin: 32px 0 18px 0;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, #E8F5E9, transparent);
+      border-left: 5px solid #81C784;
+      border-radius: 0 12px 12px 0;
+      font-weight: 600;
+    }
+    
+    /* 小节标题 */
+    .spring-subsection-title {
+      font-size: 17px;
+      color: #558B2F;
+      margin: 22px 0 12px 0;
+      padding-left: 16px;
+      border-left: 3px solid #A5D6A7;
+      font-weight: 600;
+    }
+    
+    /* 普通段落 */
+    .spring-paragraph {
+      margin: 10px 0;
+      color: #2D3436;
+      font-size: 15.5px;
+      text-align: justify;
+      text-indent: 2em;
+      line-height: 2;
+    }
+    
+    /* 引用块 */
+    .spring-quote {
+      background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+      padding: 16px 22px;
+      margin: 18px 0;
+      border-left: 4px solid #FFB74D;
+      border-radius: 0 12px 12px 0;
+      color: #5D4037;
+      font-style: italic;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.1);
+    }
+    
+    .spring-quote::before {
+      content: '"';
+      position: absolute;
+      top: -5px;
+      left: 10px;
+      font-size: 40px;
+      color: #FFB74D;
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    
+    /* 注释文字 */
+    .spring-note {
+      display: block;
+      background: #F3E5F5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #7B1FA2;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    
+    /* 图片占位符 */
+    .spring-image-placeholder {
+      background: linear-gradient(135deg, #FFF9C4, #FFF59D);
+      border: 2px dashed #FFD54F;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      margin: 24px 0;
+      color: #F57F17;
+    }
+    
+    .leaf-icon {
+      font-size: 42px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .spring-image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    /* 表格样式 */
+    .spring-table-container {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    
+    .spring-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 14.5px;
+    }
+    
+    .spring-table thead {
+      background: linear-gradient(135deg, #2E7D32, #81C784);
+      color: white;
+    }
+    
+    .spring-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .spring-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #E8F5E9;
+      color: #2D3436;
+    }
+    
+    .spring-table tbody tr:hover {
+      background: #E8F5E9;
+    }
+    
+    .spring-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* 分隔线 */
+    .spring-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #A5D6A7, transparent);
+      margin: 28px 0;
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 22px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      color: #2E7D32;
+      font-size: 13.5px;
+      border-top: 2px solid #A5D6A7;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 35px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 28px 20px; }
+      .nav-bar { padding: 12px 18px; flex-wrap: wrap; gap: 10px; }
+      .spring-section-title { font-size: 19px; }
+      .spring-subsection-title { font-size: 16px; }
+      .spring-paragraph { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">Linux操作系统 · 第5章</div>
+        <h1 class="page-title">MySQL数据库安装</h1>
+        <p class="page-subtitle">原创学习笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="spring-chapter-title">第五章</h1>
+<h3 class="spring-subsection-title">1 .安装MySQL5.7在centos虚拟机</h3>
+<h3 class="spring-subsection-title">2 .安装MySQL8.0在centos虚拟机</h3>
+<h3 class="spring-subsection-title">3 .安装MySQL5.7在ubuntu虚拟机</h3>
+<h3 class="spring-subsection-title">4 .安装MySQL8.0在ubuntu虚拟机</h3>
+<h3 class="spring-subsection-title">5 .Tomcat安装部署</h3>
+<p class="spring-paragraph">&gt; 我已经成功在 CentOS 上装好了 Tomcat，并且能在浏览器里看到那只猫的首页。现在你有一个可以运行 Java Web 程序的服务器环境了。</p>
+<p class="spring-paragraph">&gt; Tomcat 是一个 Web 应用服务器，本身不是网页形式。它运行在后台，是命令行形式的程序，和Nginx、MySQL。</p>
+<p class="spring-paragraph">&gt; Tomcat 是一个让 Java 写的网站能运行起来的服务器软件。 写一个 Java Web 程序，把它放到 Tomcat 里，用户就能通过浏览器访问了。</p>
+<p class="spring-paragraph">&gt; 那为什么能看到 Tomcat 首页？</p>
+<p class="spring-paragraph">Tomcat 启动后，它会把一个 管理网站 部署在自己的服务里，让你通过浏览器访问它，方便做管理和监控。</p>
+<h3 class="spring-subsection-title">6 .Nginx安装部署</h3>
+<p class="spring-paragraph">&gt; Nginx 和 Apache 都是 Web 服务器软件。</p>
+<p class="spring-paragraph">&gt; 他们没有图形化页面，使用的时候需要配合其他图形化软件（phpstudy、宝塔面板等）或终端敲命令。</p>
+<p class="spring-paragraph">&gt; 它们的主要工作是：当你在浏览器输入网址，它们负责把网页内容传回来给你。</p>
+<p class="spring-paragraph">&gt; 他们不仅具有正向代理功能，也有反向代理功能</p>
+<p class="spring-paragraph">代理类型</p>
+<p class="spring-paragraph">作用方向</p>
+<p class="spring-paragraph">典型场景</p>
+<p class="spring-paragraph">谁受益</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">正向代理</p>
+<p class="spring-paragraph">客户端 → 代理 → 互联网</p>
+<p class="spring-paragraph">翻墙、访问限制网站、匿名上网</p>
+<p class="spring-paragraph">客户端（用户）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">反向代理</p>
+<p class="spring-paragraph">互联网 → 代理 → 后端服务器</p>
+<p class="spring-paragraph">负载均衡、网站访问加速、隐藏真实服务器</p>
+<p class="spring-paragraph">服务器端（网站管理员）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">&gt; 刚刚安装的这三个，他们的端口是什么？</p>
+<p class="spring-paragraph">MySQL 3306、Tomact 8080、Nginx 80</p>
+<h3 class="spring-subsection-title">7 .RabbitMQ的安装部署</h3>
+<p class="spring-paragraph">（版本不匹配，我centos 10版本不匹配，需要用到docker，Docker母公司在美国 官方服务器在国外，在国内访问不稳定，而且这是在虚拟机里面 速度超级无敌慢；暂时跳过这个东西的安装）</p>
+<p class="spring-paragraph">&gt; Docker是什么？作用？</p>
+<p class="spring-paragraph">Docker 是一个容器化平台，说白了就是一个能把应用及其依赖环境一起打包、独立运行的工具。</p>
+<p class="spring-paragraph">Docker = 轻量级的&quot;虚拟机&quot;，主要作用就是：服务器或虚拟机，安装软件时，解决版本不匹配的问题（比如：......）和端口冲突或其他依赖冲突的问题（比如：MySQL5.7和MySQL8.0端口冲突，都是3306端口）</p>
+<p class="spring-paragraph">Docker 不挑系统，任何系统都能装。你在虚拟机里装是因为学习 Linux，但日常开发直接用 Windows 版也行。</p>
+<p class="spring-paragraph">Docker 本质上就是运行在 Linux 上的，Docker 在 Windows 和 macOS 上本质还是运行在一个轻量级 Linux 虚拟机里。</p>
+<p class="spring-paragraph">&gt; RabbitMQ是什么？作用？</p>
+<p class="spring-paragraph">RabbitMQ 就是让系统之间通过&quot;消息&quot;通信，相当于一个中转站，而不是直接相互调用，让系统更稳定、响应更快。</p>
+<p class="spring-paragraph">RabbitMQ 本质是一个应用程序， 和MySQL一样。</p>
+<p class="spring-paragraph">Linux 绝大多数命令（包括MySQL、Nginx、RabbitMQ，还有接下来我要安装的东西2）是磁盘上的独立程序文件（如 /bin/ls），极少数是 Shell 本身内置的（如 cd、exit），没有独立文件。</p>
+<p class="spring-paragraph">RabbitMQ 的中文翻译是 “兔子消息队列”；Robot 是&quot;机器人&quot;</p>
+<p class="spring-paragraph">部分</p>
+<p class="spring-paragraph">含义</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">Rabbit</p>
+<p class="spring-paragraph">兔子（象征速度快、繁殖能力强）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">MQ</p>
+<p class="spring-paragraph">Message Queue（消息队列）的缩写</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">8 .Redis的安装部署</h3>
+<p class="spring-paragraph">Redis 是一个内存数据库（也叫键值存储数据库），数据主要存储在内存中，所以读写速度极快。</p>
+<p class="spring-paragraph">全称：REmote DIctionary Server（远程字典服务器）</p>
+<p class="spring-paragraph">Redis 的核心作用就是：把数据放在内存里，实现超高速读写。 给网站/应用装上一个&quot;加速器&quot;，让用户访问更快（可以配合MySQL使用）。</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph">说明</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">缓存加速</p>
+<p class="spring-paragraph">把频繁查询的数据存到 Redis，下次读取时直接返回，不用查硬盘数据库（MySQL），速度提升百倍</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">临时存储</p>
+<p class="spring-paragraph">存登录状态（Session）、秒杀库存、实时排行榜等需要快速读写的数据</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">和MySQL进行比较：</p>
+<p class="spring-paragraph">对比项</p>
+<p class="spring-paragraph">MySQL</p>
+<p class="spring-paragraph">Redis</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">本质</p>
+<p class="spring-paragraph">关系型数据库（存数据）</p>
+<p class="spring-paragraph">内存缓存数据库（加速数据读取）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">存储位置</p>
+<p class="spring-paragraph">硬盘（持久化）</p>
+<p class="spring-paragraph">内存（速度极快，但断电易失）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">读写速度</p>
+<p class="spring-paragraph">慢（毫秒级）</p>
+<p class="spring-paragraph">极快（微秒级，快100-1000倍）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">数据容量</p>
+<p class="spring-paragraph">大（硬盘多大就能存多大）</p>
+<p class="spring-paragraph">小（受限于内存大小）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">主要用途</p>
+<p class="spring-paragraph">业务数据长期存储</p>
+<p class="spring-paragraph">缓存加速、实时数据（如Session、排行榜）</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">9 .ElasticSearch安装部署</h3>
+<p class="spring-paragraph">（占用内存太大，一直下载失败，暂时跳过）</p>
+<p class="spring-paragraph">ElasticSearch（简称 ES）是一个搜索和分析引擎，ES = 超快的&quot;全文搜索引擎&quot;，就像百度、Google 一样，你能在一个网站里输入关键词，瞬间搜出相关结果，背后用的很可能就是 ES。</p>
+<p class="spring-paragraph">三个核心作用：全文搜索、日志分析、实时数据。</p>
+<h3 class="spring-subsection-title">10 .接下来是集群化软件安装前置准备</h3>
+<p class="spring-paragraph">上面安装的都是单机软件、接下来是集群化软件的安装</p>
+<p class="spring-paragraph">需要克隆虚拟机 3台（我内存不够，不管了）</p>
+<p class="spring-paragraph">&gt; scp命令</p>
+<p class="spring-paragraph">&gt; Zookeeper集群部署</p>
+<p class="spring-paragraph">&gt; kafka集群部署</p>
+<p class="spring-paragraph">&gt; Hadoop集群部署</p>
+<p class="spring-paragraph">&gt; Habase集群部署</p>
+<p class="spring-paragraph">&gt; Spark 分布式内存计算集群部署</p>
+<p class="spring-paragraph">&gt; Flink 分布式内存计算集群部署</p>
+    </div>
+    
+    <div class="footer">
+      <p>🌻 Linux操作系统 · 原创学习笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,390 @@
+第七章 Linux操作系统常见的命令 
+一、文件目录操作（基础）
+命令
+作用
+示例
+
+ls
+列出目录内容
+ls -la 显示所有文件（含隐藏）+ 详细信息
+
+cd
+切换目录
+cd /home、cd ..、cd ~
+
+pwd
+显示当前路径
+直接执行
+
+mkdir
+创建目录
+mkdir -p a/b/c 一次性创建多级
+
+rm
+删除文件/目录
+rm -rf 强制递归删除（危险）
+
+cp
+复制
+cp -r 复制目录
+
+mv
+移动/重命名
+mv a.txt b.txt 重命名
+
+touch
+创建空文件
+touch test.txt
+
+cat
+查看完整文件
+cat /etc/passwd
+
+more / less
+分页查看
+空格翻页，q 退出
+
+head / tail
+查看头/尾
+tail -f 实时跟踪日志（必考）
+
+find
+搜索文件
+find / -name "*.log"
+
+grep
+搜索文本内容
+grep -n "error" app.log
+
+which
+查命令所在路径
+which java
+
+
+二、权限管理
+命令
+作用
+示例
+
+chmod
+修改权限
+chmod 755 file、chmod u+x file
+
+chown
+修改所有者
+chown root:root file
+
+useradd / userdel
+添加/删除用户
+useradd tom
+
+groupadd / groupdel
+添加/删除用户组
+groupadd dev
+
+passwd
+修改密码
+passwd tom
+
+su
+切换用户
+su - root
+
+sudo
+临时提权
+sudo yum install xxx
+
+
+三、进程管理
+命令
+作用
+示例
+
+ps
+查看进程
+ps -ef、ps aux
+
+top
+实时系统状态
+按 M 按内存排序，按 P 按 CPU 排序
+
+kill
+杀死进程
+kill -9 PID（强制杀）
+
+killall
+按名称杀进程
+killall java
+
+nohup
+后台运行
+nohup java -jar app.jar &
+
+jobs / fg / bg
+查看/切换前后台任务
+不常用但会问
+
+
+
+四、系统状态监控
+命令
+作用
+示例
+
+df -h
+查看磁盘空间
+看 已用% 列
+
+free -h
+查看内存
+看 available 列
+
+top
+CPU/内存实时
+同上方进程管理
+
+netstat
+查看端口/网络
+netstat -tlnp | grep 8080
+
+iostat
+磁盘 I/O
+iostat -x 2 3
+
+sar
+网络统计
+sar -n DEV 2
+
+ping
+测试网络连通
+ping baidu.com
+
+hostname
+查看/设置主机名
+hostnamectl set-hostname node1
+
+uptime
+运行时间+负载
+看 load average
+
+
+
+五、压缩打包
+命令
+作用
+示例
+
+tar
+打包/解包
+tar -czvf test.tar.gz /path（打包压缩）
+tar -xzvf test.tar.gz（解压）
+
+gzip
+压缩单个文件
+gzip file.txt
+
+gunzip
+解压 .gz
+gunzip file.txt.gz
+
+zip / unzip
+压缩/解压 zip
+zip -r test.zip /path、unzip test.zip
+
+
+
+六、网络相关
+命令
+作用
+示例
+
+ping
+测网络连通
+ping 192.168.1.1
+
+wget
+下载文件
+wget https://xxx.com/file.tar.gz
+
+curl
+HTTP 请求
+curl http://localhost:8080
+
+ifconfig / ip addr
+查看 IP
+看 inet 行
+
+netstat
+查看端口
+netstat -anp | grep 3306
+
+ss
+查看端口（更快）
+ss -tlnp
+
+scp
+跨机拷贝文件
+scp file root@192.168.1.2:/tmp
+
+
+
+七、文件上传下载
+命令
+作用
+说明
+
+rz
+上传文件到服务器
+需装 lrzsz
+
+sz
+从服务器下载文件
+默认到 桌面/fsdownload
+
+scp
+跨机拷贝
+上面已列
+
+rsync
+增量同步
+高级，加分项
+
+
+八、软件包管理
+命令
+作用
+示例
+
+yum
+CentOS 包管理
+yum install -y nginx
+
+rpm
+RPM 包管理
+rpm -ivh xxx.rpm
+
+systemctl
+管理服务（启动/停止/自启）
+systemctl start nginx、
+systemctl enable nginx
+
+ps
+查看服务进程
+ps -ef | grep nginx
+
+
+九、文本处理
+命令
+作用
+示例
+
+grep
+过滤
+grep "error" app.log
+
+wc
+统计
+wc -l 统计行数
+
+echo
+输出
+echo $PATH
+
+|（管道符）
+前一个命令的输出作为后一个的输入
+ps -ef | grep java
+
+> / >>
+重定向输出
+echo hello > file.txt（覆盖）、
+>>（追加）
+
+
+十、环境变量
+命令
+作用
+示例
+
+env
+查看所有环境变量
+env
+
+echo $变量名
+查看单个变量
+echo $PATH
+
+export
+设置环境变量（临时）
+export MY_NAME=John
+
+source
+重新加载配置文件
+source ~/.bashrc
+
+
+十一、面试版
+面试的时候很有可能就会考实操，这个的话，要多加练习。
+以下是deekseek生成的一部分：
+需求
+命令
+
+查 8080 端口谁占了
+netstat -tlnp | grep 8080
+
+查 Java 进程
+ps -ef | grep java
+
+杀掉一个 Java 进程
+ps -ef | grep java 查 PID，然后 kill -9 PID
+
+实时看日志
+tail -f /var/log/xxx.log
+
+查磁盘满了没
+df -h
+
+查内存剩多少
+free -h
+
+从远程下载文件
+wget http://xxx/file.tar.gz
+
+复制整个文件夹到另一台机器
+scp -r /root/folder root@192.168.1.2:/tmp
+
+打包压缩整个目录
+tar -czvf backup.tar.gz /var/log
+
+解压 tar.gz 到当前目录
+tar -xzvf backup.tar.gz
+
+解压 zip
+unzip file.zip
+
+找 .log 结尾的文件
+find / -name "*.log"
+
+在日志里搜 error
+grep -n "error" app.log
+
+改文件权限为 755
+chmod 755 file
+
+把文件所有者改成 root
+chown root file
+
+看当前目录有几个文件/文件夹
+ls -l | wc -l
+
+查看历史命令
+history
+
+重复执行上一个命令
+!!
+
+
+
+
+
+
+

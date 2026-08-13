@@ -1,0 +1,290 @@
+第二章 
+一 、Linux目录结构 
+1 .目录结构
+Linux的目录结构是一个树型结构
+Windows可以有多个树，但是Linux只能有一个树
+Windows系统可以拥有多个盘符，如C盘、D盘、E盘
+Linux没有盘符这个概念，只有一个根目录（Home目录），所有文件都在它下面
+
+2 .路径描述
+在Linux系统中，路径之间的层级关系，使用：/ 来表示
+在windows系统中，路径之间的层级关系，使用：\来表示
+/ 是正斜杠（向前斜杠），\ 是反斜杠（向后斜杠）
+
+二 、Linux基础命令 
+1 .学习Linux，本质上是学习在命令行下熟练使用Linux的各类命令。
+
+2 .命令行：即Linux终端（Terminal），是一种命令提示符页面。以纯字符
+的形式操作系统，可以使用各种字符化命令对系统发出操作指令。
+
+3 .命令：即Linux程序。一个命令就是一个Linux的程序。命令没有图形化页面，可以在命令行（终端中）提供字符化的反
+馈
+
+4 .在Linux中，命令有其通用的格式：
+命令本身(必须要有) + 选项(可选) + 参数(可选)
+示例:
+ls-l/home/itheima，ls是命令本身，-l是选项，/home/itheima是参数，意思是以列表的形式，显示/home/itheima目录内的内容
+cp=r test1 test2，cp是命令本身，-r是选项，test1和test2是参数，意思是复制文件夹test1成为test2
+
+5 .基础命令
+> ls命令
+ls  列出当前文件夹内容目录
+ls -a 列出全部文件（包含隐藏的内容）
+ls -l 以列表的形式展示当前文件夹内容
+ls -h 顺便列出文件大小的单位
+ls -a -l -h（效果一样 ls -alh   ls -hla  ...）
+ls -a -l / （不再列当前目录，而是直接指向根目录）
+
+>cd  pwd命令
+语法：cd /路径
+cd   回到home目录（回到 /home/centos，不是根目录）
+cd /  回到根目录
+在我的centos虚拟机里面，cd和cd /home/centos，效果一样
+cd boot  当前目录下，查找并进入boot目录
+cd /boot  根目录下，查找并进入boot目录
+cd /boot  相当于先执行 cd / 再执行cd boot
+
+语法pwd 只能单独使用，不要选项和参数
+pwd 列出当前工作目录的名称（当前权限的名称）
+
+> 绝对路径和相对路径
+命令
+含义
+从哪里开始找
+
+cd /boot
+切换到 根目录下的 boot 文件夹
+从根 / 开始找，绝对路径
+
+cd boot
+切换到 当前目录下的 boot 文件夹
+从当前位置开始找，相对路径
+
+ 
+> 根目录 与 home目录不一样
+路径
+是什么
+层级
+
+/
+根目录（最顶层，所有文件和文件夹的起点）
+第 0 层
+
+/home
+根目录下的 home 文件夹
+第 1 层
+
+/home/centos
+home 下的 centos 文件夹（你的 Home 目录）
+第 2 层
+
+/home/centos/桌面
+centos 下的 桌面 文件夹
+第 3 层
+
+Home 文件夹不是最大的文件夹
+根目录 / 才是最大的，它是整个文件系统的起点，包含了硬盘上的所有东西。
+根目录里面包含 /home、/root、/etc、/boot、/usr、/var、/tmp、/dev、/proc、/bin、/sbin、/opt、/mnt、/media等，各种文件夹。
+
+> 特殊路径符：
+.
+表示当前目录
+比如cd./test= cd test ，表示切换到当前目录下的Desktop目录内
+
+..
+表示上一级目录
+比如：cd ..即可切换到上一级目录
+比如：cd ../..切换到上二级的目录
+比如：cd ../../..切换到上三级的目录
+等等等等
+
+~
+表示home/centos目录，不多余
+比如：cd ~ = cd ，即可切换到/home/centos（用户名）目录
+比如：cd~/test = 先cd再cd test，切换到home内的test目录
+
+
+~为什么不多余？（组合使用不多余）
+你想去的地方
+不用 ~ 的写法
+用 ~ 的写法
+
+家目录里的 桌面
+cd /home/centos/桌面
+cd ~/桌面
+
+家目录里的 下载
+cd /home/centos/下载
+cd ~/下载
+
+家目录里的 文档/项目
+cd /home/centos/文档/项目
+cd ~/文档/项目
+
+就是绝对路径比较长的话，cd ~就能节省一部分
+
+补充一下：
+cd ~/桌面          # 直接去 /home/centos下的桌面文件夹
+（cd ~/桌面 = 先cd /home/centos，再cd 桌面）
+cd ../..           # 从任何位置往上退两级
+cd .               # 原地不动（没啥用，但语法正确）
+
+> mkdir命令
+---创建文件夹
+mkdir test   在当前工作目录下，创建一个名字为test的文件夹（相对路径）
+mkdir /home/centos/桌面    （绝对路径）
+mkdir -p /test/test1/test2/...   一次性创建多个层级目录（相对路径）
+mkdir -p /home/centos/桌面/test0/test0/test2    （绝对路径）
+mkdir -p ~/centos/桌面/test0/test0/test2        （效果和上面一样）
+
+创建文件夹最好在 /home 目录内，如果在home外，则需要修改权限
+Ctrl+L（或者clear） 清空终端（只是清理记录，原来的操作结果依然保留） 
+
+> touch ，cat ，more命令
+touch 是创建文件
+touch test.txt    在当前目录下，创建一个test.txt的文件（相对路径）
+
+cat 是查看文件内容（不能要用选项，必须要有参数）
+cat test.txt   （相对路径）
+cat /home/centos/桌面/test.txt    （绝对路径）
+cat /etc/services     （绝对路径）
+
+more 也是查看文件内容（不能要用选项，必须要有参数）
+cat是直接将内容全部显示出来
+nore支持翻页，如果文件内容过多，可以一页页的展示
+more /etc/services     （绝对路径，按空格来翻页查看，按q退出翻页查看）
+
+> cp，mv，rm命令
+cp 复制文件、文件夹
+语法：cp [-r] 参数1 参数2
+-r 选项，可选，用于复制文件夹使用，表示递归
+参数1，Linux路径，表示被复制的文件或文件夹
+参数2，Linux路径，表示要复制去的地方
+cp test.txt test0.txt  （把当前目录下的test.txt文件再复制一份test0.txt放到同级目录下）
+cp test.txt /home/centos/test0.txt   （把当前目录下的test.txt文件再复制一份test0.txt放到/home/centos 下   绝对路径）
+cp -r Test Test0 （-r  就是复制文件夹）
+
+mv命令可以用于移动文件\文件夹（没有选项，必须填2个参数）
+语法：mv 参数1 参数2
+参数1，Linux路径，表示被移动的文件或文件夹
+参数2，Linux路径，表示要移动去的地方，如果目标不存在，则进行改名，确保目标存在
+mv test.txt 桌面/   （把当前目录下的test.txt文件移动到桌面里面去）
+ls 发现文件不存在了    ;    ls 桌面/  
+mv test.txt test2.txt   （改名，把当前目录下的test.txt 改名为test2.txt）
+ls
+
+rm命令可用于删除文件、文件夹（参数可有可无，选项至少一个 数量不限）
+语法：rm[-r-f]季数1参数2
+]]同cp命令一样，-r选项用于删除文件夹
+]]-f表示force，强制删除（不会弹出提示确认信息）
+    普通用户删除内容不会弹出提示，只有root管理员用户删除内容会有提示
+    所以一般普通用户用不到-f选项
+]]参数1、参数2、……、参数N表示要删除的文件或文件夹路径，按照空格隔开
+rm test3.txt （删除当前目录下的文件 test3.txt）rm -r test3.txt 语法也正确 
+rm -r Test   （删除当前目录下的文件夹 Test）
+rm -r Test Games test3.txt yyang.bat  （删除当前目录下的多个文件和多个文件夹）
+> 通配符
+rm命令支持通配符*，用来做模糊匹配，符号*表示通配符，即匹配任意内容（包含空）
+test*，表示匹配任何以test开头的内容
+*test，表示匹配任何以test结尾的内容
+*test*，表示匹配任何包含test的内容
+示例：
+rm -r *test* （删除所有当前目录下，有关test的文件或文件夹）
+rm -r /*test*  （这条命令，语法上是正确的）
+rm -r -f *test*
+rm -r -f /*test*
+
+sudo su root切换到root权限
+exit 退回到普通用户权限（centos权限）
+
+> which，find命令
+我们在前面学习的Linux命令，其实它们的本体就是一个个的二进制可执行程序，和windows系统中的.exe文件，是一个意思
+which命令，查看所使用的一系列命令的程序文件存放在哪里
+语法：
+which要查找的命令
+which ls、which cd、which pwd、which mkdir、which touch、which cat、which more
+which cp、which mv、which rm
+
+find命令，去搜索指定的文件
+文件名查找-语法：find 起始路径 -name "被查找文件名"
+find / -name “test.bat”   （可能会找到不止一个，名字为test文件）
+find /home/centos/桌面 -name “test.bat”
+find / -name “*test*”   
+按文件大小查找-语法：find 起始路径 -size +/-数字单位
++、-表示大于和小于
+n表示大小数字
+kM G表示大小单位，k(小写字母)表示kb，M表示MB，G表示GB
+find / -size -10k （查看小于10kb的文件）
+find /home/centos -size +100M  （查看大于100MB的文件）
+find ~/ -size +100M            （/home/centos  ==  ~/）
+
+> grep，wc命令和管道符
+grep命令，从文件中通过关键字过滤文件行（语法：grep［-n ] “关键字” 文件路径）
+       选项-n，可选，表示在结果中显示匹配的行的行号。
+       参数，关键字，必填，表示过滤的关键字，带有空格或其它特殊符号，建议使用””将关键字包围起来
+       参数，文件路径，必填，表示要过滤内容的文件路径，可作为内容输入端口
+grep “php” test.txt  （“”可以不写，表示从当前test.txt文件里面输出带有字符php的那一行）
+grep -n “word” /name/centos/attack.bat
+wc命令,统计文件的行数、单词数量等（语法：wc [-c-m-1-w］文件路径）
+    选项，-c，统计bytes数量
+    选项，-m，统计字符数量
+    选项，-l，统计行数
+    选项，-w，统计单词数量
+    参数，文件路径，被统计的文件，可作为内容输入端口
+wc -cmlw test.txt  （当前路径，相对路径）
+wc -cmlw /home/centos/桌面/Game/text1.txt     （绝对路径）
+
+管道符（|）：将管道符左边命令的结果，作为右边命令的输入
+grep “game” text.txt   ==   cat text.txt | grep “game”
+cat text.txt | grep “game” | gerp “waf”
+
+> echo，tali命令和重定向符
+echo命令，在命令行内输出指定内容，语法：echo输出的内容
+无需选项，只有一个参数，表示要输出的内容，复杂内容可以用””包围
+echo hello centos
+echo “hello centos”
+echo pwd
+echo “pwd”
+echo ‘pwd’   
+echo `pwd`    （其他都是输出pwd，这个是执行pwd命令）
+
+tail命令，可以查看文件尾部内容，跟踪文件的最新更改，
+语法：tail[-f -num] Linux路径
+          参数，Linux路径，表示被跟踪的文件路径
+          选项，-f，表示持续跟踪
+          选项，-num，表示，查看尾部多少行，不填默认10行
+（tail 只能查看文件，不能查看文件夹）
+tail text.txt
+tail -f -num text.txt
+tail -f -num /home/centos/桌面/text.txt
+
+
+重定向符：>和>>
+> 将左侧命令的结果，覆盖写入到符号右侧指定的文件中
+>> 将左侧命令的结果，追加写入到符号右侧指定的文件中
+echo “hello centos” > /home/centos/桌面/test.txt
+echo hello centos >> /test.txt
+
+Linux操作系统中，Ctrl + C表示强制停止命令运行
+
+
+
+> vi/vim编辑器
+---vi\vim是visual interface的简称，是Linux中最经典的文本编辑器
+---同图形化界面中的文本编辑器一样，vi是命令行下对文本文件进行编辑的绝佳选择。
+---vim是vi的加强版本，兼容vi的所有指令，不仅能编辑文本，而且还具有shell程序编辑的功能，可以不同颜色的字体来辨别语法的正确性，极大方便了程序的设计和编辑性。
+---vi/vim的三种工作模式
+命令模式、输入模式（编辑模式）、底线命令模式
+---操作方法：
+vi 文件名(text.txt)，进入命令模式——输入iao，进入输入模式——按ESC键，返回命令模式——按+ ，进入底线命令模式——回车，返回命令模式——输入wq，退出编辑器
+（命令模式是中轴/核心）
+---如果需要通过vi/vim编辑器编辑文件，请通过如下命令：
+vi文件路径
+vim文件路径
+vim兼容全部的vi功能，后续全部使用vim命令
+如果文件路径表示的文件不存在，那么此命令会用于编辑新文件
+如果文件路径表示的文件存在，那么此命令用于编辑已有文件
+---编辑器里面的快捷方式
+有很多，自己去网上搜
+
+

@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>第4章 快捷键、软件安装与服务配置 | Linux操作系统</title>
+  <link rel="stylesheet" href="/Jyc_035030.github.io/css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=ZCOOL+XiaoWei&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Noto Serif SC', -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", serif;
+      background: linear-gradient(180deg, #F1F8E9 0%, #DCEDC8 50%, #C8E6C9 100%);
+      min-height: 100vh;
+      padding: 20px;
+      line-height: 1.9;
+      color: #2D3436;
+    }
+    
+    /* 背景装饰 */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(255,183,178,0.15) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(129,199,132,0.15) 0%, transparent 25%),
+        radial-gradient(circle at 50% 50%, rgba(255,236,179,0.1) 0%, transparent 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 
+        0 10px 40px rgba(46, 125, 50, 0.1),
+        0 0 0 1px rgba(165, 214, 167, 0.3);
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+    }
+    
+    /* 头部 - 春天主题 */
+    .header {
+      background: linear-gradient(135deg, #43A047 0%, #66BB6A 50%, #81C784 100%);
+      color: white;
+      padding: 50px 35px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .header::before {
+      content: '🌺';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 60px;
+      opacity: 0.2;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .header::after {
+      content: '🌺';
+      position: absolute;
+      bottom: 10px;
+      left: 25px;
+      font-size: 45px;
+      opacity: 0.15;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(5deg); }
+    }
+    
+    .header-content { position: relative; z-index: 1; }
+    
+    .chapter-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      padding: 8px 22px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 18px;
+      letter-spacing: 2px;
+      backdrop-filter: blur(5px);
+    }
+    
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .page-subtitle {
+      opacity: 0.95;
+      font-size: 16px;
+      font-weight: 400;
+    }
+    
+    /* 导航栏 */
+    .nav-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 28px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      border-bottom: 2px solid #A5D6A7;
+    }
+    
+    .nav-link {
+      color: #2E7D32;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      background: transparent;
+    }
+    
+    .nav-link:hover {
+      background: #E8F5E9;
+      color: #2E7D32;
+      transform: translateY(-2px);
+    }
+    
+    /* 内容区域 */
+    .content {
+      padding: 45px 40px;
+      background: white;
+    }
+    
+    /* 章节标题 */
+    .spring-chapter-title {
+      font-size: 28px;
+      color: #2E7D32;
+      margin-bottom: 35px;
+      padding-bottom: 18px;
+      border-bottom: 3px solid #81C784;
+      display: inline-block;
+      position: relative;
+      font-weight: 700;
+    }
+    
+    .spring-chapter-title::after {
+      content: '🌺';
+      position: absolute;
+      right: -45px;
+      top: -5px;
+      font-size: 28px;
+      opacity: 0.6;
+    }
+    
+    /* 大节标题 */
+    .spring-section-title {
+      font-size: 22px;
+      color: #2E7D32;
+      margin: 32px 0 18px 0;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, #E8F5E9, transparent);
+      border-left: 5px solid #81C784;
+      border-radius: 0 12px 12px 0;
+      font-weight: 600;
+    }
+    
+    /* 小节标题 */
+    .spring-subsection-title {
+      font-size: 17px;
+      color: #558B2F;
+      margin: 22px 0 12px 0;
+      padding-left: 16px;
+      border-left: 3px solid #A5D6A7;
+      font-weight: 600;
+    }
+    
+    /* 普通段落 */
+    .spring-paragraph {
+      margin: 10px 0;
+      color: #2D3436;
+      font-size: 15.5px;
+      text-align: justify;
+      text-indent: 2em;
+      line-height: 2;
+    }
+    
+    /* 引用块 */
+    .spring-quote {
+      background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+      padding: 16px 22px;
+      margin: 18px 0;
+      border-left: 4px solid #FFB74D;
+      border-radius: 0 12px 12px 0;
+      color: #5D4037;
+      font-style: italic;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(255,193,7,0.1);
+    }
+    
+    .spring-quote::before {
+      content: '"';
+      position: absolute;
+      top: -5px;
+      left: 10px;
+      font-size: 40px;
+      color: #FFB74D;
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    
+    /* 注释文字 */
+    .spring-note {
+      display: block;
+      background: #F3E5F5;
+      padding: 10px 16px;
+      border-radius: 8px;
+      color: #7B1FA2;
+      font-size: 14px;
+      margin: 12px 0;
+    }
+    
+    /* 图片占位符 */
+    .spring-image-placeholder {
+      background: linear-gradient(135deg, #FFF9C4, #FFF59D);
+      border: 2px dashed #FFD54F;
+      border-radius: 16px;
+      padding: 28px;
+      text-align: center;
+      margin: 24px 0;
+      color: #F57F17;
+    }
+    
+    .leaf-icon {
+      font-size: 42px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    
+    .spring-image-placeholder p {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    
+    /* 表格样式 */
+    .spring-table-container {
+      overflow-x: auto;
+      margin: 24px 0;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    
+    .spring-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      font-size: 14.5px;
+    }
+    
+    .spring-table thead {
+      background: linear-gradient(135deg, #2E7D32, #81C784);
+      color: white;
+    }
+    
+    .spring-table th {
+      padding: 14px 16px;
+      text-align: left;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    
+    .spring-table td {
+      padding: 12px 16px;
+      border-bottom: 1px solid #E8F5E9;
+      color: #2D3436;
+    }
+    
+    .spring-table tbody tr:hover {
+      background: #E8F5E9;
+    }
+    
+    .spring-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* 分隔线 */
+    .spring-divider {
+      border: none;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #A5D6A7, transparent);
+      margin: 28px 0;
+    }
+    
+    /* 页脚 */
+    .footer {
+      text-align: center;
+      padding: 22px;
+      background: linear-gradient(to right, #F1F8E9, #E8F5E9);
+      color: #2E7D32;
+      font-size: 13.5px;
+      border-top: 2px solid #A5D6A7;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      body { padding: 10px; }
+      .header { padding: 35px 20px; }
+      .page-title { font-size: 24px; }
+      .content { padding: 28px 20px; }
+      .nav-bar { padding: 12px 18px; flex-wrap: wrap; gap: 10px; }
+      .spring-section-title { font-size: 19px; }
+      .spring-subsection-title { font-size: 16px; }
+      .spring-paragraph { font-size: 14.5px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-content">
+        <div class="chapter-badge">Linux操作系统 · 第4章</div>
+        <h1 class="page-title">快捷键、软件安装与服务配置</h1>
+        <p class="page-subtitle">原创学习笔记 · 一字不差</p>
+      </div>
+    </div>
+    
+    <div class="nav-bar">
+      <a href="main.html" class="nav-link"><i class="fa fa-list"></i> 目录</a>
+      <a href="index.html" class="nav-link"><i class="fa fa-home"></i> 返回首页</a>
+    </div>
+    
+    <div class="content">
+      <h1 class="spring-chapter-title">第四章</h1>
+<h2 class="spring-section-title">一 、部分快捷键</h2>
+<p class="spring-paragraph">Ctrl + C ：强制停止（重新输入，回到输入命令行）</p>
+<p class="spring-paragraph">Ctrl + D ：退出当前用户的登录，或者退出特定程序的专属页面（不能退出vi/vim）</p>
+<p class="spring-paragraph">hostory 命令 :查看历史输入过的命令</p>
+<p class="spring-paragraph">!c ：就是查找以c开头的命令（当然! 后面可以是其他的，比如 !p等）</p>
+<p class="spring-paragraph">Ctrl + R ：输入内容去匹配历史命令</p>
+<p class="spring-paragraph">Ctrl + l （clear）:清屏</p>
+<p class="spring-paragraph">光标移动快捷键：</p>
+<p class="spring-paragraph">Ctrl + a :跳到命令开头</p>
+<p class="spring-paragraph">Ctrl + e :跳到命令结尾</p>
+<p class="spring-paragraph">Ctrl + 键盘左键：向左跳一个单词</p>
+<p class="spring-paragraph">Ctrl + 键盘右键：向右跳一个单词</p>
+<h2 class="spring-section-title">二 、CentOS软件安装</h2>
+<h3 class="spring-subsection-title">1 .安装所需要的命令</h3>
+<p class="spring-paragraph">yum：RPM包软件管理器，用于自动化安装配置Linux软件，并可以自动解决依赖问题。</p>
+<div class="spring-table-container"><table class="spring-table">
+<thead><tr>
+<th>语法：yum [-y］[install</th>
+<th>remove</th>
+<th>search］软件名称</th>
+</tr></thead><tbody>
+</tbody></table></div>
+<p class="spring-paragraph">选项：-y，自动确认，无需手动确认安装或卸载过程</p>
+<p class="spring-paragraph">install:安装、remove：卸载、search:搜索</p>
+<p class="spring-paragraph">可以su切换到root，或使用sudo提权。</p>
+<p class="spring-paragraph">yum命令需要root权限，yum命令需要联网</p>
+<h3 class="spring-subsection-title">2 .要安装的软件</h3>
+<p class="spring-paragraph">&gt; wget</p>
+<p class="spring-paragraph">在 CentOS 虚拟机里，wget 是一个命令行下载工具，它的核心作用就是从网络上下载文件。</p>
+<p class="spring-paragraph">安装它，就是为了让虚拟机拥有“从互联网或内网服务器拉取文件”的能力，几乎所有Linux服务器都会装。</p>
+<p class="spring-paragraph">yum -y install wget</p>
+<p class="spring-paragraph">yum -y remove wget</p>
+<p class="spring-paragraph">yum -y search wget</p>
+<p class="spring-paragraph">&gt; yum -y install ntp,安装ntp软件</p>
+<p class="spring-paragraph">可以通过ntpd服务名，配合systemctl进行控制</p>
+<p class="spring-paragraph">从 CentOS 8 开始，官方源已经移除了 ntp，改用 chrony 作为默认的时间同步工具。你用的应该是 CentOS 8 或更高版本，比如 CentOS Stream 9</p>
+<p class="spring-paragraph">&gt; yum -y install httpd,安装apache服务器软件</p>
+<p class="spring-paragraph">可以通过httpd服务名，配合system ctl进行控制</p>
+<h3 class="spring-subsection-title">3 .乌班图系统安装软件</h3>
+<p class="spring-paragraph">Centos使用yum管理器，Ubuntu使用apt管理器</p>
+<p class="spring-paragraph">语法：apt [-y］[install | remove丨search］软件名称</p>
+<p class="spring-paragraph">用法和yum一致，同样需要root权限</p>
+<p class="spring-paragraph">apt install w get,安装wget</p>
+<p class="spring-paragraph">apt remove w get,移除wget</p>
+<p class="spring-paragraph">apt search w get,搜索wget</p>
+<h2 class="spring-section-title">三 、systenctl命令</h2>
+<p class="spring-paragraph">Linux系统很多软件（内置或第三方）均支持使用systemctl命令控制：启动、停止、开机自启</p>
+<p class="spring-paragraph">能够被systemctl管理的软件，一般也称之为：服务</p>
+<div class="spring-table-container"><table class="spring-table">
+<thead><tr>
+<th>语法：systemctl start</th>
+<th>stop</th>
+<th>status</th>
+<th>enable</th>
+<th>disable 服务名</th>
+</tr></thead><tbody>
+</tbody></table></div>
+<p class="spring-paragraph">系统内置的服务比较多，比如：</p>
+<p class="spring-paragraph">Network Manager，主网络服务</p>
+<p class="spring-paragraph">network，副网络服务</p>
+<p class="spring-paragraph">firewall d，防火墙服务</p>
+<p class="spring-paragraph">sshd，ssh服务（Final Shell远程登录Linux使用的就是这个服务）</p>
+<p class="spring-paragraph">----</p>
+<p class="spring-paragraph">start启动</p>
+<p class="spring-paragraph">stop关闭</p>
+<p class="spring-paragraph">status查看状态</p>
+<p class="spring-paragraph">enable开启开机自启</p>
+<p class="spring-paragraph">disable关闭开机自启</p>
+<h2 class="spring-section-title">四 、软链接</h2>
+<p class="spring-paragraph">在系统中创建软链接，可以将文件、文件夹链接到其它位置</p>
+<p class="spring-paragraph">类似windows系统中的《快捷方式》</p>
+<p class="spring-paragraph">语法：ln -s 参数1 参数2</p>
+<p class="spring-paragraph">-s 选项，创建软连接</p>
+<p class="spring-paragraph">参数1：被链接的文件或文件夹</p>
+<p class="spring-paragraph">参数2：要链接去的目的地</p>
+<p class="spring-paragraph">实例:</p>
+<p class="spring-paragraph">ln -s /etc/yum.conf ~/yum.conf</p>
+<p class="spring-paragraph">ln -s /etc/yum.conf /home/centos/yum.conf</p>
+<h2 class="spring-section-title">五 、日期和时区</h2>
+<h3 class="spring-subsection-title">1 .date命令</h3>
+<p class="spring-paragraph">通过date命令可以在命令行中查看系统的时间</p>
+<p class="spring-paragraph">语法：date [-d] [+格式化字符串］</p>
+<p class="spring-paragraph">-d 按照给定的字符串显示日期，一般用于日期计算</p>
+<p class="spring-paragraph">格式化字符串：通过特定的字符串标记，来控制显示的日期格式</p>
+<p class="spring-paragraph">%Y 年</p>
+<p class="spring-paragraph">%y 年份后两位数字（00..99）</p>
+<p class="spring-paragraph">%M 月份（01..12）</p>
+<p class="spring-paragraph">%d 日（01.31）</p>
+<p class="spring-paragraph">%H 小时（00.23）</p>
+<p class="spring-paragraph">%M 分钟（00..59）</p>
+<p class="spring-paragraph">%S 秒（00.60）</p>
+<p class="spring-paragraph">%s 自 1970-01-0100:00:00 UTC 到现在的秒数（时间戳）</p>
+<p class="spring-paragraph">时间戳，说白了就是一串数字，用来代表某个特定的时刻。</p>
+<p class="spring-paragraph">在Linux和计算机世界里，最常见的时间戳是Unix时间戳（也叫Epoch时间）。它指的是：从1970年1月1日 00:00:00 UTC（协调世界时）开始，到当前时刻所经过的秒数（或毫秒数）</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">date</p>
+<p class="spring-paragraph">date +%Y-%m-%d</p>
+<p class="spring-paragraph">date &quot;+%Y-%m-%d %H:%M:%S&quot;</p>
+<p class="spring-paragraph">date +%Y-%m-%d\ %H:%M:%S</p>
+<h3 class="spring-subsection-title">2 .-d命令，做日期计算</h3>
+<p class="spring-paragraph">-d选项，可以按照给定的字符串显示日期，一般用于日期计算</p>
+<p class="spring-paragraph">其中支持的时间标记为：</p>
+<p class="spring-paragraph">year年</p>
+<p class="spring-paragraph">month月</p>
+<p class="spring-paragraph">day天</p>
+<p class="spring-paragraph">hour小时</p>
+<p class="spring-paragraph">minute分钟</p>
+<p class="spring-paragraph">second秒</p>
+<p class="spring-paragraph">-d选项可以和格式化字符串配合一起使用哦</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">date -d &quot;+1 day&quot; +%Y-%m-%d        # 显示后一天的日期</p>
+<p class="spring-paragraph">date -d &quot;-1 day&quot; +%Y-%m-%d        # 显示前一天的日期</p>
+<p class="spring-paragraph">date -d &quot;-1 month&quot; +%Y-%m-%d      # 显示上一月的日期</p>
+<p class="spring-paragraph">date -d &quot;+1 month&quot; +%Y-%m-%d      # 显示下一月的日期</p>
+<p class="spring-paragraph">date -d &quot;-1 year&quot; +%Y-%m-%d       # 显示前一年的日期</p>
+<p class="spring-paragraph">date -d &quot;+1 year&quot; +%Y-%m-%d       # 显示下一年的日期</p>
+<p class="spring-paragraph">下面简单的命令也生效：</p>
+<p class="spring-paragraph">date -d &quot;+1 day&quot;、date -d &quot;-1 day&quot;、date -d &quot;-1 month&quot;、date -d &quot;+1 month&quot;</p>
+<p class="spring-paragraph">date -d &quot;-1 year&quot;、date -d &quot;+1 year&quot;</p>
+<h3 class="spring-subsection-title">3 .修改Linux时区</h3>
+<p class="spring-paragraph">1&gt; UTC 不是某个国家的时区，而是世界标准时间（Coordinated Universal Time）的缩写。</p>
+<p class="spring-paragraph">可以把它理解为全球时间的“母版”或基准线。全世界所有时区的时间，都是以 UTC 为基础加减小时数计算出来的。</p>
+<p class="spring-paragraph">特点：UTC 是0时区的时间，它不随季节变化，没有夏令时</p>
+<p class="spring-paragraph">2 &gt; 中国标准时间（CST）= UTC + 8</p>
+<p class="spring-paragraph">意思就是：中国的时间比 UTC 快 8 个小时。</p>
+<p class="spring-paragraph">3&gt; 用这个命令查看你系统当前设置的时区</p>
+<p class="spring-paragraph">timedatectl</p>
+<p class="spring-paragraph">4&gt; 在中国，CST 确实指中国标准时间（UTC+8），但它在全球并不是中国独有的</p>
+<p class="spring-paragraph">通过date查看的日期时间是不准确的，这是因为：系统默认时区不是中国的东八区，而是UTC</p>
+<p class="spring-paragraph">（但是，我安装的centos虚拟机，因为版本比较新。显示的就是东八区，不用修改）</p>
+<p class="spring-paragraph">使用root权限，执行如下命令，修改时区为东八区时区</p>
+<p class="spring-paragraph">rm-f/etc/local time</p>
+<p class="spring-paragraph">sudo ln-s/us r/share/zone info/Asia/Shanghai /etc/local time</p>
+<p class="spring-paragraph">将系统自带的local time文件删除，并将/usr/share/zone info/Asia/Shanghai文件链接为local time文件即可</p>
+<h2 class="spring-section-title">六 、IP地址 主机名</h2>
+<h3 class="spring-subsection-title">1 .IP地址</h3>
+<p class="spring-paragraph">每一台联网的电脑都会有一个IP地址，用于和其它计算机进行通讯（断网没有）</p>
+<p class="spring-paragraph">&gt; ifconfig 来查看本机IP</p>
+<p class="spring-paragraph">目前我centos虚拟机IP地址为：192.168.228.130</p>
+<p class="spring-paragraph">&gt; 除了标准的IP地址以外，还有几个特殊的IP地址需要我们了解：</p>
+<h3 class="spring-subsection-title">127.0.0.1，这个IP地址用于指代本机</h3>
+<h3 class="spring-subsection-title">0.0.0.0，特殊IP地址</h3>
+<p class="spring-paragraph">可以用于指代本机</p>
+<p class="spring-paragraph">可以在端口绑定中用来确定绑定关系（后续讲解）</p>
+<p class="spring-paragraph">在一些IP地址限制中，表示所有IP的意思，如放行规则设置为0.0.0.0，表示允许任意IP访问</p>
+<h3 class="spring-subsection-title">2 .主机名</h3>
+<p class="spring-paragraph">我目前centos虚拟机的主机名字就是......（当然可以自己设置，比如：baili、liming等）</p>
+<p class="spring-paragraph">我的主机名目前是 localhost.localdomain，而 centos 是当前登录的用户名</p>
+<p class="spring-paragraph">项目</p>
+<p class="spring-paragraph">你的显示</p>
+<p class="spring-paragraph">说明</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">命令提示符</p>
+<p class="spring-paragraph">[centos@localhost ~]$</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">当前登录的用户名</p>
+<p class="spring-paragraph">centos</p>
+<p class="spring-paragraph">这是你登录系统时使用的账户名。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">当前系统的主机名</p>
+<p class="spring-paragraph">localhost</p>
+<p class="spring-paragraph">这是你电脑在网络上被识别的名字。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">修改主机名命令：sudo hostnamectl set-hostname 新主机名</p>
+<p class="spring-paragraph">验证是否修改成功：hostnamectl（或者 hostname）</p>
+<h3 class="spring-subsection-title">3 .域名解析</h3>
+<p class="spring-paragraph">&gt; 域名解析就是把你在浏览器里输入的“网址”（如 www.baidu.com），转换成计算机能识别的“IP地址”（如 110.242.68.4）的过程。域名解析就是“把网址翻译成 IP 地址”的过程。 没有它，你的电脑就找不到网上的其他服务器，也就没法上网、装软件了</p>
+<p class="spring-paragraph">&gt; 作用：域名解析（DNS解析） 把人类好记的域名，翻译成机器好找的 IP 地址。</p>
+<p class="spring-paragraph">&gt; 怎么进行域名解析？</p>
+<p class="spring-paragraph">步骤</p>
+<p class="spring-paragraph">操作</p>
+<p class="spring-paragraph">说明</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">查询</p>
+<p class="spring-paragraph">ping/nslookup / dig</p>
+<p class="spring-paragraph">手动查看域名对应的 IP</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">配置</p>
+<p class="spring-paragraph">修改/etc/resolv.conf 或网卡配置</p>
+<p class="spring-paragraph">告诉系统用哪个 DNS 服务器</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">本地覆盖</p>
+<p class="spring-paragraph">修改/etc/hosts</p>
+<p class="spring-paragraph">手动指定某些域名的 IP，优先级最高</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">测试</p>
+<p class="spring-paragraph">ping域名</p>
+<p class="spring-paragraph">验证配置是否生效</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">4 .配置主机名映射</h3>
+<p class="spring-paragraph">比如，我们Final Shell是通过IP地址连接到的Linux服务器，那有没有可能通过域名（主机名）连接呢？</p>
+<p class="spring-paragraph">可以，我们只需要在Windows系统的：C:\Windows\System32\drivers\etc\hosts文件中配置记录即可</p>
+<p class="spring-paragraph">就是类似于宝塔面板，新建网站的时候，需要右键记事本，以管理员身份打开......，末尾加上192.168.228.130 localhost.localdomain</p>
+<p class="spring-paragraph">现在finalshell就可以不是非要通过IP地址连接了，还可以通过主机名连接。</p>
+<p class="spring-paragraph">（这个主机名不太好，其实可以改一下，我懒得改了，就这样）</p>
+<h3 class="spring-subsection-title">5 .虚拟机配置固定IP</h3>
+<p class="spring-paragraph">&gt; 虚拟机的IP地址是可能会变化的，固定虚拟机IP为了让我们更方便（比如：访问虚拟机里面自己搭建的网站、远程连接Linux系统等）</p>
+<p class="spring-paragraph">&gt; DHCP服务：动态获取IP地址，即每次重启设备后都会获取一次，可能会导致IP地址频繁变更（说白了，固定IP的本质，就是关闭DHCP（自动获取）的过程）</p>
+<p class="spring-paragraph">&gt; 我已经将centos虚拟机的IP地址固定，具体操作不再用文字描述</p>
+<p class="spring-paragraph">&gt; IP地址的四个数字分别代表什么？</p>
+<h3 class="spring-subsection-title">192.168.228.130 中，前三段 192.168.228 标识了你的虚拟机所在的局域网网段，最后一段 130 是你这台虚拟机在这个局域网里的唯一编号</h3>
+<p class="spring-paragraph">&gt; 子网掩码和特殊地址：</p>
+<p class="spring-paragraph">子网掩码（255.255.255.0、255.255.0.0、255.0.0.0）</p>
+<p class="spring-paragraph">特殊地址（255.255.255.255 和 0.0.0.0）</p>
+<p class="spring-paragraph">//</p>
+<p class="spring-paragraph">255 越多，网络范围越小，能容纳的机器越少（但更安全、广播更少）。</p>
+<p class="spring-paragraph">0 越多，网络范围越大，能容纳的机器越多（但广播流量大，容易拥堵）</p>
+<p class="spring-paragraph">//</p>
+<p class="spring-paragraph">地址</p>
+<p class="spring-paragraph">类型</p>
+<p class="spring-paragraph">作用</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">255.255.255.255</p>
+<p class="spring-paragraph">本地广播地址</p>
+<p class="spring-paragraph">向同一局域网内的所有设备发送数据包，但不会被路由器转发到外网。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">0.0.0.0</p>
+<p class="spring-paragraph">默认路由/任意地址</p>
+<p class="spring-paragraph">在服务器配置中，代表&quot;监听本机所有可用的 IP 地址&quot;；在路由表中，代表&quot;默认网关&quot;（所有去往外网的数据都走这儿）。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h2 class="spring-section-title">七 、网络传输</h2>
+<h3 class="spring-subsection-title">1 .ping命令</h3>
+<p class="spring-paragraph">可以通过ping命令，检查指定的网络服务器是否是可联通状态</p>
+<p class="spring-paragraph">语法：ping [-c num] ip或主机名</p>
+<p class="spring-paragraph">选项：-C，检查的次数，不使用-C选项，将无限次数持续检查</p>
+<p class="spring-paragraph">参数：ip或主机名，被检查的服务器的ip地址或主机名地址</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">ping www.baidu.com</p>
+<p class="spring-paragraph">ping 192.168.228.130</p>
+<p class="spring-paragraph">ping -c 3 192.168.1.13（-c 是在linux操作系统里的）</p>
+<p class="spring-paragraph">ping -n 3 192.168.228.130（-n 是在windows操作系统里的）</p>
+<h3 class="spring-subsection-title">2 .wget命令</h3>
+<p class="spring-paragraph">wget是非交互式的文件下载器，可以在命令行内下载网络文件</p>
+<p class="spring-paragraph">语法：wget [-b] url</p>
+<p class="spring-paragraph">选项：-b，可选，后台下载，会将日志写入到当前工作目录的wget-log文件</p>
+<p class="spring-paragraph">参数：url，下载链接</p>
+<p class="spring-paragraph">示例:</p>
+<p class="spring-paragraph">wget https://nginx.org/download/nginx-1.24.0.tar.gz</p>
+<h3 class="spring-subsection-title">3 .curl命令</h3>
+<p class="spring-paragraph">curl可以发送http网络请求，可用于：下载文件、获取信息等</p>
+<p class="spring-paragraph">curl类似于用浏览器去打开网站，curl 就是一个在命令行里运行的、不带界面的“浏览器</p>
+<p class="spring-paragraph">语法：curl [-o] url</p>
+<p class="spring-paragraph">选项：-O，用于下载文件，当url是下载链接时，可以使用此选项保存文件</p>
+<p class="spring-paragraph">参数：url，要发起请求的网络地址</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">curl https://www.baidu.com （发送 HTTP 请求，获取网页内容并打印到屏幕）</p>
+<p class="spring-paragraph">curl -O https://nginx.org/download/nginx-1.24.0.tar.gz （下载文件，使用 -O 选项）</p>
+<p class="spring-paragraph">curl -o mynginx.tar.gz https://nginx.org/download/nginx-1.24.0.tar.gz （下载文件并重命名，使用 -o 小写）</p>
+<h3 class="spring-subsection-title">4 .端口</h3>
+<p class="spring-paragraph">&gt; 端口，是设备与外界通讯交流的出入口。端口可以分为：物理端口和虚拟端口两类</p>
+<p class="spring-paragraph">物理端口：又可称之为接口，是可见的端口，如USB接口，RJ45网口，HDMI端口等</p>
+<p class="spring-paragraph">虚拟端口：是指计算机内部的端口，是不可见的，是用来操作系统和外部进行交互使用的</p>
+<p class="spring-paragraph">&gt; 操作系统，可以支持65535个端口，这6万多个端口分为3类进行使用：</p>
+<p class="spring-paragraph">公认端口：1~1023，通常用于一些系统内置或知名程序的预留使用，如SSH服务的22</p>
+<p class="spring-paragraph">端口，HTTPS服务的443端口，非特殊需要，不要占用这个范围的端口。</p>
+<p class="spring-paragraph">注册端口：1024~49151,通常可以随意使用，用于松散的绑定一些程序、服务。</p>
+<p class="spring-paragraph">动态端口：49152~65535，通常不会固定绑定程序，而是当程序对外进行网络链接时，</p>
+<p class="spring-paragraph">用于临时使用（比如 自己搭建网站等）。</p>
+<p class="spring-paragraph">（无论是 Linux、Windows、macOS 还是其他系统，都严格遵循这个标准）</p>
+<p class="spring-paragraph">&gt; nmap命令，查看端口占用情况</p>
+<p class="spring-paragraph">安装 sudo yum -y install nmap</p>
+<p class="spring-paragraph">语法 nmap 被查看的IP地址</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">nmap 127.0.0.1</p>
+<p class="spring-paragraph">nmap 192.168.228.130（也可以直接输入自己的IP）</p>
+<p class="spring-paragraph">nmap 192.198.1.13（理论上可以在centos虚拟机里面测试主机IP 仅桥接模式。但是不在同一个网段不行；主机每开机不写；对方有防火墙拦截或安全软件防护不行）</p>
+<p class="spring-paragraph">&gt; netstat命令</p>
+<p class="spring-paragraph">可以通过netstat命令，查看指定端口的占用情况</p>
+<p class="spring-paragraph">先安装sudo yum -y install net-tools（我这个centos虚拟机是自带的）</p>
+<p class="spring-paragraph">语法：netstat -tlnp | grep 端口号</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">netstat -anp|grep 22</p>
+<p class="spring-paragraph">netstat -anp|grep 631</p>
+<p class="spring-paragraph">netstat -anp|grep 9090</p>
+<p class="spring-paragraph">上面的命令会出来很多，下面的页面会更加干净（只显示 TCP 网络端口）</p>
+<p class="spring-paragraph">netstat -tlnp | grep 22</p>
+<p class="spring-paragraph">netstat -tlnp | grep 631</p>
+<p class="spring-paragraph">netstat -tlnp | grep 9090</p>
+<h2 class="spring-section-title">八 、进程管理</h2>
+<h3 class="spring-subsection-title">1 .什么是进程？</h3>
+<p class="spring-paragraph">进程就是跑起来的程序。你每敲一个命令，系统就创建一个进程来为你服务，执行完再把它销毁。进程是由操作系统来控制的。因为操作系统是多任务的，进程就是让这些任务互不干扰、同时运行的基础单位。</p>
+<p class="spring-paragraph">每个进程都会有一个独有的：进程ID（进程号）</p>
+<h3 class="spring-subsection-title">2 .进程可以通过任务管理器查看</h3>
+<p class="spring-paragraph">打开任务管理器的方法：</p>
+<p class="spring-paragraph">&gt; win11中，CTRL + SHIFT + ESC</p>
+<p class="spring-paragraph">&gt; Linux操作系统中，使用htop命令</p>
+<p class="spring-paragraph">需要先安装sudo yum install epel-release -y、sudo yum install htop -y</p>
+<p class="spring-paragraph">然后 终端里面直接htop （即可启动）</p>
+<p class="spring-paragraph">按 F6：按指定列（如 CPU、内存）排序。</p>
+<p class="spring-paragraph">按 F4：输入关键词过滤进程（比如过滤 ssh）。</p>
+<p class="spring-paragraph">按 F9：结束选中的进程。</p>
+<p class="spring-paragraph">按 q：退出 htop</p>
+<h3 class="spring-subsection-title">3 .ps命令</h3>
+<p class="spring-paragraph">可以通过ps命令查看Linux系统中的进程信息</p>
+<p class="spring-paragraph">语法：ps [-e -f]</p>
+<p class="spring-paragraph">选项：-e，显示出全部的进程</p>
+<p class="spring-paragraph">选项：-f，以完全格式化的形式展示信息（展示全部信息）</p>
+<p class="spring-paragraph">一般来说，固定用法就是：ps-ef列出全部进程的全部信息</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">ps -ef</p>
+<p class="spring-paragraph">ps -ef | grep 进程英文名（直接ps -ef 会出来很多，可以配合管道符过滤一下，查看指定的）</p>
+<p class="spring-paragraph">ps -ef | grep tali</p>
+<p class="spring-paragraph">ps -ef |grep “16:50”（过滤掉16：50时刻的进程。说白了就是可以任意过滤）</p>
+<h3 class="spring-subsection-title">4 .kill命令</h3>
+<p class="spring-paragraph">在Linux中，可以通过kill命令关闭进程。</p>
+<p class="spring-paragraph">语法：kill [-9］进程ID</p>
+<p class="spring-paragraph">选项：-9，表示强制关闭进程。不使用此选项会向进程发送信号要求其关闭，但是否关闭看进程自身的处理机制。</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">kill -9 1123</p>
+<p class="spring-paragraph">kill 7133</p>
+<p class="spring-paragraph">（补充一下，这个命令可以查看进程ID ：ps -ef | grep sshd）</p>
+<h2 class="spring-section-title">九 、主机状态监控</h2>
+<h3 class="spring-subsection-title">1 .top命令</h3>
+<p class="spring-paragraph">可以通过top命令查看CPU、内存使用情况，类似Windows的任务管理器</p>
+<p class="spring-paragraph">默认每5秒刷新一次</p>
+<p class="spring-paragraph">语法：直接输入top即可</p>
+<p class="spring-paragraph">按q或ctrl+c退出</p>
+<h3 class="spring-subsection-title">2 .top命令后面也可以加后缀：</h3>
+<p class="spring-paragraph">-p</p>
+<p class="spring-paragraph">只显示某个进程的信息</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-d</p>
+<p class="spring-paragraph">设置刷新时间，默认是5s</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-c</p>
+<p class="spring-paragraph">显示产生进程的完整命令，默认是进程名</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-n</p>
+<p class="spring-paragraph">指定刷新次数，比如 top -n 3，刷新输出3次后退出</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-b</p>
+<p class="spring-paragraph">以非交互非全屏模式运行，以批次的方式执行top，一般配合-n指定输出几次统计信息，将输出重定向到指定文件，比如 top -b -n 3 &gt; /tmp/top.tmp</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-i</p>
+<p class="spring-paragraph">不显示任何闲置（idle）或无用户（zombie）的进程</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">-u</p>
+<p class="spring-paragraph">查找特定用户启动的进程</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">3 .top的交互式选项（快捷键）</h3>
+<p class="spring-paragraph">h</p>
+<p class="spring-paragraph">按下h键，会显示帮助画面</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">c</p>
+<p class="spring-paragraph">按下c键，会显示产生进程的完整命令，等同于-c参数，再次按下c键，变为默认显示</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">f</p>
+<p class="spring-paragraph">按下f键，可以选择需要展示的项目</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">M</p>
+<p class="spring-paragraph">按下M键，根据驻留内存大小（RES）排序</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">P</p>
+<p class="spring-paragraph">按下P键，根据CPU使用百分比大小进行排序</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">T</p>
+<p class="spring-paragraph">按下T键，根据时间/累计时间进行排序</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">E</p>
+<p class="spring-paragraph">按下E键，切换顶部内存显示单位</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">e</p>
+<p class="spring-paragraph">按下e键，切换进程内存显示单位</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">I（大写i）</p>
+<p class="spring-paragraph">按下I键（大写i），切换显示平均负载和启动时间信息</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">i（小写i）</p>
+<p class="spring-paragraph">按下i键（小写i），不显示闲置或无用的进程，等同于-i参数，再次按下，变为默认显示</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">t</p>
+<p class="spring-paragraph">按下t键，切换显示CPU状态信息</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">m</p>
+<p class="spring-paragraph">按下m键，切换显示内存信息</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">4 .磁盘信息监控</h3>
+<p class="spring-paragraph">&gt; df命令</p>
+<p class="spring-paragraph">使用df命令，可以查看硬盘的使用情况</p>
+<p class="spring-paragraph">语法: df [-h]</p>
+<p class="spring-paragraph">选项：-h，以更加人性化的单位显示</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">df -h</p>
+<p class="spring-paragraph">&gt; iostat命令</p>
+<p class="spring-paragraph">可以使用iostat查看CPU、磁盘的相关信息</p>
+<p class="spring-paragraph">语法: iost at[-x][num1][num2]</p>
+<p class="spring-paragraph">选项：-x，显示更多信息</p>
+<p class="spring-paragraph">num1：数字，刷新间隔，num2：数字，刷新几次</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">iostat</p>
+<p class="spring-paragraph">iostat -x</p>
+<p class="spring-paragraph">iostat -x 2 3</p>
+<h3 class="spring-subsection-title">5 .网络状态监控</h3>
+<p class="spring-paragraph">&gt; star命令</p>
+<p class="spring-paragraph">可以使用sar命令查看网络的相关统计（sar命令非常复杂，这里仅简单用于统计网络）</p>
+<p class="spring-paragraph">语法: sar -n DEV num1 num2</p>
+<p class="spring-paragraph">选项：-n，查看网络，DEV表示查看网络接口</p>
+<p class="spring-paragraph">num1：刷新间隔（不填就查看一次结束），num2：查看次数（不填无限次数）</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">sar -n DEV</p>
+<p class="spring-paragraph">sar -n DEV 2</p>
+<p class="spring-paragraph">sar -n DEV 2 5</p>
+<p class="spring-paragraph">sar -n DEV 3 10</p>
+<h2 class="spring-section-title">十 、环境变量</h2>
+<h3 class="spring-subsection-title">1 .什么是环境变量？</h3>
+<p class="spring-paragraph">环境变量是操作系统（WindoWs、Linux、Mac）在运行的时候，记录的一些关键性信息（本质上是内存中的一串字符串），用以辅助系统运行。</p>
+<hr class="spring-divider">
+<p class="spring-paragraph">我们使用的一系列命令其实本质上就是一个个的可执行程序（Windows、Linux、macOS所有操作系统都是）</p>
+<p class="spring-paragraph">比如，执行cd命令，本质上是运行/usr/bin/cd这个程序文件</p>
+<p class="spring-paragraph">并且，无论当前目录在哪里，不论处于什么文件夹下，都能执行cd命令等（准确来说是PATH这个环境变量），这就是环境变量的作用。</p>
+<h3 class="spring-subsection-title">2 .env命令</h3>
+<p class="spring-paragraph">查看当前系统中记录的环境变量</p>
+<p class="spring-paragraph">环境变量的本质就是：一堆字符串</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">env</p>
+<p class="spring-paragraph">env | grep PATH（管道符查看指定的PATH环境变量）</p>
+<p class="spring-paragraph">PATH是环境变量的一种；DHCP是动态获取服务器的IP，把它关了 那么电脑的IP就固定了。</p>
+<h3 class="spring-subsection-title">3 .$符号</h3>
+<p class="spring-paragraph">用于取环境变量的值（就是查看某个环境变量的意思）</p>
+<p class="spring-paragraph">语法： echo $环境变量英文名</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">echo $PATH</p>
+<p class="spring-paragraph">echo ${PATH}ABC（在输出结果后面拼接上ABC。语法正确，输出正确，但是没啥用）</p>
+<h3 class="spring-subsection-title">4 .export命令</h3>
+<p class="spring-paragraph">&gt; export命令可以“自己设置/添加环境变量”</p>
+<p class="spring-paragraph">(临时生效，就是关机 下次开机就没有了)</p>
+<p class="spring-paragraph">语法：export MYNAME-自己起一个英文名</p>
+<p class="spring-paragraph">echo $MYNAME   （这个是查看是否设置成功）</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">export MYNAME-Jang</p>
+<p class="spring-paragraph">echo $MYNAME</p>
+<p class="spring-paragraph">&gt; 如何永久生效？</p>
+<p class="spring-paragraph">针对当前用户永久生效（vim命令去配置；vim ~/.bashrc文件，</p>
+<p class="spring-paragraph">也就是vim /home/centos/.bashrc）</p>
+<p class="spring-paragraph">针对所有用户永久生效（vim命令去配置；vim /etc/profile文件）</p>
+<p class="spring-paragraph">具体怎么配置问AI，我暂时也用不上（重启才能生效）。</p>
+<p class="spring-paragraph">&gt; 自定义环境变量PATH</p>
+<p class="spring-paragraph">就是在PATH里面加上自己编写的程序（echo $PATH后，输出页面会比原来多出一个自己添加的东西）</p>
+<h2 class="spring-section-title">十一 、Linux里面进行文件上传、下载</h2>
+<h3 class="spring-subsection-title">1 .拖拽进行上传、下载</h3>
+<p class="spring-paragraph">用到Finalshell这个远程连接工具</p>
+<p class="spring-paragraph">执行这个命令</p>
+<p class="spring-paragraph">sudo su root   （其实不一定非要用root）</p>
+<p class="spring-paragraph">cd ~/下载（或者：cd /home/centos/下载）</p>
+<p class="spring-paragraph">然后win11主机 直接往里面拖拽东西就行</p>
+<h3 class="spring-subsection-title">2 .命令进行上传、下载</h3>
+<p class="spring-paragraph">首先，要用finalshell</p>
+<p class="spring-paragraph">&gt; rz命令</p>
+<p class="spring-paragraph">进行文件上传</p>
+<p class="spring-paragraph">直接输入rz即可（然后会出现一个win11主机的文件管理器，点击文件即可上传）</p>
+<p class="spring-paragraph">&gt; sz命令</p>
+<p class="spring-paragraph">进行文件下载</p>
+<p class="spring-paragraph">语法：sz 要下载的文件</p>
+<p class="spring-paragraph">文件会自动下载到桌面的：fsdownload文件夹中</p>
+<p class="spring-paragraph">---补充一下，这两个文件夹还不一样</p>
+<p class="spring-paragraph">文件夹</p>
+<p class="spring-paragraph">位置</p>
+<p class="spring-paragraph">说明</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">fsdownload</p>
+<p class="spring-paragraph">C:\Users\centos\Desktop\fsdownload</p>
+<p class="spring-paragraph">FinalShell 专属的下载目录，在桌面上</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">下载（Downloads）</p>
+<p class="spring-paragraph">C:\Users\centos\Downloads</p>
+<p class="spring-paragraph">Windows 系统自带的下载文件夹</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">wget https://github.com/sqlmapproject/sqlmap/archive/refs/tags/1.8.12.tar.gz</p>
+<p class="spring-paragraph">sz 1.8.12.tar.gz</p>
+<p class="spring-paragraph">或者</p>
+<p class="spring-paragraph">yum -y install lrzsz</p>
+<p class="spring-paragraph">ls</p>
+<p class="spring-paragraph">sz .....</p>
+<p class="spring-paragraph">（看起来sz不是特别好用）</p>
+<h3 class="spring-subsection-title">3 .总结一下</h3>
+<p class="spring-paragraph">上传文件就直接用finalshell拖拽，下载文件就直接问AI要链接去终端执行</p>
+<h2 class="spring-section-title">十二 、Linux里面进行文件压缩、解压</h2>
+<h3 class="spring-subsection-title">1 .文件类型介绍</h3>
+<p class="spring-paragraph">gzip、zip、tar.gz是压缩文件包，把它们解压缩后，就能得到里面的各种文件和文件夹。</p>
+<p class="spring-paragraph">tar是只打包不压缩，gzip、zip、tar.gz打包又压缩</p>
+<p class="spring-paragraph">使用场景：</p>
+<p class="spring-paragraph">想把整个文件夹打包带走（体积无所谓）→ 用 tar</p>
+<p class="spring-paragraph">想压缩一个超大日志文件 → 用 gzip</p>
+<p class="spring-paragraph">要发给用 Windows 的朋友 → 用 zip</p>
+<p class="spring-paragraph">在 Linux 服务器上备份/部署项目 → 用 tar.gz</p>
+<p class="spring-paragraph">工具</p>
+<p class="spring-paragraph">一句话概括</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">tar</p>
+<p class="spring-paragraph">打包：把多个文件/文件夹合并成一个大文件（.tar），但体积不变，不压缩。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">gzip</p>
+<p class="spring-paragraph">压缩：把单个文件体积变小（.gz），但不能打包多个文件。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">zip</p>
+<p class="spring-paragraph">打包 + 压缩：把多个文件/文件夹合并并压小（.zip），Windows 双击就能解压。</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph">tar.gz</p>
+<p class="spring-paragraph">tar + gzip 组合：先打包，再压缩，Linux 最常用的压缩包格式</p>
+<p class="spring-paragraph"></p>
+<p class="spring-paragraph"></p>
+<h3 class="spring-subsection-title">2 .tar命令</h3>
+<p class="spring-paragraph">Linux系统常见的格式为：.tar、.gzip、.tar.gz</p>
+<p class="spring-paragraph">tar命令是针对这三种格式来进行压缩和解压缩的</p>
+<p class="spring-paragraph">语法：tar [-c -v -x -f -z -C] 参数1 参数2 ... 参数N</p>
+<p class="spring-paragraph">-c, 创建压缩文件，用于压缩模式</p>
+<p class="spring-paragraph">-v, 显示压缩、解压过程，用于查看进度</p>
+<p class="spring-paragraph">-x, 解压模式</p>
+<p class="spring-paragraph">-f, 要创建的文件，或要解压的文件，-f选项必须在所有选项中位置处于最后一个</p>
+<p class="spring-paragraph">-z, gzip模式，不使用-z就是普通的.tar格式</p>
+<p class="spring-paragraph">-r</p>
+<p class="spring-paragraph">-C, 选择解压的目的地，用于解压模式</p>
+<p class="spring-paragraph">{</p>
+<p class="spring-paragraph">-z选项如果使用的话，一般处于选项位第一个</p>
+<p class="spring-paragraph">-f选项，必须在选项位最后一个</p>
+<p class="spring-paragraph">}</p>
+<p class="spring-paragraph">示例：</p>
+<p class="spring-paragraph">tar -czvf /tmp/backup_20260112.tar.gz /home/centos/projects/</p>
+<p class="spring-paragraph">/var/log/nginx/ /etc/nginx/nginx.conf</p>
+<h3 class="spring-subsection-title">3 .zip命令</h3>
+<p class="spring-paragraph">Linux系统中，压缩为.zip格式，tar命令不行，就要用到zip命令（只能压缩，不能解压）</p>
+<p class="spring-paragraph">语法：zip [-r］参数1 参数2 ... 参数N</p>
+<p class="spring-paragraph">-r，被压缩的包含文件夹的时候，需要使用-r选项，和rm、cp等命令的-r效果一致</p>
+<p class="spring-paragraph">示例:</p>
+<p class="spring-paragraph">zip test.zip a.txt b.txt c.txt  （ 将a.txt b.txt c.txt压缩到test.zip文件内）</p>
+<p class="spring-paragraph">zip-r test.zip test itheima a.txt  （将test、it heim a两个文件夹和a.txt文件，压缩到test.zip文件内）</p>
+<h3 class="spring-subsection-title">4 .unzip命令</h3>
+<p class="spring-paragraph">unzip命令，是用来解压缩.zip格式的</p>
+<p class="spring-paragraph">语法：unzip［-d] 参数</p>
+<p class="spring-paragraph">-d，指定要解压去的位置，同tar的-C选项</p>
+<p class="spring-paragraph">参数，被解压的zip压缩包文件</p>
+<p class="spring-paragraph">示例:</p>
+<p class="spring-paragraph">unzip test.zip （将test.zip解压到当前目录）</p>
+<p class="spring-paragraph">unzip test.zip -d/home/itheima   将test.zip解压到指定文件夹内，即：/home/it heima</p>
+    </div>
+    
+    <div class="footer">
+      <p>🌺 Linux操作系统 · 原创学习笔记 | 我的博客</p>
+    </div>
+  </div>
+</body>
+</html>
